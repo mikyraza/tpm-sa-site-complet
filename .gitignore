@@ -1,0 +1,14 @@
+# Ignore system & OS files
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Ignore heavy media assets & images
+wp-content/themes/tpm-sa/assets/images/factory/
+wp-content/themes/tpm-sa/assets/images/products/
+wp-content/uploads/
+
+# Ignore WordPress cache & temporary upgrade files
+/wp-content/cache/
+/wp-content/upgrade/
