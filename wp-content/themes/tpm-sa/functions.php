@@ -171,3 +171,78 @@ add_action( 'woocommerce_checkout_update_order_meta', function( $order_id ) {
         update_post_meta( $order_id, '_billing_rccm', sanitize_text_field( $_POST['billing_rccm'] ) );
     }
 } );
+
+/**
+ * Redirection des paramètres ?pole= vers les catégories officielles
+ */
+add_action( 'template_redirect', function() {
+    if ( is_shop() && isset( $_GET['pole'] ) ) {
+        $pole_map = array(
+            'toles'        => 'toles-et-toiture',
+            'accessoires'  => 'accessoires-toiture',
+            'fixations'    => 'fixations-et-etancheite',
+            'emballages'   => 'accessoires-interieurs',
+            'carreaux'     => 'accessoires-interieurs',
+        );
+        $pole = sanitize_key( $_GET['pole'] );
+        if ( isset( $pole_map[$pole] ) ) {
+            $term = get_term_by( 'slug', $pole_map[$pole], 'product_cat' );
+            if ( $term && ! is_wp_error( $term ) ) {
+                wp_safe_redirect( get_term_link( $term ), 301 );
+                exit;
+            }
+        }
+    }
+} );
+
+/**
+ * Helper d'image produit contextuelle (Haute Définition Usine)
+ */
+function tpm_get_product_image_url( $product ) {
+    if ( ! $product ) return get_template_directory_uri() . '/assets/images/prod1_tole.jpg';
+    
+    $thumb_id = $product->get_image_id();
+    if ( $thumb_id ) {
+        $img = wp_get_attachment_image_url( $thumb_id, 'large' );
+        if ( $img ) return $img;
+    }
+
+    $sku  = strtoupper( $product->get_sku() );
+    $name = strtolower( $product->get_name() );
+    $img_dir = get_template_directory_uri() . '/assets/images/';
+
+    // 1. Tôles et toiture
+    if ( str_starts_with( $sku, 'TOL' ) || str_contains( $name, 'tôle' ) || str_contains( $name, 'tole' ) ) {
+        return $img_dir . 'prod1_tole.jpg';
+    }
+
+    // 2. Accessoires toiture
+    if ( str_starts_with( $sku, 'ACC' ) || str_contains( $name, 'faîtière' ) || str_contains( $name, 'faitiere' ) || str_contains( $name, 'gouttière' ) || str_contains( $name, 'noue' ) || str_contains( $name, 'rive' ) ) {
+        return $img_dir . 'prod3_faitiere.jpg';
+    }
+
+    // 3. Fixations et étanchéité
+    if ( str_starts_with( $sku, 'FIX' ) || str_contains( $name, 'vis' ) || str_contains( $name, 'tirefond' ) || str_contains( $name, 'cavalier' ) || str_contains( $name, 'rondelle' ) ) {
+        if ( str_contains( $name, 'pointe' ) ) return $img_dir . 'prod7_pointe.jpg';
+        if ( str_contains( $name, 'toiturole' ) || str_contains( $name, 'joint' ) || str_contains( $name, 'feutre' ) ) return $img_dir . 'prod5_joint.jpg';
+        return $img_dir . 'prod2_fixation.jpg';
+    }
+
+    // 4. Intérieur & Emballages & Carreaux
+    if ( str_contains( $name, 'sac' ) ) {
+        return $img_dir . 'prod4_sac.jpg';
+    }
+    if ( str_contains( $name, 'éponge' ) || str_contains( $name, 'eponge' ) ) {
+        return $img_dir . 'prod6_eponge.jpg';
+    }
+    if ( str_contains( $name, 'zingage' ) ) {
+        return $img_dir . 'prod8_zingage.jpg';
+    }
+    if ( str_contains( $name, 'carreau' ) || str_contains( $name, 'douche' ) || str_starts_with( $sku, 'INT' ) ) {
+        return $img_dir . 'pole6_carreaux.jpg';
+    }
+
+    return $img_dir . 'prod1_tole.jpg';
+}
+
+

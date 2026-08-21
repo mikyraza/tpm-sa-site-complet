@@ -30,7 +30,7 @@ define( 'DB_USER', 'root' );
 define( 'DB_PASSWORD', 'root' );
 
 /** Database hostname */
-define( 'DB_HOST', 'localhost:/home/mikyraza/.config/Local/run/ZNbSoA_n4/mysql/mysqld.sock' );
+define( 'DB_HOST', 'localhost' );
 
 
 /** Database charset to use in creating database tables. */

@@ -27,20 +27,22 @@ function saveCart(cart) {
     }
 }
 
-// Mettre à jour le badge dans le Header
+// Mettre à jour le badge dans le Header (si panier LocalStorage actif)
 function updateCartBadge() {
     const cart = getCart();
-    const totalItems = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
-    
-    const badgeElements = document.querySelectorAll('.cart-badge-count');
-    badgeElements.forEach(el => {
-        el.textContent = totalItems;
-    });
+    if (cart.length > 0) {
+        const totalItems = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
+        
+        const badgeElements = document.querySelectorAll('.cart-badge-count');
+        badgeElements.forEach(el => {
+            el.textContent = totalItems;
+        });
 
-    const cartTextElements = document.querySelectorAll('.cart-button-text');
-    cartTextElements.forEach(el => {
-        el.textContent = `Mon Panier Pro-Forma (${totalItems})`;
-    });
+        const cartTextElements = document.querySelectorAll('.cart-button-text');
+        cartTextElements.forEach(el => {
+            el.textContent = `Mon Panier Pro-Forma (${totalItems})`;
+        });
+    }
 }
 
 // Ajouter un produit au panier
@@ -158,35 +160,4 @@ function showToast(message, type = 'success') {
 // Initialisation globale au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
     updateCartBadge();
-    
-    // Gestion de la recherche prédictive dans le header
-    const searchInputs = document.querySelectorAll('.tpm-search-input');
-    searchInputs.forEach(input => {
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const q = encodeURIComponent(input.value.trim());
-                if (q) {
-                    window.location.href = `catalogue.php?search=${q}`;
-                }
-            }
-        });
-    });
-    
-    // Mega-Menu Toggle pour Mobile et Desktop
-    const catalogTrigger = document.getElementById('catalog-trigger');
-    const megaMenu = document.getElementById('mega-menu');
-    
-    if (catalogTrigger && megaMenu) {
-        catalogTrigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            megaMenu.classList.toggle('hidden');
-        });
-        
-        document.addEventListener('click', (e) => {
-            if (!megaMenu.contains(e.target) && !catalogTrigger.contains(e.target)) {
-                megaMenu.classList.add('hidden');
-            }
-        });
-    }
 });

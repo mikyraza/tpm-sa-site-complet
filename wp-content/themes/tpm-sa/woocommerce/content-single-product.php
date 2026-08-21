@@ -16,13 +16,13 @@ $price_html  = $product->get_price_html();
 $description = $product->get_description() ?: $product->get_short_description();
 $unit        = get_post_meta( $product_id, '_unit', true ) ?: 'unité';
 $colors_meta = get_post_meta( $product_id, '_colors', true ) ?: 'Bordeau, Bleu Cendre, Orange, Vert, Alu Naturel';
-$img_url     = wp_get_attachment_image_url( $product->get_image_id(), 'full' ) ?: get_template_directory_uri() . '/assets/images/prod1_tole.jpg';
-$cart_url    = function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/panier/');
+$img_url     = function_exists('tpm_get_product_image_url') ? tpm_get_product_image_url($product) : (wp_get_attachment_image_url( $product->get_image_id(), 'full' ) ?: get_template_directory_uri() . '/assets/images/prod1_tole.jpg');
+$cart_url    = function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart/');
 
 do_action( 'woocommerce_before_single_product' );
 ?>
 
-<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12', $product ); ?>>
+<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'max-w-container-max mx-auto px-4 md:px-8 py-8 space-y-12', $product ); ?>>
 
     <!-- 1. BREADCRUMB & STOCK STATUS -->
     <div class="bg-slate-100 border border-gray-200 px-6 py-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
