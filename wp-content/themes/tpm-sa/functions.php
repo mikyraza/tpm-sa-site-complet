@@ -60,6 +60,25 @@ add_filter( 'show_admin_bar', '__return_false' );
 // Désactiver le tracking d'attribution WooCommerce (bloque admin-ajax.php en local)
 add_filter( 'woocommerce_order_attribution_enabled', '__return_false' );
 
+// Désactiver les requêtes Heartbeat en arrière-plan qui saturent les workers FastCGI
+add_action( 'init', function() {
+    wp_deregister_script( 'heartbeat' );
+}, 1 );
+
+// Désactiver les analytics et suggestions WooCommerce d'arrière-plan
+add_filter( 'woocommerce_allow_marketplace_suggestions', '__return_false' );
+add_filter( 'woocommerce_show_marketplace_suggestions', '__return_false' );
+add_filter( 'woocommerce_marketplace_suggestions', '__return_empty_array' );
+add_filter( 'woocommerce_background_image_regeneration', '__return_false' );
+
+// Désactiver les vérifications automatiques externes lentes en local
+add_filter( 'auto_update_core', '__return_false' );
+add_filter( 'auto_update_plugin', '__return_false' );
+add_filter( 'auto_update_theme', '__return_false' );
+remove_action( 'admin_init', '_maybe_update_core' );
+remove_action( 'admin_init', '_maybe_update_plugins' );
+remove_action( 'admin_init', '_maybe_update_themes' );
+
 // Désactiver les scripts emojis WordPress
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );

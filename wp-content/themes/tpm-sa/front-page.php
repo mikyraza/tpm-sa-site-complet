@@ -21,11 +21,20 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
 
 $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
 
-// WooCommerce products for the Flash Pro-Forma Form
-$woo_products = [];
-if (class_exists('WooCommerce')) {
-    $woo_products = wc_get_products(['status' => 'publish', 'limit' => -1]);
-}
+// Fast lightweight query for the Flash Pro-Forma Form
+global $wpdb;
+$woo_products = $wpdb->get_results( "
+    SELECT p.ID, p.post_title, 
+           COALESCE(pm_price.meta_value, '5800') as price,
+           COALESCE(pm_unit.meta_value, 'mètre linéaire') as unit,
+           COALESCE(pm_sku.meta_value, 'TPM') as sku
+    FROM {$wpdb->posts} p
+    LEFT JOIN {$wpdb->postmeta} pm_price ON (p.ID = pm_price.post_id AND pm_price.meta_key = '_price')
+    LEFT JOIN {$wpdb->postmeta} pm_unit ON (p.ID = pm_unit.post_id AND pm_unit.meta_key = '_unit')
+    LEFT JOIN {$wpdb->postmeta} pm_sku ON (p.ID = pm_sku.post_id AND pm_sku.meta_key = '_sku')
+    WHERE p.post_type = 'product' AND p.post_status = 'publish'
+    ORDER BY p.menu_order ASC, p.post_title ASC
+" );
 ?>
 
 <main id="primary" class="site-main flex-grow bg-slate-50 font-sans">
@@ -120,15 +129,15 @@ if (class_exists('WooCommerce')) {
                                 <select id="flash-product-select" name="add-to-cart" class="w-full text-xs font-bold text-tpm-navy bg-slate-50 border border-gray-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-tpm-orange transition">
                                     <?php if (!empty($woo_products)): ?>
                                         <?php foreach ($woo_products as $p): ?>
-                                            <option value="<?php echo esc_attr($p->get_id()); ?>" 
-                                                    data-price="<?php echo esc_attr($p->get_price()); ?>"
-                                                    data-unit="<?php echo esc_attr(get_post_meta($p->get_id(), '_unit', true) ?: 'unité'); ?>"
-                                                    <?php echo (stripos($p->get_name(), '0,35') !== false || stripos($p->get_name(), '5/10') !== false) ? 'selected' : ''; ?>>
-                                                <?php echo esc_html($p->get_name()); ?> (<?php echo number_format($p->get_price(), 0, ',', ' '); ?> XAF)
+                                            <option value="<?php echo esc_attr($p->ID); ?>" 
+                                                    data-price="<?php echo esc_attr($p->price); ?>"
+                                                    data-unit="<?php echo esc_attr($p->unit); ?>"
+                                                    data-sku="<?php echo esc_attr($p->sku); ?>">
+                                                <?php echo esc_html($p->post_title); ?> — <?php echo number_format((float)$p->price, 0, ',', ' '); ?> FCFA HT
                                             </option>
                                         <?php endforeach; ?>
                                     <?php else: ?>
-                                        <option value="1" data-price="5800" data-unit="mètre linéaire">Tôle BAC Prélaquée 0.50mm - Bordeau (5 800 XAF HT / mètre linéaire)</option>
+                                        <option value="16" data-price="5800" data-unit="mètre linéaire" data-sku="TOL-ALU-035">Tôle Bac Alu 4N ET 5N 0,35 — 5 800 FCFA HT</option>
                                     <?php endif; ?>
                                 </select>
                             </div>
@@ -481,7 +490,7 @@ if (class_exists('WooCommerce')) {
                             <span class="text-lg font-black text-tpm-orange">5 800 XAF</span>
                             <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
                         </div>
-                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[0]->get_id() ?? 1); ?>" 
+                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[0]->ID ?? 16); ?>" 
                            class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
@@ -532,7 +541,7 @@ if (class_exists('WooCommerce')) {
                             <span class="text-lg font-black text-tpm-orange">5 800 XAF</span>
                             <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
                         </div>
-                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[1]->get_id() ?? 2); ?>" 
+                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[1]->ID ?? 24); ?>" 
                            class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
@@ -583,7 +592,7 @@ if (class_exists('WooCommerce')) {
                             <span class="text-lg font-black text-tpm-orange">4 500 XAF</span>
                             <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
                         </div>
-                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[2]->get_id() ?? 3); ?>" 
+                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[2]->ID ?? 25); ?>" 
                            class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
@@ -634,7 +643,7 @@ if (class_exists('WooCommerce')) {
                             <span class="text-lg font-black text-tpm-orange">12 500 XAF</span>
                             <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
                         </div>
-                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[3]->get_id() ?? 4); ?>" 
+                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[3]->ID ?? 21); ?>" 
                            class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
@@ -685,7 +694,7 @@ if (class_exists('WooCommerce')) {
                             <span class="text-lg font-black text-tpm-orange">8 500 XAF</span>
                             <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
                         </div>
-                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[4]->get_id() ?? 5); ?>" 
+                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[4]->ID ?? 22); ?>" 
                            class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
@@ -736,7 +745,7 @@ if (class_exists('WooCommerce')) {
                             <span class="text-lg font-black text-tpm-orange">62 500 XAF</span>
                             <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
                         </div>
-                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[5]->get_id() ?? 6); ?>" 
+                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[5]->ID ?? 23); ?>" 
                            class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
