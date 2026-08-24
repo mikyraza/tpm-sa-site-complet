@@ -11,11 +11,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="TPM SA (Groupe CAC) - Fabricant et distributeur de tôles BAC, sacs PP, faîtières, fixations et matériaux de construction à Douala PK12 & Bekoko, Cameroun."/>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Non-Blocking Asynchronous Load) -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" media="print" onload="this.media='all'"/>
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"/>
+    </noscript>
 
     <!-- Precompiled High-Performance Local Tailwind CSS -->
     <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() . '/assets/css/tailwind.min.css?v=' . filemtime( get_template_directory() . '/assets/css/tailwind.min.css' ) ); ?>"/>

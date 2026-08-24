@@ -44,6 +44,10 @@ function tpm_sa_scripts() {
     wp_dequeue_style( 'wc-blocks-vendors-style' );
     wp_dequeue_style( 'wc-all-blocks-style' );
     wp_dequeue_style( 'wp-elements' );
+
+    // Supprimer les scripts inutiles et les requêtes AJAX parasites
+    wp_dequeue_script( 'wc-cart-fragments' );
+    wp_dequeue_script( 'wp-embed' );
 }
 add_action( 'wp_enqueue_scripts', 'tpm_sa_scripts', 100 );
 
