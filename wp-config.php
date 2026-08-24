@@ -34,6 +34,8 @@ define( 'DB_HOST', '127.0.0.1:10010' );
 
 define( 'WP_MEMORY_LIMIT', '512M' );
 define( 'DISABLE_WP_CRON', true );
+define( 'WP_HTTP_BLOCK_EXTERNAL', true );
+define( 'WP_ACCESSIBLE_HOSTS', 'mpcac.local,127.0.0.1,localhost' );
 
 
 /** Database charset to use in creating database tables. */

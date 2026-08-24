@@ -79,6 +79,10 @@ remove_action( 'admin_init', '_maybe_update_core' );
 remove_action( 'admin_init', '_maybe_update_plugins' );
 remove_action( 'admin_init', '_maybe_update_themes' );
 
+// Forcer un timeout ultra-court sur les requêtes HTTP externes pour ne jamais bloquer FastCGI
+add_filter( 'http_request_timeout', function() { return 1; } );
+add_filter( 'http_request_redirection_count', function() { return 1; } );
+
 // Désactiver les scripts emojis WordPress
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
