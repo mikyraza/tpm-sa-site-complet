@@ -38,9 +38,10 @@ function updateCartBadge() {
             el.textContent = totalItems;
         });
 
-        const cartTextElements = document.querySelectorAll('.cart-button-text');
+        const isEn = (localStorage.getItem('tpm_site_lang') === 'en');
+        const cartTextElements = document.querySelectorAll('.cart-button-label, .cart-button-text');
         cartTextElements.forEach(el => {
-            el.textContent = `Mon Panier Pro-Forma (${totalItems})`;
+            el.innerHTML = isEn ? `My Pro-Forma Quote (<span class="cart-badge-count">${totalItems}</span>)` : `Mon Panier Pro-Forma (<span class="cart-badge-count">${totalItems}</span>)`;
         });
     }
 }

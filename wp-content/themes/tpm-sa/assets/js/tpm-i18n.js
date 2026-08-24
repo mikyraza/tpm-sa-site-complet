@@ -1,6 +1,6 @@
 /**
  * TPM SA (Groupe CAC) - Moteur Bilingue Français / Anglais (i18n)
- * Système de traduction instantanée temps réel sans rechargement de page.
+ * Traduction intégrale temps réel (Header, Cards, Footer, Panier Pro-Forma, Boutique).
  * Par défaut : Français (FR). Clic sur switch -> Anglais (EN).
  */
 
@@ -10,9 +10,10 @@
     const STORAGE_KEY = 'tpm_site_lang';
     const DEFAULT_LANG = 'fr';
 
-    // Dictionnaire bilingue Français -> Anglais
+    // Dictionnaire bilingue complet (Français <-> Anglais)
+    // Toutes les chaînes sont avec caractères standards (&, ', -, –)
     const DICTIONARY = {
-        // --- TOPBAR & HEADER ---
+        // --- 1. HEADER & TOPBAR ---
         "TPM SA — Douala PK12 & Bekoko": "TPM SA — Douala PK12 & Bekoko",
         "NIU : M052217435713Q": "TIN: M052217435713Q",
         "Mon Espace Client": "My Customer Account",
@@ -29,27 +30,23 @@
         "Chantiers & BTP": "Construction & Worksites",
         "Électro-Zingage 800 VA": "Electro-Galvanizing 800 VA",
         "Langue / Language": "Language",
-
-        // --- PLACEHOLDERS ---
         "Rechercher un article (ex: Tôle BAC 0.50mm, Faîtière, Sac PP 50kg, Vis 6×80…)": "Search for an item (e.g. 0.50mm Roofing Sheet, Ridge Cap, 50kg PP Bag, 6×80 Screw…)",
         "Rechercher un produit...": "Search for a product...",
         "Ex: Tôle bac alu, faîtière, tirefond...": "E.g.: Alu roofing sheet, ridge cap, lag screw...",
-        "contact@votre-entreprise.cm": "contact@your-company.cm",
-        "Ex: Entreprise BTP Cameroun": "E.g.: Cameroon Construction Ltd",
-        "Ex: M052217435713Q": "E.g.: M052217435713Q",
 
-        // --- MEGA MENU & CATEGORIES ---
+        // --- 2. MEGA MENU & CATEGORIES ---
         "Tôles et toiture": "Roofing Sheets & Roofing",
+        "Tôles & Toitures": "Roofing Sheets & Roofing",
         "Tôles & Couvertures": "Roofing Sheets & Coverings",
         "Tôles & Couvertures BAC": "Roofing Sheets & BAC Coverings",
         "Accessoires toiture": "Roofing Accessories",
         "Accessoires de Toiture": "Roofing Accessories",
-        "Accessoires de toiture": "Roofing Accessories",
+        "Accessoires Toiture": "Roofing Accessories",
         "Fixations et étanchéité": "Fasteners & Waterproofing",
         "Fixations & Étanchéité": "Fasteners & Waterproofing",
-        "Fixations & étanchéité": "Fasteners & Waterproofing",
         "Accessoires intérieurs": "Interior Accessories & Bags",
         "Accessoires Intérieurs & Sacs PP": "Interior Accessories & PP Bags",
+        "Carreaux & Emballages PP": "Tiles & PP Packaging",
         "Emballages & Plastiques": "Packaging & Plastics",
         "Carrelages & Revêtements": "Tiles & Floor Coverings",
         "Quincaillerie & BTP": "Hardware & Construction",
@@ -66,8 +63,9 @@
         "Approvisionnement Chantiers BTP": "Construction Worksite Supply",
         "Logistique lourde et livraisons sur site CEMAC": "Heavy logistics and on-site delivery across CEMAC",
         "Consulter l'Inventaire Complet (58 Articles)": "Browse Full Inventory (58 Products)",
+        "Catalogue Général (58 Articles)": "General Catalog (58 Items)",
 
-        // --- HOMEPAGE HERO & STATS ---
+        // --- 3. HOMEPAGE HERO & FLASH PRO-FORMA ---
         "USINE MÉTALLURGIQUE & PLASTURGIE CAMEROUN": "METALLURGICAL & PLASTICS FACTORY CAMEROON",
         "LE LEADER DE LA MÉTALLURGIE & DES MATÉRIAUX INDUSTRIELS AU CAMEROUN.": "THE LEADER IN METALLURGY & INDUSTRIAL MATERIALS IN CAMEROON.",
         "50 ANS": "50 YEARS",
@@ -81,15 +79,16 @@
         "FLASH PRO-FORMA EXPRESS": "FLASH PRO-FORMA EXPRESS",
         "Ajustement immédiat des devis usine en 2 min": "Instant factory quote calculation in 2 min",
         "SÉLECTIONNER UN ARTICLE": "SELECT AN ITEM",
+        "Sélectionnez un service...": "Select a department...",
         "Longueur personnalisée": "Custom Length",
         "Quantité": "Quantity",
         "Générer mon Devis Pro-Forma Direct": "Generate Instant Pro-Forma Quote",
         "Épaisseur Certifiée": "Certified Thickness",
         "Découpe au Centimètre": "Cut to Centimeter",
         "Livraison Rapide CEMAC": "Fast CEMAC Delivery",
-        "Paiement Sécurisé / Virement": "Secure Payment / Transfer",
+        "Paiement Sécurisé / Virement": "Secure Payment / Bank Transfer",
 
-        // --- PRODUCTION POLES (4 POLES) ---
+        // --- 4. HOMEPAGE PRODUCTION POLES ---
         "PÔLES DE PRODUCTION TPM SA": "TPM SA PRODUCTION HUBS",
         "Nos 4 Domaines d'Activité Industrielle": "Our 4 Industrial Activity Sectors",
         "Fabrication directe sur nos sites de Bekoko et PK12 selon les normes de solidité les plus strictes au Cameroun.": "Direct manufacturing at our Bekoko and PK12 sites adhering to Cameroon's highest structural standards.",
@@ -102,29 +101,55 @@
         "Voir les 10 Fixations": "View 10 Fasteners",
         "Voir les 22 Articles": "View 22 Interior Products",
 
-        // --- FEATURED INVENTORY & PRODUCTS ---
+        // --- 5. CARDS (FEATURED PRODUCTS & SHOP ITEMS) ---
         "INVENTAIRE DIRECT USINE": "DIRECT FACTORY INVENTORY",
         "Articles Phares Disponible en Stock": "Featured Products Available in Stock",
         "Consulter les 58 références usine TPM": "Browse all 58 TPM factory references",
         "En Stock Usine": "In Factory Stock",
         "En Stock": "In Stock",
-        "+ Pro-Forma": "+ Pro-Forma",
+        "Dispo :": "Avail.:",
+        "Usine Bekoko": "Bekoko Factory",
+        "Comptoir PK12": "PK12 Trade Counter",
+        "PK12 & Bekoko": "PK12 & Bekoko",
+        "+ Pro-Forma": "+ Add to Quote",
+        "+ PRO-FORMA": "+ ADD TO QUOTE",
         "Tarif HT / m linéaire": "Price Excl. Tax / lin. meter",
         "Tarif HT / Pièce 2m": "Price Excl. Tax / 2m Piece",
         "Tarif HT / Boîte 100 pcs": "Price Excl. Tax / Box 100 pcs",
         "Tarif HT / Rouleau 10m": "Price Excl. Tax / 10m Roll",
         "Tarif HT / Lot 500 pcs": "Price Excl. Tax / Pack 500 pcs",
-        "Dispo :": "Avail.:",
         "+ TVA 19.25%": "+ 19.25% VAT",
-        "Usine Bekoko": "Bekoko Factory",
-        "Comptoir PK12": "PK12 Trade Counter",
-        "PK12 & Bekoko": "PK12 & Bekoko",
+        "mètre linéaire": "linear meter",
+        "unité": "unit",
+        "boîte": "box",
+        "paquet": "pack",
+        "rouleau": "roll",
+        "lot": "batch",
 
-        // --- CATALOGUE & SHOP ---
+        // Product Card Names & Descriptions
+        "Tôle BAC Prélaquée 0.50mm – Bordeau": "Pre-painted 0.50mm BAC Roofing Sheet – Bordeaux",
+        "Tôle BAC Prélaquée 0.50mm - Bordeau": "Pre-painted 0.50mm BAC Roofing Sheet - Bordeaux",
+        "Tôle BAC profilée en acier galvanisé prélaqué haute durabilité 0.50mm selon nuancier officiel RAL 3005, ondulée BTP et calepinée.": "High-durability 0.50mm pre-painted galvanized steel BAC sheet according to official RAL 3005 color chart.",
+        "Tôle BAC aluminium prélaqué 0.50mm, profilage ondulé, nervuré D50/B30 et découpes sur mesure selon nuancier RAL.": "0.50mm pre-painted aluminium BAC sheet, corrugated and ribbed D50/B30 profiles with custom cuts.",
+        "Tôle BAC Aluminium Prélaquée 0.50mm – Bleu Cendre": "Pre-painted 0.50mm Aluminium BAC Sheet – Ash Blue",
+        "Tôle BAC Aluminium Prélaquée 0.50mm - Bleu Cendre": "Pre-painted 0.50mm Aluminium BAC Sheet - Ash Blue",
+        "Profilage nervuré haute résistance avec revêtement multicouche anti-UV et anti-corrosion tropicale.": "High-strength ribbed profile with multi-layer anti-UV and tropical anti-corrosion coating.",
+        "Faîtière à Bord Rabattu 0.50mm (Longueur 2.00m)": "Folded-Edge Ridge Cap 0.50mm (Length 2.00m)",
+        "Faîtière de couronnement double pente alu et prélaquée haute précision, replis anti-goutte étanches et profilage 2 mètres pour toitures.": "High-precision double-slope aluminium and pre-painted capping ridge with anti-drip folds for 2-meter roofs.",
+        "Faîtières crantées double pente, faîtières non crantées, rives alu, gouttières étanches et noues façonnées en atelier.": "Notched double-slope ridge caps, plain ridge caps, aluminium bargeboards, watertight gutters and workshop valleys.",
+        "Fixations Complètes 6x80mm avec Rondelles néoprène (Boîte 100 pcs)": "Complete 6x80mm Fasteners with Neoprene Washers (Box 100 pcs)",
+        "Tirefonds complets comprenant vis auto-foreuse haute charge 6x80mm zinguée avec cavaliers aluminium et rondelles d'étanchéité EPDM.": "Complete lag screws with heavy-duty zinc-plated 6x80mm self-drilling screws, aluminium saddles and EPDM washers.",
+        "Tirefonds complets 6x80/6x100, cavaliers alu néoprène, rouleaux bitumés Toiturole 900G et vis auto-foreuses zinguées.": "Complete 6x80/6x100 lag screws, neoprene aluminium saddles, Toiturole 900G bitumen rolls and zinc-plated screws.",
+        "Joint Bitumé Étanchéité 10M (Rouleau 10m x 20cm)": "Bituminous Sealing Strip 10M (10m x 20cm Roll)",
+        "Bande bitumineuse adhésive renforcée aluminium pour solins de toiture, arêtes de faîtage et joints d'étanchéité haute température.": "Aluminium-reinforced adhesive bitumen strip for roof flashings, ridge edges and high-temperature watertight joints.",
+        "Sacs PP Blancs Tissés 50kg (Lot de 500 Sacs Usine Bekoko)": "White Woven PP Bags 50kg (Pack of 500 Bags Bekoko Plant)",
+        "Sacs en Polypropylène (PP) tissé ultra-résistants pour emballage de ciment, sable, gravier, produits agricoles et agro-industriels 50kg.": "Ultra-resistant woven polypropylene (PP) bags for packaging cement, sand, gravel, agricultural and industrial goods 50kg.",
+        "Sacs PP tissés 50kg/25kg usine Bekoko, carrelages grès cérame italien/espagnol, douches sanitaires et second œuvre.": "Woven PP 50kg/25kg bags Bekoko factory, Italian/Spanish porcelain stoneware tiles, sanitary showers and finishing work.",
+
+        // --- 6. CATALOGUE & SHOP PAGE ---
         "CATALOGUE OFFICIEL TPM SA": "OFFICIAL TPM SA CATALOG",
         "58 Références Industrielles Direct Usine": "58 Direct Factory Industrial References",
         "SÉLECTION D'ACTIVITÉ": "CATEGORY SELECTION",
-        "Rechercher un produit...": "Search for a product...",
         "Filtrer par catégorie": "Filter by category",
         "Trier par": "Sort by",
         "Tri par défaut": "Default sorting",
@@ -138,7 +163,7 @@
         "Télécharger le Catalogue Général (PDF)": "Download General Catalog (PDF)",
         "Télécharger le Catalogue (PDF)": "Download Catalog (PDF)",
         "Besoin d'un Devis Sur Mesure ?": "Need a Custom Quote?",
-        "Nos ingénieurs d'études chiffrent vos bordereaux de toiture sous 2 heures.": "Our structural engineers estimate your roofing schedules within 2 hours.",
+        "Nos ingénieurs d'études chiffrent vos bordereaux de toiture sous 2 heures.": "Our structural engineers calculate your roofing schedules within 2 hours.",
         "Demander un Devis B2B": "Request B2B Quote",
         "Ajouter à la Pro-Forma": "Add to Pro-Forma",
         "Ajouter au Panier": "Add to Cart",
@@ -146,7 +171,54 @@
         "Détails du Produit": "Product Details",
         "Fiche Technique": "Technical Specs",
 
-        // --- L'ENTREPRISE (ABOUT US) ---
+        // --- 7. CART & PRO-FORMA PAGE (/cart/) ---
+        "Document Pro-Forma Officiel B2B — Valable 30 Jours": "Official B2B Pro-Forma Document — Valid 30 Days",
+        "Document Pro-Forma Officiel B2B - Valable 30 Jours": "Official B2B Pro-Forma Document - Valid 30 Days",
+        "Télécharger ma Pro-Forma (PDF)": "Download Pro-Forma (PDF)",
+        "Valider la Commande Usine": "Confirm Factory Order",
+        "Valider la Commande Usine →": "Confirm Factory Order →",
+        "Transformation Métallique & Plastique — Depuis 1976": "Metallic & Plastics Transformation — Since 1976",
+        "Fondé par M. NJIPNGANG — Usines de Douala PK12 & Bekoko": "Founded by Mr. NJIPNGANG — Douala PK12 & Bekoko Factories",
+        "BON DE PRO-FORMA N° :": "PRO-FORMA INVOICE NO. :",
+        "Date d'émission :": "Issue Date:",
+        "Validité :": "Validity:",
+        "30 Jours ouvrés": "30 Working Days",
+        "\"BÂTIMENTS SOLIDES = MATÉRIAUX SOLIDES AVEC GARANTIE DE DURABILITÉ\"": "\"SOLID BUILDINGS = SOLID MATERIALS WITH GUARANTEED DURABILITY\"",
+        "Détail des Articles Répertoriés": "Detailed Listed Items",
+        "Tarification Usine HT": "Factory Pricing Excl. Tax",
+        "Article & Réf": "Item & SKU",
+        "Spécifications": "Specifications",
+        "Prix Unitaire HT": "Unit Price Excl. Tax",
+        "Total HT (FCFA)": "Total Excl. Tax (FCFA)",
+        "Action": "Action",
+        "Longueur:": "Length:",
+        "Couleur:": "Color:",
+        "← Continuer vos ajouts au catalogue": "← Continue adding items from catalog",
+        "Mettre à jour la Pro-Forma": "Update Pro-Forma",
+        "Mettre à jour le panier": "Update Cart",
+        "Décompte Financier B2B": "B2B Financial Summary",
+        "Total des articles HT :": "Items Subtotal Excl. Tax:",
+        "TVA Cameroun (19.25%) :": "Cameroon VAT (19.25%):",
+        "Frais de Manutention :": "Handling Charges:",
+        "Inclus Usine": "Factory Included",
+        "TOTAL GÉNÉRAL TTC :": "GRAND TOTAL INCL. TAX:",
+        "✔ Conforme à la réglementation fiscale du Cameroun": "✔ Compliant with Cameroon tax regulations",
+        "GÉNÉRER MA PRO-FORMA EN PDF": "GENERATE PRO-FORMA PDF",
+        "Transmettre au Commercial WhatsApp": "Send to WhatsApp Sales Representative",
+        "Coordonnées et Mentions Légales TPM SA (Groupe CAC) :": "Contact Details & Legal Notice TPM SA (CAC Group):",
+        "• E-mail officiel :": "• Official Email:",
+        "| Téléphones Usine :": "| Factory Phones:",
+        "• Horaires de bureau :": "• Office Hours:",
+        "Du Lundi au Vendredi de 08h00 à 18h00": "Monday to Friday from 08:00 AM to 06:00 PM",
+        "Jours fériés :": "Public Holidays:",
+        "08h00 à 12h00": "08:00 AM to 12:00 PM",
+        "(Fermé : 01/01, 11/02, 01/05, 20/05, 25/12)": "(Closed: 01/01, 11/02, 01/05, 20/05, 25/12)",
+        "• Adresse usine : Carrefour Bekoko (Axe Douala - Limbé) & Zone Industrielle Douala PK12, Cameroun.": "• Factory Address: Bekoko Junction (Douala - Limbe Highway) & Douala PK12 Industrial Zone, Cameroon.",
+        "Votre Panier Pro-Forma est actuellement vide": "Your Pro-Forma Quote is currently empty",
+        "Vous n'avez pas encore ajouté d'articles à votre devis. Explorez notre catalogue pour composer votre sélection de tôles, accessoires ou fixations.": "You haven't added items to your quote yet. Explore our catalog to choose roofing sheets, accessories or fasteners.",
+        "Explorer le Catalogue Usine": "Explore Factory Catalog",
+
+        // --- 8. L'ENTREPRISE (ABOUT US) ---
         "FONDÉ PAR M. NJIPNGANG • DEPUIS 1976": "FOUNDED BY MR. NJIPNGANG • SINCE 1976",
         "50 Ans d'Excellence Métallurgique & de Plasturgie au Cameroun.": "50 Years of Metallurgical & Plastics Excellence in Cameroon.",
         "Fondateur Visionnaire :": "Visionary Founder:",
@@ -180,7 +252,7 @@
         "Nos équipes technico-commerciales sont prêtes à étudier vos cahiers des charges.": "Our technical and sales teams are ready to analyze your project specifications.",
         "Générer une Pro-Forma": "Generate Pro-Forma",
 
-        // --- CONTACT PAGE ---
+        // --- 9. CONTACT USINE ---
         "CONTACT & GÉOLOCALISATION DE L'USINE TPM SA": "CONTACT & GEOLOCATION OF TPM SA FACTORY",
         "Demandes de devis sur mesure, suivi de production et enlèvement de commandes. Nos équipes industrielles sont à votre disposition.": "Custom quote requests, production monitoring, and order pickups. Our industrial teams are at your service.",
         "USINE BEKOKO": "BEKOKO FACTORY",
@@ -218,10 +290,8 @@
         "Email Professionnel": "Work Email",
         "Numéro WhatsApp": "WhatsApp Number",
         "Service Concerné": "Department / Service",
-        "Sélectionnez un service...": "Select a department...",
         "Commercial & Devis Pro-Forma": "Commercial & Pro-Forma Quotes",
         "Bureau d'Études / Calepinage": "Engineering & Roofing Layout",
-        "Logistique & Enlèvement Usine": "Logistics & Factory Pickup",
         "Approvisionnement Gros Chantier BTP": "Major Construction Site Supply",
         "Message / Détails de la demande": "Message / Inquiry Details",
         "Décrivez votre besoin : types de tôles, profilages, longueurs, accessoires de faîtage, délais de chantier...": "Describe your requirements: sheet types, profiling, lengths, ridge accessories, deadlines...",
@@ -233,36 +303,12 @@
         "Nos conseillers techniques sont disponibles sur WhatsApp pour une assistance directe.": "Our technical advisors are available on WhatsApp for direct assistance.",
         "CONTACTER SUR WHATSAPP": "CONTACT ON WHATSAPP",
 
-        // --- CART & PRO-FORMA GENERATOR ---
-        "VOTRE FACTURE PRO-FORMA OFFICIELLE": "YOUR OFFICIAL PRO-FORMA INVOICE",
-        "GÉNÉRATEUR PRO-FORMA B2B": "B2B PRO-FORMA GENERATOR",
-        "Articles Sélectionnés": "Selected Items",
-        "Article / Référence": "Item / Reference",
-        "Prix Unitaire HT": "Unit Price Excl. Tax",
-        "Total Ligne HT": "Line Total Excl. Tax",
-        "Actions": "Actions",
-        "Total Hors Taxes (HT) :": "Subtotal Excl. Tax (HT):",
-        "TVA Réglementaire (19.25%) :": "Statutory VAT (19.25%):",
-        "NET À PAYER TTC :": "TOTAL INCL. TAX (TTC):",
-        "Coordonnées de l'Acheteur": "Buyer / Company Details",
-        "Nom de l'Entreprise / Client :": "Company / Customer Name:",
-        "Numéro NIU / N° Contribuable :": "Tax ID (TIN):",
-        "Téléphone / WhatsApp :": "Phone / WhatsApp:",
-        "Email Facturation :": "Billing Email:",
-        "Lieu de Livraison / Chantier :": "Delivery Location / Site:",
-        "GÉNÉRER MON PDF PRO-FORMA OFFICIEL": "GENERATE MY OFFICIAL PRO-FORMA PDF",
-        "ENVOYER LE BON DE COMMANDE SUR WHATSAPP": "SEND ORDER ON WHATSAPP",
-        "Vider le panier": "Clear quote",
-        "Continuer mes achats": "Continue shopping",
-        "Votre Panier Pro-Forma est actuellement vide.": "Your Pro-Forma Quote is currently empty.",
-        "Consulter le catalogue pour ajouter des tôles, accessoires ou emballages.": "Browse our catalog to add roofing sheets, accessories, or packaging.",
-        "Accéder au Catalogue": "Browse Catalog",
-
-        // --- FOOTER ---
+        // --- 10. FOOTER SECTION ---
         "Besoin d'une Facture Pro-Forma officielle ou d'une cotation B2B ?": "Need an official Pro-Forma invoice or B2B quote?",
         "Commandes au mètre linéaire sur-mesure pour tôles BAC, emballages PP tissés et tarification dégressive.": "Custom cut-to-length orders for roofing sheets, woven PP sacks, and tiered volume pricing.",
         "WhatsApp Commercial Direct": "Direct Commercial WhatsApp",
         "Générer ma Pro-Forma": "Generate Pro-Forma",
+        "Leader camerounais dans le profilage de tôles BAC prélaquées, la fabrication de fixations industrielles, l'extrusion de sacs PP et le zingage unique en Afrique Centrale.": "Cameroonian leader in pre-painted BAC roofing sheets, industrial fasteners manufacturing, PP bag extrusion and hot-dip galvanizing in Central Africa.",
         "PME Agréée": "Certified Enterprise",
         "Usines: PK12 & Bekoko": "Factories: PK12 & Bekoko",
         "Nos Produits": "Our Products",
@@ -287,23 +333,25 @@
         REVERSE_DICTIONARY[en] = fr;
     }
 
-    // Récupérer la langue active
+    // Récupérer les paires de traduction triées par longueur décroissante
+    function getSortedTranslationPairs(targetLang) {
+        const sourceDict = (targetLang === 'en') ? DICTIONARY : REVERSE_DICTIONARY;
+        return Object.entries(sourceDict).sort((a, b) => b[0].length - a[0].length);
+    }
+
     function getActiveLanguage() {
         return localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG;
     }
 
-    // Sauvegarder la langue
     function setActiveLanguage(lang) {
         localStorage.setItem(STORAGE_KEY, lang);
         document.cookie = `${STORAGE_KEY}=${lang};path=/;max-age=31536000;SameSite=Lax`;
     }
 
-    // Mettre à jour l'apparence des boutons de commutation
     function updateSwitcherButtons(lang) {
         const isEn = (lang === 'en');
         document.documentElement.lang = isEn ? 'en' : 'fr';
 
-        // Boutons Desktop & Mobile
         const buttons = document.querySelectorAll('[data-lang-btn]');
         buttons.forEach(btn => {
             const btnLang = btn.getAttribute('data-lang-btn');
@@ -321,34 +369,34 @@
                 }
             }
         });
+
+        // Mettre à jour le texte du bouton panier
+        const cartBadgeEl = document.querySelector('.cart-badge-count');
+        const count = cartBadgeEl ? cartBadgeEl.textContent.trim() : '0';
+        const cartBtnText = document.querySelectorAll('.cart-button-label');
+        cartBtnText.forEach(el => {
+            el.textContent = isEn ? `My Pro-Forma Quote (${count})` : `Mon Panier Pro-Forma (${count})`;
+        });
     }
 
-    // Traduction récursive des nœuds textuels du DOM
+    // Traduction intelligente récursive de l'ensemble du DOM
     function translateDOM(targetLang) {
-        const dict = (targetLang === 'en') ? DICTIONARY : REVERSE_DICTIONARY;
+        const pairs = getSortedTranslationPairs(targetLang);
 
-        // Fonction auxiliaire pour traduire une chaîne exacte ou partielle
-        function getTranslation(str) {
-            if (!str) return null;
-            const trimmed = str.trim();
-            if (!trimmed) return null;
+        function replaceText(str) {
+            if (!str || typeof str !== 'string') return str;
+            let result = str;
 
-            // 1. Correspondance exacte
-            if (dict[trimmed]) {
-                return str.replace(trimmed, dict[trimmed]);
-            }
-
-            // 2. Sous-phrases clés
-            for (const [key, val] of Object.entries(dict)) {
-                if (key.length > 5 && trimmed.includes(key)) {
-                    return str.replace(key, val);
+            for (let i = 0; i < pairs.length; i++) {
+                const [sourceText, targetText] = pairs[i];
+                if (result.includes(sourceText)) {
+                    result = result.split(sourceText).join(targetText);
                 }
             }
-
-            return null;
+            return result;
         }
 
-        // Parcours de tous les nœuds de texte
+        // Parcours des nœuds de texte
         const walker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT,
@@ -363,6 +411,10 @@
                     if (parent.classList.contains('material-symbols-outlined')) {
                         return NodeFilter.FILTER_REJECT;
                     }
+                    // Ne pas modifier les chiffres purs du badge
+                    if (parent.classList.contains('cart-badge-count')) {
+                        return NodeFilter.FILTER_REJECT;
+                    }
                     return NodeFilter.FILTER_ACCEPT;
                 }
             }
@@ -375,56 +427,56 @@
         }
 
         textNodes.forEach(textNode => {
-            const translated = getTranslation(textNode.nodeValue);
-            if (translated !== null) {
-                textNode.nodeValue = translated;
+            const original = textNode.nodeValue;
+            const updated = replaceText(original);
+            if (updated !== original) {
+                textNode.nodeValue = updated;
             }
         });
 
-        // Options in select dropdowns
+        // Traduction des options dans les listes déroulantes
         const options = document.querySelectorAll('option');
         options.forEach(opt => {
-            const tr = getTranslation(opt.textContent);
-            if (tr) opt.textContent = tr;
+            const tr = replaceText(opt.textContent);
+            if (tr !== opt.textContent) opt.textContent = tr;
         });
 
-        // Submit inputs and buttons
+        // Traduction des boutons submit / input
         const submitInputs = document.querySelectorAll('input[type="submit"], input[type="button"]');
         submitInputs.forEach(btn => {
             if (btn.value) {
-                const tr = getTranslation(btn.value);
-                if (tr) btn.value = tr;
+                const tr = replaceText(btn.value);
+                if (tr !== btn.value) btn.value = tr;
             }
         });
 
-        // Traduction des attributs (placeholder, title, value)
+        // Traduction des placeholders et titres
         const inputs = document.querySelectorAll('input, textarea');
         inputs.forEach(el => {
             if (el.placeholder) {
-                const tr = getTranslation(el.placeholder);
-                if (tr) el.placeholder = tr;
+                const tr = replaceText(el.placeholder);
+                if (tr !== el.placeholder) el.placeholder = tr;
             }
             if (el.title) {
-                const tr = getTranslation(el.title);
-                if (tr) el.title = tr;
+                const tr = replaceText(el.title);
+                if (tr !== el.title) el.title = tr;
             }
         });
 
-        // Traduction des boutons avec attributs title ou aria-label
         const titledElements = document.querySelectorAll('[title], [aria-label]');
         titledElements.forEach(el => {
             if (el.title) {
-                const tr = getTranslation(el.title);
-                if (tr) el.title = tr;
+                const tr = replaceText(el.title);
+                if (tr !== el.title) el.title = tr;
             }
             if (el.getAttribute('aria-label')) {
-                const tr = getTranslation(el.getAttribute('aria-label'));
-                if (tr) el.setAttribute('aria-label', tr);
+                const tr = replaceText(el.getAttribute('aria-label'));
+                if (tr !== el.getAttribute('aria-label')) el.setAttribute('aria-label', tr);
             }
         });
     }
 
-    // Appliquer une langue
+    // Fonction globale pour changer la langue
     window.setTPMLanguage = function (lang) {
         if (lang !== 'fr' && lang !== 'en') lang = 'fr';
         setActiveLanguage(lang);
@@ -433,11 +485,11 @@
         window.dispatchEvent(new CustomEvent('tpm_language_changed', { detail: { lang } }));
     };
 
-    // Initialisation au chargement du DOM
+    // Initialisation au chargement de la page
     document.addEventListener('DOMContentLoaded', function () {
         const initialLang = getActiveLanguage();
 
-        // Attacher les écouteurs de clics sur les boutons
+        // Écouteur global pour tous les boutons de changement de langue
         document.addEventListener('click', function (e) {
             const btn = e.target.closest('[data-lang-btn]');
             if (btn) {
@@ -447,10 +499,10 @@
             }
         });
 
-        // Mettre à jour l'état initial des boutons
+        // Mettre à jour l'apparence des boutons
         updateSwitcherButtons(initialLang);
 
-        // Si la langue enregistrée est l'anglais, traduire la page
+        // Si la langue est Anglais, appliquer la traduction
         if (initialLang === 'en') {
             translateDOM('en');
         }
