@@ -100,49 +100,35 @@ $current_title = $current_term ? $current_term->name : 'Tous les Articles';
                             <a href="<?php echo esc_url($shop_url); ?>" 
                                class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo (!is_product_category() && !is_search()) ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
                                 <span>Tous les articles</span>
-                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                                <span class="text-[11px] opacity-75 font-normal">59</span>
                             </a>
 
-                            <!-- Tôles & Couvertures -->
+                            <!-- 1. Tôles et toiture -->
                             <a href="<?php echo esc_url($cat_toles_url); ?>" 
                                class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'toles-et-toiture') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
-                                <span>Tôles &amp; Couvertures</span>
-                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                                <span>Tôles et toiture</span>
+                                <span class="text-[11px] <?php echo ($current_slug === 'toles-et-toiture') ? 'text-tpm-orange' : 'text-gray-400'; ?> font-bold">10</span>
                             </a>
 
-                            <!-- Accessoires de Toiture -->
+                            <!-- 2. Accessoires toiture -->
                             <a href="<?php echo esc_url($cat_accessoires_url); ?>" 
                                class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'accessoires-toiture') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
-                                <span>Accessoires de Toiture</span>
-                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                                <span>Accessoires toiture</span>
+                                <span class="text-[11px] <?php echo ($current_slug === 'accessoires-toiture') ? 'text-tpm-orange' : 'text-gray-400'; ?> font-bold">17</span>
                             </a>
 
-                            <!-- Fixations & Étanchéité -->
+                            <!-- 3. Fixations et étanchéité -->
                             <a href="<?php echo esc_url($cat_fixations_url); ?>" 
                                class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'fixations-et-etancheite') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
-                                <span>Fixations &amp; Étanchéité</span>
-                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                                <span>Fixations et étanchéité</span>
+                                <span class="text-[11px] <?php echo ($current_slug === 'fixations-et-etancheite') ? 'text-tpm-orange' : 'text-gray-400'; ?> font-bold">10</span>
                             </a>
 
-                            <!-- Emballages & Plastiques -->
+                            <!-- 4. Accessoires intérieurs -->
                             <a href="<?php echo esc_url($cat_interieurs_url); ?>" 
-                               class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'accessoires-interieurs' || $current_slug === 'sacs-pp') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
-                                <span>Emballages &amp; Plastiques</span>
-                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
-                            </a>
-
-                            <!-- Carrelages & Revêtements -->
-                            <a href="<?php echo esc_url($cat_interieurs_url); ?>" 
-                               class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors text-gray-700 hover:bg-slate-100">
-                                <span>Carrelages &amp; Revêtements</span>
-                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
-                            </a>
-
-                            <!-- Quincaillerie & BTP -->
-                            <a href="<?php echo esc_url($shop_url); ?>" 
-                               class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors text-gray-700 hover:bg-slate-100">
-                                <span>Quincaillerie &amp; BTP</span>
-                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                               class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'accessoires-interieurs') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
+                                <span>Accessoires intérieurs</span>
+                                <span class="text-[11px] <?php echo ($current_slug === 'accessoires-interieurs') ? 'text-tpm-orange' : 'text-gray-400'; ?> font-bold">22</span>
                             </a>
                         </nav>
                     </div>

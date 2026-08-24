@@ -211,7 +211,7 @@ $woo_products = $wpdb->get_results( "
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════
-         2. PÔLES DE PRODUCTION : 6 DOMAINES D'ACTIVITÉ INDUSTRIELLE
+         2. PÔLES DE PRODUCTION : LES 4 DOMAINES INDUSTRIELS TPM SA
          ═══════════════════════════════════════════════════════════ -->
     <section class="py-16 md:py-24 bg-white border-b border-gray-200" id="domaines">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -223,7 +223,7 @@ $woo_products = $wpdb->get_results( "
                         PÔLES DE PRODUCTION TPM SA
                     </span>
                     <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-tpm-navy uppercase tracking-tight">
-                        Nos 6 Domaines d'Activité Industrielle
+                        Nos 4 Domaines d'Activité Industrielle
                     </h2>
                 </div>
                 <p class="text-xs sm:text-sm text-gray-500 max-w-md md:text-right leading-relaxed font-medium">
@@ -231,185 +231,129 @@ $woo_products = $wpdb->get_results( "
                 </p>
             </div>
 
-            <!-- Grid of 6 Domain Cards (2 rows of 3) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Grid of 4 Domain Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
                 <!-- Pôle 1: Tôles & Couvertures BAC -->
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
                     <div>
-                        <div class="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                        <div class="relative aspect-[16/11] overflow-hidden bg-slate-100">
                             <img src="<?php echo esc_url($theme_img_uri . 'pole1_toles.jpg'); ?>" 
-                                 alt="Tôles &amp; Couvertures BAC" 
+                                 alt="Tôles et toiture" 
                                  loading="lazy" 
                                  decoding="async" 
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                             <span class="absolute top-3 left-3 bg-tpm-navy/90 backdrop-blur-sm text-white font-black text-[10px] px-2.5 py-1 rounded shadow uppercase tracking-wider">
-                                PÔLE N°1
+                                PÔLE N°1 • 10 RÉF.
                             </span>
                         </div>
                         <div class="p-5 space-y-2">
-                            <h3 class="text-base sm:text-lg font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
-                                Tôles &amp; Couvertures BAC
+                            <h3 class="text-base font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
+                                Tôles et toiture
                             </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Tôles BAC aluminium prélaqué, ondulées, tous coloris (RAL 3005, Rouge, Vert Olive, Alu brillant) et découpes sur mesure.
+                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-3">
+                                Tôles BAC aluminium prélaqué 0.50mm, profilage ondulé, nervuré D50/B30 et découpes sur mesure selon nuancier RAL.
                             </p>
                         </div>
                     </div>
                     <div class="p-5 pt-0">
                         <a href="<?php echo esc_url($cat_toles_url); ?>" 
-                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1">
-                            <span>Voir les Tôles Bacs</span>
+                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1 shadow-sm">
+                            <span>Voir les 10 Tôles Bacs</span>
+                            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Pôle 2: Accessoires de Toiture & Pliage -->
+                <!-- Pôle 2: Accessoires de Toiture -->
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
                     <div>
-                        <div class="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                        <div class="relative aspect-[16/11] overflow-hidden bg-slate-100">
                             <img src="<?php echo esc_url($theme_img_uri . 'pole2_accessoires.jpg'); ?>" 
-                                 alt="Accessoires de Toiture &amp; Pliage" 
+                                 alt="Accessoires toiture" 
                                  loading="lazy" 
                                  decoding="async" 
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                             <span class="absolute top-3 left-3 bg-tpm-navy/90 backdrop-blur-sm text-white font-black text-[10px] px-2.5 py-1 rounded shadow uppercase tracking-wider">
-                                PÔLE N°2
+                                PÔLE N°2 • 17 RÉF.
                             </span>
                         </div>
                         <div class="p-5 space-y-2">
-                            <h3 class="text-base sm:text-lg font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
-                                Accessoires de Toiture &amp; Pliage
+                            <h3 class="text-base font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
+                                Accessoires toiture
                             </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Faîtières double pente, faîtières crantées, demi-rives, rives, gouttières et noues sur-mesure.
+                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-3">
+                                Faîtières crantées double pente, faîtières non crantées, rives alu, gouttières étanches et noues façonnées en atelier.
                             </p>
                         </div>
                     </div>
                     <div class="p-5 pt-0">
                         <a href="<?php echo esc_url($cat_accessoires_url); ?>" 
-                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1">
-                            <span>Voir les Accessoires</span>
+                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1 shadow-sm">
+                            <span>Voir les 17 Accessoires</span>
+                            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Pôle 3: Fixations & Étanchéité -->
+                <!-- Pôle 3: Fixations et Étanchéité -->
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
                     <div>
-                        <div class="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                        <div class="relative aspect-[16/11] overflow-hidden bg-slate-100">
                             <img src="<?php echo esc_url($theme_img_uri . 'pole3_fixations.jpg'); ?>" 
-                                 alt="Fixations &amp; Étanchéité" 
+                                 alt="Fixations et étanchéité" 
                                  loading="lazy" 
                                  decoding="async" 
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                             <span class="absolute top-3 left-3 bg-tpm-navy/90 backdrop-blur-sm text-white font-black text-[10px] px-2.5 py-1 rounded shadow uppercase tracking-wider">
-                                PÔLE N°3
+                                PÔLE N°3 • 10 RÉF.
                             </span>
                         </div>
                         <div class="p-5 space-y-2">
-                            <h3 class="text-base sm:text-lg font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
-                                Fixations &amp; Étanchéité
+                            <h3 class="text-base font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
+                                Fixations et étanchéité
                             </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Fixations complètes à tirefonds, cavaliers étanches, rouleaux bitumés Toiturole 900G et vis auto-foreuses.
+                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-3">
+                                Tirefonds complets 6x80/6x100, cavaliers alu néoprène, rouleaux bitumés Toiturole 900G et vis auto-foreuses zinguées.
                             </p>
                         </div>
                     </div>
                     <div class="p-5 pt-0">
                         <a href="<?php echo esc_url($cat_fixations_url); ?>" 
-                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1">
-                            <span>Voir les Fixations</span>
+                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1 shadow-sm">
+                            <span>Voir les 10 Fixations</span>
+                            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Pôle 4: Emballages PP Bekoko -->
+                <!-- Pôle 4: Accessoires Intérieurs & Plasturgie -->
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
                     <div>
-                        <div class="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                        <div class="relative aspect-[16/11] overflow-hidden bg-slate-100">
                             <img src="<?php echo esc_url($theme_img_uri . 'pole4_sacs.jpg'); ?>" 
-                                 alt="Emballages PP Bekoko" 
+                                 alt="Accessoires intérieurs" 
                                  loading="lazy" 
                                  decoding="async" 
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                             <span class="absolute top-3 left-3 bg-tpm-navy/90 backdrop-blur-sm text-white font-black text-[10px] px-2.5 py-1 rounded shadow uppercase tracking-wider">
-                                PÔLE N°4
+                                PÔLE N°4 • 22 RÉF.
                             </span>
                         </div>
                         <div class="p-5 space-y-2">
-                            <h3 class="text-base sm:text-lg font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
-                                Emballages PP Bekoko
+                            <h3 class="text-base font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
+                                Accessoires intérieurs
                             </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Gamme d'emballages en sacs tissés en PP (50kg, 25kg, ciment, agroalimentaire et industrie).
+                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-3">
+                                Sacs PP tissés 50kg/25kg usine Bekoko, carrelages grès cérame italien/espagnol, douches sanitaires et second œuvre.
                             </p>
                         </div>
                     </div>
                     <div class="p-5 pt-0">
                         <a href="<?php echo esc_url($cat_interieurs_url); ?>" 
-                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1">
-                            <span>Voir les Sacs PP Bekoko</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Pôle 5: Carreaux & Revêtements -->
-                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
-                    <div>
-                        <div class="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                            <img src="<?php echo esc_url($theme_img_uri . 'pole6_carreaux.jpg'); ?>" 
-                                 alt="Carreaux &amp; Revêtements" 
-                                 loading="lazy" 
-                                 decoding="async" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                            <span class="absolute top-3 left-3 bg-tpm-navy/90 backdrop-blur-sm text-white font-black text-[10px] px-2.5 py-1 rounded shadow uppercase tracking-wider">
-                                PÔLE N°5
-                            </span>
-                        </div>
-                        <div class="p-5 space-y-2">
-                            <h3 class="text-base sm:text-lg font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
-                                Carreaux &amp; Revêtements
-                            </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Carrelage grès cérame italien et espagnol pour sols et murs, douches thérapeutiques Zagonel.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="p-5 pt-0">
-                        <a href="<?php echo esc_url($cat_interieurs_url); ?>" 
-                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1">
-                            <span>Voir les Carreaux &amp; Sols</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Pôle 6: Quincaillerie & Outillage BTP -->
-                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
-                    <div>
-                        <div class="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                            <img src="<?php echo esc_url($theme_img_uri . 'pole5_prestations.jpg'); ?>" 
-                                 alt="Quincaillerie &amp; Outillage BTP" 
-                                 loading="lazy" 
-                                 decoding="async" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                            <span class="absolute top-3 left-3 bg-tpm-navy/90 backdrop-blur-sm text-white font-black text-[10px] px-2.5 py-1 rounded shadow uppercase tracking-wider">
-                                PÔLE N°6
-                            </span>
-                        </div>
-                        <div class="p-5 space-y-2">
-                            <h3 class="text-base sm:text-lg font-black text-tpm-navy group-hover:text-tpm-orange transition-colors">
-                                Quincaillerie &amp; Outillage BTP
-                            </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Prestations industrielles d'électro-zingage 800 VA, outillage de couverture, quincaillerie lourde et chantiers BTP.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="p-5 pt-0">
-                        <a href="<?php echo esc_url($shop_url); ?>" 
-                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1">
-                            <span>Voir la Quincaillerie</span>
+                           class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1 shadow-sm">
+                            <span>Voir les 22 Articles</span>
+                            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
                         </a>
                     </div>
                 </div>
