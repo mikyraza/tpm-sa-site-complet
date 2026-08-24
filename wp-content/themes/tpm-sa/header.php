@@ -184,10 +184,9 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
                     <span class="material-symbols-outlined text-[16px]">chat</span>
                     Support WhatsApp Commercial
                 </a>
-                <div class="flex items-center gap-2 border-l border-white/20 pl-4">
-                    <button type="button" class="text-white font-bold cursor-default" title="Français">FR</button>
-                    <span class="text-gray-500">/</span>
-                    <button type="button" class="text-gray-400 hover:text-white" title="English">EN</button>
+                <div class="flex items-center bg-white/10 rounded-full p-0.5 border border-white/20 text-xs font-bold" id="tpm-lang-switcher-desktop">
+                    <button type="button" data-lang-btn="fr" class="px-2.5 py-0.5 rounded-full text-white bg-tpm-orange font-black shadow-sm transition-all duration-200" title="Français">FR</button>
+                    <button type="button" data-lang-btn="en" class="px-2.5 py-0.5 rounded-full text-gray-300 hover:text-white transition-all duration-200" title="English">EN</button>
                 </div>
             </div>
         </div>
@@ -421,6 +420,18 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="md:hidden border-t border-gray-200 bg-white">
         <nav class="flex flex-col py-4 px-6 gap-2 text-sm font-bold text-tpm-navy">
+            <!-- Mobile Language Switcher Pill -->
+            <div class="flex items-center justify-between pb-3 mb-1 border-b border-gray-100">
+                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-[16px] text-tpm-orange">language</span>
+                    <span>Langue / Language</span>
+                </span>
+                <div class="flex items-center bg-slate-100 rounded-full p-0.5 border border-gray-200 text-xs font-bold" id="tpm-lang-switcher-mobile">
+                    <button type="button" data-lang-btn="fr" class="px-3 py-1 rounded-full text-white bg-tpm-orange font-black shadow-sm transition-all" title="Français">FR</button>
+                    <button type="button" data-lang-btn="en" class="px-3 py-1 rounded-full text-gray-600 hover:text-gray-900 transition-all" title="English">EN</button>
+                </div>
+            </div>
+
             <a href="<?php echo esc_url( home_url('/') ); ?>" class="py-2 hover:text-tpm-orange flex items-center gap-2">
                 <span class="material-symbols-outlined text-[18px]">home</span>
                 Accueil

@@ -29,10 +29,14 @@ function tpm_sa_scripts() {
     // Theme main stylesheet
     wp_enqueue_style( 'tpm-sa-style', get_stylesheet_uri(), array(), '1.0.3' );
 
-    // Theme JS
+    // Theme JS & i18n Translation Engine
+    wp_enqueue_script( 'tpm-sa-i18n',
+        get_template_directory_uri() . '/assets/js/tpm-i18n.js',
+        array(), '1.0.4', true );
+
     wp_enqueue_script( 'tpm-sa-scripts',
         get_template_directory_uri() . '/assets/js/main.js',
-        array(), '1.0.3', true );
+        array('tpm-sa-i18n'), '1.0.4', true );
 
     // Supprimer les styles WordPress parasites
     wp_dequeue_style( 'global-styles' );
