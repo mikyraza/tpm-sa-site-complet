@@ -26,23 +26,13 @@ add_action( 'after_setup_theme', 'tpm_sa_setup' );
  * Enqueue scripts and styles.
  */
 function tpm_sa_scripts() {
-    // Google Fonts
-    wp_enqueue_style( 'tpm-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap',
-        array(), null );
-
-    // Material Symbols
-    wp_enqueue_style( 'tpm-material-symbols',
-        'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap',
-        array(), null );
-
     // Theme main stylesheet
-    wp_enqueue_style( 'tpm-sa-style', get_stylesheet_uri(), array(), '1.0.2' );
+    wp_enqueue_style( 'tpm-sa-style', get_stylesheet_uri(), array(), '1.0.3' );
 
     // Theme JS
     wp_enqueue_script( 'tpm-sa-scripts',
         get_template_directory_uri() . '/assets/js/main.js',
-        array(), '1.0.2', true );
+        array(), '1.0.3', true );
 
     // Supprimer les styles WordPress parasites
     wp_dequeue_style( 'global-styles' );
@@ -62,6 +52,15 @@ remove_action( 'wp_head', 'wp_global_styles_render_svg_filters' );
 add_filter( 'wp_get_global_stylesheet', '__return_empty_string' );
 remove_action( 'wp_head', '_admin_bar_bump_cb' );
 add_filter( 'show_admin_bar', '__return_false' );
+
+// Désactiver le tracking d'attribution WooCommerce (bloque admin-ajax.php en local)
+add_filter( 'woocommerce_order_attribution_enabled', '__return_false' );
+
+// Désactiver les scripts emojis WordPress
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
 /**
  * WooCommerce : Personnalisation Boutons Panier -> Pro-Forma B2B
@@ -199,32 +198,26 @@ add_action( 'template_redirect', function() {
  * Helper d'image produit contextuelle (Haute Définition Usine)
  */
 function tpm_get_product_image_url( $product ) {
-    if ( ! $product ) return get_template_directory_uri() . '/assets/images/prod1_tole.jpg';
-    
-    $thumb_id = $product->get_image_id();
-    if ( $thumb_id ) {
-        $img = wp_get_attachment_image_url( $thumb_id, 'large' );
-        if ( $img ) return $img;
-    }
+    $img_dir = get_template_directory_uri() . '/assets/images/';
+    if ( ! $product ) return $img_dir . 'prod1_tole.jpg';
 
     $sku  = strtoupper( $product->get_sku() );
     $name = strtolower( $product->get_name() );
-    $img_dir = get_template_directory_uri() . '/assets/images/';
 
     // 1. Tôles et toiture
     if ( str_starts_with( $sku, 'TOL' ) || str_contains( $name, 'tôle' ) || str_contains( $name, 'tole' ) ) {
         return $img_dir . 'prod1_tole.jpg';
     }
 
-    // 2. Accessoires toiture
-    if ( str_starts_with( $sku, 'ACC' ) || str_contains( $name, 'faîtière' ) || str_contains( $name, 'faitiere' ) || str_contains( $name, 'gouttière' ) || str_contains( $name, 'noue' ) || str_contains( $name, 'rive' ) ) {
+    // 2. Accessoires toiture (Faîtières, rives, gouttières, bandes)
+    if ( str_starts_with( $sku, 'ACC' ) || str_contains( $name, 'faîtière' ) || str_contains( $name, 'faitiere' ) || str_contains( $name, 'gouttière' ) || str_contains( $name, 'noue' ) || str_contains( $name, 'rive' ) || str_contains( $name, 'bande' ) ) {
         return $img_dir . 'prod3_faitiere.jpg';
     }
 
     // 3. Fixations et étanchéité
     if ( str_starts_with( $sku, 'FIX' ) || str_contains( $name, 'vis' ) || str_contains( $name, 'tirefond' ) || str_contains( $name, 'cavalier' ) || str_contains( $name, 'rondelle' ) ) {
         if ( str_contains( $name, 'pointe' ) ) return $img_dir . 'prod7_pointe.jpg';
-        if ( str_contains( $name, 'toiturole' ) || str_contains( $name, 'joint' ) || str_contains( $name, 'feutre' ) ) return $img_dir . 'prod5_joint.jpg';
+        if ( str_contains( $name, 'toiturole' ) || str_contains( $name, 'joint' ) || str_contains( $name, 'feutre' ) || str_contains( $name, 'bitum' ) ) return $img_dir . 'prod5_joint.jpg';
         return $img_dir . 'prod2_fixation.jpg';
     }
 
@@ -244,5 +237,10 @@ function tpm_get_product_image_url( $product ) {
 
     return $img_dir . 'prod1_tole.jpg';
 }
+
+/**
+ * Dynamic Pro-Forma PDF Engine
+ */
+require_once get_template_directory() . '/inc/proforma-pdf.php';
 
 

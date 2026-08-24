@@ -17,39 +17,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        tpm: {
-                            navy:       '#1C1340',
-                            orange:     '#D84B1F',
-                            terracotta: '#D84B1F',
-                            slate:      '#0F172A',
-                            surface:    '#F8FAFC',
-                            border:     '#E2E8F0',
-                            gray:       '#94A3B8'
-                        },
-                        "brand-terracotta": "#D84B1F",
-                        "brand-navy": "#1C1340",
-                        "brand-slate": "#0F172A",
-                        "brand-gray": "#94A3B8"
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
-                    },
-                    maxWidth: {
-                        'container-max': '1440px',
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Precompiled High-Performance Local Tailwind CSS -->
+    <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() . '/assets/css/tailwind.min.css?v=' . filemtime( get_template_directory() . '/assets/css/tailwind.min.css' ) ); ?>"/>
 
     <style>
         /* ═══════════════════════════════════════════════════════════
@@ -119,10 +88,23 @@
             width: 100%;
             background: #F8FAFC;
             border-top: 3px solid #D84B1F;
-            box-shadow: 0 20px 60px rgba(15,23,42,0.18);
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
             z-index: 8000;
         }
-        #mega-menu.is-open { display: block; }
+        #mega-menu.is-open { 
+            display: block;
+            animation: megaMenuFadeIn 0.18s ease-out;
+        }
+        @keyframes megaMenuFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         #mobile-menu { display: none; }
         #mobile-menu.is-open { display: block; }
 
@@ -262,18 +244,15 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
                 </a>
                 
                 <!-- Catalogue Menu Link & Trigger -->
-                <div class="inline-flex items-center gap-0.5">
+                <div id="catalog-nav-item" class="relative group/catalog inline-flex items-center gap-0.5 py-1">
                     <a href="<?php echo esc_url($shop_url); ?>" class="hover:text-tpm-orange transition-colors <?php echo (is_shop() || is_product_taxonomy() || is_product()) ? 'text-tpm-orange font-bold' : ''; ?>">
                         Catalogue
                     </a>
-                    <button id="catalog-trigger" type="button" class="text-tpm-navy hover:text-tpm-orange transition-colors p-0.5 flex items-center" title="Dérouler l'inventaire complet">
+                    <button id="catalog-trigger" type="button" class="text-tpm-navy group-hover/catalog:text-tpm-orange hover:text-tpm-orange transition-colors p-0.5 flex items-center" title="Dérouler l'inventaire complet">
                         <span class="material-symbols-outlined text-[18px]" id="catalog-chevron">expand_more</span>
                     </button>
                 </div>
 
-                <a href="<?php echo esc_url( home_url('/devis-sur-mesure/') ); ?>" class="hover:text-tpm-orange transition-colors <?php echo is_page('devis-sur-mesure') ? 'text-tpm-orange font-bold' : ''; ?>">
-                    Devis B2B
-                </a>
                 <a href="<?php echo esc_url( home_url('/contact/') ); ?>" class="hover:text-tpm-orange transition-colors <?php echo is_page('contact') ? 'text-tpm-orange font-bold' : ''; ?>">
                     Contact
                 </a>
@@ -294,127 +273,139 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
     </div>
 
     <!-- ════════════════════════════════════════════════════════════
-         MEGA MENU DROPDOWN (6 Colonnes avec URLs réelles)
+         MEGA MENU DROPDOWN (4 Catégories Officielles + Services B2B)
     ════════════════════════════════════════════════════════════ -->
     <div id="mega-menu" class="absolute top-full left-0 w-full bg-slate-50 border-t-[3px] border-tpm-orange shadow-2xl z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
 
-                <!-- Col 1: Tôles & Couvertures -->
+                <!-- Col 1: Tôles et toiture (10 articles) -->
                 <div class="flex flex-col gap-3">
                     <a href="<?php echo esc_url($cat_toles_url); ?>" class="group">
-                        <h3 class="text-sm font-bold text-tpm-navy border-b border-gray-200 pb-2 flex items-center gap-2 group-hover:text-tpm-orange transition-colors">
-                            <span class="material-symbols-outlined text-tpm-orange text-[20px]">roofing</span>
-                            Tôles &amp; Couvertures
+                        <h3 class="text-sm font-bold text-tpm-navy border-b border-gray-200 pb-2 flex items-center justify-between group-hover:text-tpm-orange transition-colors">
+                            <span class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-tpm-orange text-[20px]">roofing</span>
+                                Tôles et toiture
+                            </span>
+                            <span class="text-[11px] bg-slate-200 text-tpm-navy font-bold px-2 py-0.5 rounded-full">10</span>
                         </h3>
                     </a>
                     <ul class="flex flex-col gap-2 text-xs text-gray-600 font-medium">
                         <li>
-                            <span class="font-bold text-tpm-navy block mb-1">Tôles BAC Couleurs</span>
+                            <span class="font-bold text-tpm-navy block mb-1">Coloris RAL Disponibles :</span>
                             <div class="flex items-center gap-1.5 mb-1.5">
-                                <span class="w-3.5 h-3.5 rounded-full bg-red-800 border border-gray-300" title="Bordeau RAL 3005"></span>
-                                <span class="w-3.5 h-3.5 rounded-full bg-blue-600 border border-gray-300" title="Bleu Cendre RAL 5014"></span>
-                                <span class="w-3.5 h-3.5 rounded-full bg-orange-500 border border-gray-300" title="Orange Terracotta"></span>
-                                <span class="w-3.5 h-3.5 rounded-full bg-green-700 border border-gray-300" title="Vert Olive"></span>
+                                <span class="w-3.5 h-3.5 rounded-full bg-red-800 border border-gray-300 shadow-sm" title="Bordeau RAL 3005"></span>
+                                <span class="w-3.5 h-3.5 rounded-full bg-blue-600 border border-gray-300 shadow-sm" title="Bleu Cendre RAL 5014"></span>
+                                <span class="w-3.5 h-3.5 rounded-full bg-orange-500 border border-gray-300 shadow-sm" title="Orange Terracotta"></span>
+                                <span class="w-3.5 h-3.5 rounded-full bg-green-700 border border-gray-300 shadow-sm" title="Vert Olive"></span>
                             </div>
                         </li>
-                        <li><a href="<?php echo esc_url( home_url('/product/toles-bacs-ou-ondulees-alu-5-10e-prelaquees/') ); ?>" class="hover:text-tpm-orange transition-colors">→ Tôles BAC 5/10e Prélaquées</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/toles-bacs-prelaquees-d50/') ); ?>" class="hover:text-tpm-orange transition-colors">→ Tôles BAC D50 Haute Résistance</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/tole-ondulee-alu-035-3m/') ); ?>" class="hover:text-tpm-orange transition-colors">→ Tôles Ondulées ALU 3M</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/toles-tuile-nervurale-prelaquee-d50/') ); ?>" class="hover:text-tpm-orange transition-colors">→ Tôles Tuiles Nervurées D50</a></li>
-                        <li><a href="<?php echo esc_url($cat_toles_url); ?>" class="text-tpm-orange font-bold pt-1 hover:underline">Voir toutes les tôles &raquo;</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/tole-bac-alu-4n-et-5n-035/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Tôle Bac Alu 4N &amp; 5N 0,35</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/toles-bacs-ou-ondulees-alu-5-10e-prelaquees/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Tôles bacs alu 5/10e Prélaquées</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/toles-bacs-prelaquees-d50/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Tôles bacs prélaquées D50</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/toles-tuile-nervurale-prelaquee-d50/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Tôles Tuile nervurale D50</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/tole-ondulee-alu-035-3m/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Tôle Ondulée ALU 0,35 3M</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/toles-bacs-prelaquees-b30-2eme-choix/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Tôles bacs B30 2ème choix</a></li>
+                        <li class="pt-1"><a href="<?php echo esc_url($cat_toles_url); ?>" class="text-tpm-orange font-bold hover:underline flex items-center gap-1">Voir les 10 tôles &raquo;</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 2: Accessoires & Pliage -->
+                <!-- Col 2: Accessoires toiture (17 articles) -->
                 <div class="flex flex-col gap-3">
                     <a href="<?php echo esc_url($cat_accessoires_url); ?>" class="group">
-                        <h3 class="text-sm font-bold text-tpm-navy border-b border-gray-200 pb-2 flex items-center gap-2 group-hover:text-tpm-orange transition-colors">
-                            <span class="material-symbols-outlined text-tpm-orange text-[20px]">architecture</span>
-                            Accessoires &amp; Pliage
+                        <h3 class="text-sm font-bold text-tpm-navy border-b border-gray-200 pb-2 flex items-center justify-between group-hover:text-tpm-orange transition-colors">
+                            <span class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-tpm-orange text-[20px]">architecture</span>
+                                Accessoires toiture
+                            </span>
+                            <span class="text-[11px] bg-slate-200 text-tpm-navy font-bold px-2 py-0.5 rounded-full">17</span>
                         </h3>
                     </a>
                     <ul class="flex flex-col gap-2 text-xs text-gray-600 font-medium">
-                        <li><a href="<?php echo esc_url( home_url('/product/faitiere-non-crantee-double-pente-0-35-0-33-nature/') ); ?>" class="hover:text-tpm-orange transition-colors">Faîtières Non Crantées Double Pente</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/faitiere-centrale-0-33-en-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors">Faîtières Centrales Alu</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/rives-de-faitage-0-33-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors">Rives de Faîtage</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/gouttiere-alu-0-33-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors">Gouttières Industrielles Alu</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/noues-en-alu-0-33-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors">Noues &amp; Bandes Ourlées</a></li>
-                        <li><a href="<?php echo esc_url($cat_accessoires_url); ?>" class="text-tpm-orange font-bold pt-1 hover:underline">Voir les 17 accessoires &raquo;</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/faitiere-non-crantee-double-pente-0-35-0-33-nature/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Faîtière Non Crantée Double Pente</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/faitiere-centrale-0-33-en-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Faîtière centrale 0.33 en 0.35 ml</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/faitiere-centrale-0-40-prelaquee/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Faîtière centrale 0.40 Prélaquée</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/rives-de-faitage-0-33-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Rives de faîtage 0.33/0.35 ml</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/gouttiere-alu-0-33-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Gouttière alu 0.33/0.35 ml</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/noues-en-alu-0-33-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Noues en alu 0.33/0.35 ml</a></li>
+                        <li class="pt-1"><a href="<?php echo esc_url($cat_accessoires_url); ?>" class="text-tpm-orange font-bold hover:underline flex items-center gap-1">Voir les 17 accessoires &raquo;</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 3: Fixations & Étanchéité -->
+                <!-- Col 3: Fixations et étanchéité (10 articles) -->
                 <div class="flex flex-col gap-3">
                     <a href="<?php echo esc_url($cat_fixations_url); ?>" class="group">
-                        <h3 class="text-sm font-bold text-tpm-navy border-b border-gray-200 pb-2 flex items-center gap-2 group-hover:text-tpm-orange transition-colors">
-                            <span class="material-symbols-outlined text-tpm-orange text-[20px]">build</span>
-                            Fixations &amp; Étanchéité
+                        <h3 class="text-sm font-bold text-tpm-navy border-b border-gray-200 pb-2 flex items-center justify-between group-hover:text-tpm-orange transition-colors">
+                            <span class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-tpm-orange text-[20px]">build</span>
+                                Fixations et étanchéité
+                            </span>
+                            <span class="text-[11px] bg-slate-200 text-tpm-navy font-bold px-2 py-0.5 rounded-full">10</span>
                         </h3>
                     </a>
                     <ul class="flex flex-col gap-2 text-xs text-gray-600 font-medium">
-                        <li><a href="<?php echo esc_url( home_url('/product/tirefond-6x80-paquet-72-pcs/') ); ?>" class="hover:text-tpm-orange transition-colors">Tirefond 6×80 (Paquet 72 pcs)</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/tirefond-6x60-paquet-72-pcs/') ); ?>" class="hover:text-tpm-orange transition-colors">Tirefond 6×60 (Paquet 72 pcs)</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/toiturole-900g/') ); ?>" class="hover:text-tpm-orange transition-colors">Toiturole Étanchéité 900G</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/vis-auto-foreuse-6x70/') ); ?>" class="hover:text-tpm-orange transition-colors">Vis Auto-foreuses 6×70 / 6×60</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/cavaliers-alu-nature/') ); ?>" class="hover:text-tpm-orange transition-colors">Cavaliers Alu &amp; Rondelles Feutres</a></li>
-                        <li><a href="<?php echo esc_url($cat_fixations_url); ?>" class="text-tpm-orange font-bold pt-1 hover:underline">Voir les 10 fixations &raquo;</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/tirefond-6x80-paquet-72-pcs/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Tirefond 6x80 (Paquet 72 pcs)</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/tirefond-6x60-paquet-72-pcs/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Tirefond 6x60 (Paquet 72 pcs)</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/vis-auto-foreuse-6x70/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Vis Auto-foreuse 6X70</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/vis-auto-foreuse-6x60/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Vis Auto-foreuse 6X60</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/cavaliers-alu-nature/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Cavaliers alu Nature &amp; Prélaqués</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/toiturole-900g/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Toiturole Étanchéité 900G</a></li>
+                        <li class="pt-1"><a href="<?php echo esc_url($cat_fixations_url); ?>" class="text-tpm-orange font-bold hover:underline flex items-center gap-1">Voir les 10 fixations &raquo;</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 4: Emballages PP & Fils -->
+                <!-- Col 4: Accessoires intérieurs (22 articles) -->
                 <div class="flex flex-col gap-3">
                     <a href="<?php echo esc_url($cat_interieurs_url); ?>" class="group">
-                        <h3 class="text-sm font-bold text-tpm-navy border-b border-gray-200 pb-2 flex items-center gap-2 group-hover:text-tpm-orange transition-colors">
-                            <span class="material-symbols-outlined text-tpm-orange text-[20px]">inventory_2</span>
-                            Emballages PP &amp; Fils
+                        <h3 class="text-sm font-bold text-tpm-navy border-b border-gray-200 pb-2 flex items-center justify-between group-hover:text-tpm-orange transition-colors">
+                            <span class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-tpm-orange text-[20px]">grid_view</span>
+                                Accessoires intérieurs
+                            </span>
+                            <span class="text-[11px] bg-slate-200 text-tpm-navy font-bold px-2 py-0.5 rounded-full">22</span>
                         </h3>
                     </a>
                     <ul class="flex flex-col gap-2 text-xs text-gray-600 font-medium">
-                        <li><a href="<?php echo esc_url($cat_interieurs_url); ?>" class="hover:text-tpm-orange transition-colors">Sacs PP Blancs Tissés 50kg</a></li>
-                        <li><a href="<?php echo esc_url($cat_interieurs_url); ?>" class="hover:text-tpm-orange transition-colors">Sacs PP Blancs Tissés 100kg</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/devis-sur-mesure/') ); ?>" class="hover:text-tpm-orange transition-colors">Sacs PP Marquage Personnalisé</a></li>
-                        <li><a href="<?php echo esc_url($cat_interieurs_url); ?>" class="hover:text-tpm-orange transition-colors">Éponges Métalliques Inox</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/devis-sur-mesure/') ); ?>" class="hover:text-tpm-orange transition-colors">Extrusion Polypropylène &amp; Ficelles</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/devis-sur-mesure/') ); ?>" class="text-tpm-orange font-bold pt-1 hover:underline">Devis sacs en gros volume &raquo;</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-sol-60x60-italien/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Carreaux Sol 60X60 Italien</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-sol-60x120-italien/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Carreaux Sol 60X120 Italien</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-murs-25x40-ref-pmc42054c/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Carreaux Murs 25X40 PMC</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-sol-40x40-ref-ymg44223c/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Carreaux Sol 40X40 YMG</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/douche-therapeutique-zagonel-moment-grand-modele/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Douche Zagonel Moment</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product/douche-therapeutique-duo-shower-grand-modele/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Douche Duo Shower Grand Modèle</a></li>
+                        <li class="pt-1"><a href="<?php echo esc_url($cat_interieurs_url); ?>" class="text-tpm-orange font-bold hover:underline flex items-center gap-1">Voir les 22 articles intérieur &raquo;</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 5: Carreaux & Quincaillerie -->
-                <div class="flex flex-col gap-3">
-                    <a href="<?php echo esc_url($cat_interieurs_url); ?>" class="group">
-                        <h3 class="text-sm font-bold text-tpm-navy border-b border-gray-200 pb-2 flex items-center gap-2 group-hover:text-tpm-orange transition-colors">
-                            <span class="material-symbols-outlined text-tpm-orange text-[20px]">grid_view</span>
-                            Carreaux &amp; Sanitaires
-                        </h3>
-                    </a>
-                    <ul class="flex flex-col gap-2 text-xs text-gray-600 font-medium">
-                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-sol-60x60-italien/') ); ?>" class="hover:text-tpm-orange transition-colors">Carreaux Sol 60×60 Italien</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-murs-25x40-ref-pmc42054c/') ); ?>" class="hover:text-tpm-orange transition-colors">Carreaux Mur 25×40 PMC</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-sol-40x40-ref-ymg44223c/') ); ?>" class="hover:text-tpm-orange transition-colors">Carreaux Sol 40×40 YMG</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/douche-therapeutique-zagonel-moment-grand-modele/') ); ?>" class="hover:text-tpm-orange transition-colors">Douche Thérapeutique Zagonel</a></li>
-                        <li><a href="<?php echo esc_url($cat_interieurs_url); ?>" class="text-tpm-orange font-bold pt-1 hover:underline">Voir les 22 articles intérieur &raquo;</a></li>
-                    </ul>
-                </div>
-
-                <!-- Col 6: Promo Card -->
-                <div class="flex flex-col bg-tpm-navy text-white p-4 rounded-xl justify-between shadow-lg border border-white/10">
+                <!-- Col 5: Services & B2B Pro-Forma Card -->
+                <div class="flex flex-col bg-tpm-navy text-white p-5 rounded-xl justify-between shadow-xl border border-white/10">
                     <div>
                         <div class="flex items-center gap-1.5 mb-2 text-tpm-orange font-bold text-[10px] uppercase tracking-widest">
-                            <span class="material-symbols-outlined text-[16px]">local_shipping</span>
-                            B2B Procurement
+                            <span class="material-symbols-outlined text-[16px]">factory</span>
+                            Services &amp; Cotations B2B
                         </div>
-                        <h4 class="text-sm font-bold text-white mb-2">Commande Spéciale / Grossiste ?</h4>
-                        <p class="text-xs text-gray-300 mb-4 leading-relaxed">Consultez notre inventaire officiel de 58 articles usine et recevez votre Pro-Forma sous 2h.</p>
+                        <h4 class="text-sm font-bold text-white mb-2">Usine TPM SA (Douala &amp; Bekoko)</h4>
+                        <p class="text-xs text-gray-300 mb-4 leading-relaxed">Consultez l'inventaire officiel de 58 articles usine et éditez votre Pro-Forma instantanément.</p>
+                        
+                        <div class="space-y-1.5 pb-4 border-b border-white/10 text-xs text-gray-300">
+                            <a href="<?php echo esc_url( home_url('/service-zingage/') ); ?>" class="hover:text-tpm-orange flex items-center gap-1.5 transition-colors">
+                                <span class="material-symbols-outlined text-tpm-orange text-[15px]">bolt</span>
+                                Station Électro-Zingage 800 VA
+                            </a>
+                            <a href="<?php echo esc_url( home_url('/chantiers-btp/') ); ?>" class="hover:text-tpm-orange flex items-center gap-1.5 transition-colors">
+                                <span class="material-symbols-outlined text-tpm-orange text-[15px]">apartment</span>
+                                Approvisionnement Chantiers BTP
+                            </a>
+                        </div>
                     </div>
-                    <div class="space-y-2">
-                        <a href="<?php echo esc_url($shop_url); ?>" class="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 py-2 text-xs font-bold rounded flex items-center justify-center gap-1 transition-colors">
-                            <span class="material-symbols-outlined text-[14px]">storefront</span>
+
+                    <div class="space-y-2 pt-3">
+                        <a href="<?php echo esc_url($shop_url); ?>" class="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 py-2 text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 transition-colors">
+                            <span class="material-symbols-outlined text-[15px]">storefront</span>
                             Inventaire Complet (58)
                         </a>
-                        <a href="<?php echo esc_url($cart_url); ?>" class="custom-button-primary w-full py-2 text-xs font-bold flex items-center justify-center gap-1">
-                            Obtenir ma Pro-Forma
-                            <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                        <a href="<?php echo esc_url($cart_url); ?>" class="custom-button-primary w-full py-2 text-xs font-bold flex items-center justify-center gap-1.5">
+                            Mon Panier Pro-Forma
+                            <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
                         </a>
                     </div>
                 </div>
@@ -452,10 +443,6 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
                 <span class="material-symbols-outlined text-[18px]">bolt</span>
                 Électro-Zingage 800 VA
             </a>
-            <a href="<?php echo esc_url( home_url('/devis-sur-mesure/') ); ?>" class="py-2 hover:text-tpm-orange flex items-center gap-2">
-                <span class="material-symbols-outlined text-[18px]">assignment</span>
-                Devis B2B
-            </a>
             <a href="<?php echo esc_url( home_url('/contact/') ); ?>" class="py-2 hover:text-tpm-orange flex items-center gap-2">
                 <span class="material-symbols-outlined text-[18px]">call</span>
                 Contact
@@ -474,12 +461,45 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
 
 <script>
 (function() {
+    const navItem = document.getElementById('catalog-nav-item');
     const trigger = document.getElementById('catalog-trigger');
     const chevron = document.getElementById('catalog-chevron');
     const megaMenu = document.getElementById('mega-menu');
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
 
+    let closeTimeout = null;
+
+    function showCataloguePreview() {
+        if (closeTimeout) {
+            clearTimeout(closeTimeout);
+            closeTimeout = null;
+        }
+        if (megaMenu) {
+            megaMenu.classList.add('is-open');
+            if (chevron) chevron.textContent = 'expand_less';
+        }
+    }
+
+    function hideCataloguePreviewWithDelay() {
+        if (closeTimeout) clearTimeout(closeTimeout);
+        closeTimeout = setTimeout(() => {
+            if (megaMenu) {
+                megaMenu.classList.remove('is-open');
+                if (chevron) chevron.textContent = 'expand_more';
+            }
+        }, 220);
+    }
+
+    // Hover on Catalogue menu item & inside Mega Menu preview
+    if (navItem && megaMenu) {
+        navItem.addEventListener('mouseenter', showCataloguePreview);
+        navItem.addEventListener('mouseleave', hideCataloguePreviewWithDelay);
+        megaMenu.addEventListener('mouseenter', showCataloguePreview);
+        megaMenu.addEventListener('mouseleave', hideCataloguePreviewWithDelay);
+    }
+
+    // Click on chevron trigger
     if (trigger && megaMenu) {
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -488,14 +508,17 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
                 chevron.textContent = isOpen ? 'expand_less' : 'expand_more';
             }
         });
-        document.addEventListener('click', (e) => {
-            if (!megaMenu.contains(e.target) && !trigger.contains(e.target)) {
-                megaMenu.classList.remove('is-open');
-                if (chevron) chevron.textContent = 'expand_more';
-            }
-        });
     }
 
+    // Click outside closes
+    document.addEventListener('click', (e) => {
+        if (megaMenu && !megaMenu.contains(e.target) && navItem && !navItem.contains(e.target)) {
+            megaMenu.classList.remove('is-open');
+            if (chevron) chevron.textContent = 'expand_more';
+        }
+    });
+
+    // Mobile Hamburger toggle
     if (mobileBtn && mobileMenu) {
         mobileBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('is-open');

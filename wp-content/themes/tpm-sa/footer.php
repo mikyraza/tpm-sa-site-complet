@@ -94,6 +94,7 @@
                 <li><a href="<?php echo esc_url( home_url('/chantiers-btp/') ); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">local_shipping</span> Approvisionnement Chantiers BTP</a></li>
                 <li><a href="<?php echo esc_url( home_url('/service-zingage/') ); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">bolt</span> Électro-Zingage 800 VA</a></li>
                 <li><a href="<?php echo esc_url( $shop_url ); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">storefront</span> Catalogue Général (58 Articles)</a></li>
+                <li><a href="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>" target="_blank" download="Catalogue_General_TPM_SA_2026.pdf" class="hover:text-tpm-orange transition-colors flex items-center gap-2 text-tpm-orange font-bold"><span class="material-symbols-outlined text-[16px]">download</span> Télécharger le Catalogue (PDF)</a></li>
             </ul>
         </div>
 

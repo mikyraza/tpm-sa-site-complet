@@ -25,10 +25,10 @@ $proforma_no = 'TPM-' . date('Y') . '-' . str_pad(rand(1000, 9999), 4, '0', STR_
             <span>Document Pro-Forma Officiel B2B — Valable 30 Jours</span>
         </div>
         <div class="flex items-center gap-3">
-            <button onclick="window.print()" class="bg-tpm-navy hover:bg-slate-900 text-white font-bold px-5 py-2.5 rounded-lg text-xs flex items-center gap-2 shadow transition-colors">
-                <span class="material-symbols-outlined text-[18px]">print</span>
-                Imprimer / Exporter PDF
-            </button>
+            <a href="<?php echo esc_url( add_query_arg('generate_proforma_pdf', '1', wc_get_cart_url()) ); ?>" target="_blank" download="<?php echo esc_attr($proforma_no . '.pdf'); ?>" class="bg-tpm-navy hover:bg-slate-900 text-white font-bold px-5 py-2.5 rounded-lg text-xs flex items-center gap-2 shadow transition-colors">
+                <span class="material-symbols-outlined text-[18px]">download</span>
+                Télécharger ma Pro-Forma (PDF)
+            </a>
             <a href="<?php echo esc_url( wc_get_page_permalink('checkout') ); ?>" class="bg-tpm-orange hover:bg-orange-700 text-white font-bold px-5 py-2.5 rounded-lg text-xs flex items-center gap-2 shadow transition-colors uppercase tracking-wider">
                 <span class="material-symbols-outlined text-[18px]">check_circle</span>
                 Valider la Commande Usine
@@ -207,8 +207,12 @@ $proforma_no = 'TPM-' . date('Y') . '-' . str_pad(rand(1000, 9999), 4, '0', STR_
                     </div>
 
                     <div class="space-y-3 print:hidden">
-                        <a href="<?php echo esc_url( wc_get_page_permalink('checkout') ); ?>" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-extrabold py-3.5 px-4 rounded-lg transition-colors text-center block text-xs uppercase tracking-wider shadow-md">
-                            GÉNÉRER / ENREGISTRER MA PRO-FORMA B2B
+                        <a href="<?php echo esc_url( add_query_arg('generate_proforma_pdf', '1', wc_get_cart_url()) ); ?>" target="_blank" download="<?php echo esc_attr($proforma_no . '.pdf'); ?>" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-extrabold py-3.5 px-4 rounded-lg transition-colors text-center flex items-center justify-center gap-2 text-xs uppercase tracking-wider shadow-md">
+                            <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                            GÉNÉRER MA PRO-FORMA EN PDF
+                        </a>
+                        <a href="<?php echo esc_url( wc_get_page_permalink('checkout') ); ?>" class="w-full bg-tpm-navy hover:bg-slate-900 text-white font-bold py-3 px-4 rounded-lg transition-colors text-center block text-xs uppercase tracking-wider shadow">
+                            Valider la Commande Usine →
                         </a>
                         <a href="https://wa.me/237696340008?text=<?php echo rawurlencode('Bonjour TPM SA, je souhaite valider mon panier de commande Pro-Forma N° '.$proforma_no); ?>" target="_blank" class="w-full bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-3 px-4 rounded-lg transition-colors text-center flex items-center justify-center gap-2 text-xs shadow">
                             <span class="material-symbols-outlined text-[18px]">chat</span>

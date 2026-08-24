@@ -30,7 +30,10 @@ define( 'DB_USER', 'root' );
 define( 'DB_PASSWORD', 'root' );
 
 /** Database hostname */
-define( 'DB_HOST', 'localhost' );
+define( 'DB_HOST', '127.0.0.1:10010' );
+
+define( 'WP_MEMORY_LIMIT', '512M' );
+define( 'DISABLE_WP_CRON', true );
 
 
 /** Database charset to use in creating database tables. */
