@@ -262,9 +262,10 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
             </nav>
 
             <!-- Cart CTA -->
-            <a href="<?php echo esc_url($cart_url); ?>" class="custom-button-primary px-5 py-2.5 flex items-center gap-2 text-xs uppercase tracking-wider font-extrabold shadow-md shrink-0">
+            <a href="<?php echo esc_url($cart_url); ?>" class="custom-button-primary px-3 sm:px-5 py-2 sm:py-2.5 flex items-center gap-1.5 sm:gap-2 text-xs uppercase tracking-wider font-extrabold shadow-md shrink-0">
                 <span class="material-symbols-outlined text-[18px]">shopping_cart</span>
-                <span class="cart-button-label">Mon Panier Pro-Forma (<span class="cart-badge-count"><?php echo esc_html($cart_count); ?></span>)</span>
+                <span class="hidden sm:inline cart-button-label">Mon Panier Pro-Forma (<span class="cart-badge-count"><?php echo esc_html($cart_count); ?></span>)</span>
+                <span class="sm:hidden font-black text-xs">(<span class="cart-badge-count"><?php echo esc_html($cart_count); ?></span>)</span>
             </a>
 
             <!-- Mobile Hamburger -->
