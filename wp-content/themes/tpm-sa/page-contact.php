@@ -225,23 +225,38 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
                 <!-- Left: Map Display Card with Blueprint Styling -->
                 <div class="lg:col-span-6 relative rounded-2xl overflow-hidden border border-gray-200 shadow-md bg-slate-100 min-h-[380px] flex flex-col justify-between">
                     
-                    <!-- Embedded Stylized Map -->
-                    <div class="relative w-full h-[380px] bg-[#E5ECF4]">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127357.65961608976!2d9.617415814515228!3d4.061536230559779!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1061128be202d603%3A0x6b72a44017361ab1!2sBekoko%2C%20Douala!5e0!3m2!1sfr!2scm!4v1700000000000!5m2!1sfr!2scm" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0; filter: contrast(1.05) saturate(1.1);" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade"
-                            title="Carte Géolocalisation Usine TPM SA Bekoko">
-                        </iframe>
+                    <!-- Interactive Stylized Location Map Box -->
+                    <div class="relative w-full h-[380px] bg-gradient-to-br from-slate-100 via-[#EBF1F8] to-slate-200 flex items-center justify-center overflow-hidden border border-gray-200">
+                        <!-- Grid Matrix Pattern -->
+                        <div class="absolute inset-0 opacity-25 bg-[radial-gradient(#1C1340_1px,transparent_1px)] [background-size:18px_18px]"></div>
 
-                        <!-- Floating Badge on Map -->
-                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md p-3.5 rounded-xl shadow-lg border border-gray-200 max-w-[240px]">
-                            <div class="font-black text-tpm-navy text-xs uppercase tracking-tight">Zone Industrielle Bekoko</div>
-                            <div class="text-[11px] text-gray-500 font-medium">Site de Production Principal (1 500 m²)</div>
+                        <!-- Center Location Marker & CTA -->
+                        <div class="relative z-10 text-center p-6 space-y-4 max-w-sm">
+                            <div class="w-14 h-14 rounded-2xl bg-tpm-orange text-white flex items-center justify-center mx-auto shadow-xl">
+                                <span class="material-symbols-outlined text-3xl animate-bounce">location_on</span>
+                            </div>
+                            <div class="space-y-1">
+                                <h4 class="font-black text-tpm-navy text-base uppercase tracking-tight">Usine de Production Bekoko</h4>
+                                <p class="text-xs text-gray-600 font-medium leading-relaxed">
+                                    Carrefour Bekoko, Axe Douala - Limbé, Littoral, Cameroun
+                                </p>
+                            </div>
+                            <a href="https://maps.google.com/?q=Bekoko+Douala+Cameroun" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="inline-flex items-center gap-2 bg-tpm-navy hover:bg-slate-900 text-white font-extrabold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition-colors shadow-lg">
+                                <span class="material-symbols-outlined text-[18px] text-tpm-orange">near_me</span>
+                                <span>Ouvrir l'Itinéraire GPS (Google Maps)</span>
+                            </a>
+                        </div>
+
+                        <!-- Top Floating Badge -->
+                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-md border border-gray-200 text-left">
+                            <div class="font-black text-tpm-navy text-xs uppercase tracking-tight">Zone Bekoko (1 500 m²)</div>
+                            <div class="text-[10px] text-emerald-700 font-bold flex items-center gap-1 mt-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                Accès Poids Lourds Garanti
+                            </div>
                         </div>
                     </div>
                 </div>
