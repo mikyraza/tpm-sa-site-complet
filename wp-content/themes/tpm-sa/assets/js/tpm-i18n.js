@@ -9,7 +9,7 @@
     const STORAGE_KEY = 'tpm_site_lang';
     const DEFAULT_LANG = 'fr';
 
-    const DICT = {
+    const DICT_FR_TO_EN = {
     "SERVICE COMMERCIAL USINE & BTP": "COMMERCIAL FACTORY & CONSTRUCTION SERVICE",
     "SERVICE COMMERCIAL USINE &amp; BTP": "COMMERCIAL FACTORY & CONSTRUCTION SERVICE",
     "SERVICE COMMERCIAL USINE ET BTP": "COMMERCIAL FACTORY & CONSTRUCTION SERVICE",
@@ -18,22 +18,6 @@
     "Profilage de tôles BAC à la longueur exacte de votre chantier, emballages PP personnalisés et tarification dégressive pour quincailleries &amp; entreprises BTP au Cameroun.": "Custom cut-to-length BAC roofing sheets, custom PP packaging, and tiered volume pricing for hardware stores & construction firms in Cameroon.",
     "Demander un Devis Sur-Mesure": "Request a Custom Quote",
     "Contacter l'Usine (Bekoko \/ PK12)": "Contact Factory (Bekoko \/ PK12)",
-    "Cart totals": "Pro-Forma Totals",
-    "Add coupons": "Add Coupon",
-    "Add coupon": "Add Coupon",
-    "Estimated total": "Estimated Total",
-    "Proceed to Checkout": "Proceed to Checkout",
-    "Proceed to checkout": "Proceed to Checkout",
-    "Your cart is currently empty!": "Your Pro-Forma quote is currently empty!",
-    "You may be interested in…": "You may also be interested in…",
-    "You may be interested in...": "You may also be interested in...",
-    "Order Summary": "Order Summary",
-    "Order summary": "Order summary",
-    "Subtotal": "Subtotal",
-    "Shipping": "Shipping",
-    "Taxes": "Taxes",
-    "Coupon code": "Coupon Code",
-    "Apply coupon": "Apply Coupon",
     "LE LEADER DE LA MÉTALLURGIE & DES MATÉRIAUX INDUSTRIELS AU CAMEROUN.": "THE LEADER IN METALLURGY & INDUSTRIAL MATERIALS IN CAMEROON.",
     "LE LEADER DE LA MÉTALLURGIE &amp; DES MATÉRIAUX INDUSTRIELS AU CAMEROUN.": "THE LEADER IN METALLURGY & INDUSTRIAL MATERIALS IN CAMEROON.",
     "USINE MÉTALLURGIQUE & PLASTURGIE CAMEROUN": "METALLURGICAL & PLASTICS FACTORY CAMEROON",
@@ -330,15 +314,43 @@
     "Rouge": "Red",
     "Alu brillant": "Glossy Alu"
 };
+    const DICT_EN_TO_FR = {
+    "Cart totals": "Totaux du Panier",
+    "Add coupons": "Ajouter des coupons",
+    "Add coupon": "Ajouter un coupon",
+    "Estimated total": "Total estimé",
+    "Proceed to Checkout": "Passer la commande \/ Pro-Forma",
+    "Proceed to checkout": "Passer la commande \/ Pro-Forma",
+    "Your cart is currently empty!": "Votre panier est actuellement vide !",
+    "You may be interested in…": "Vous pourriez aussi aimer…",
+    "You may be interested in...": "Vous pourriez aussi aimer...",
+    "Order Summary": "Récapitulatif de la commande",
+    "Order summary": "Récapitulatif de la commande",
+    "Subtotal": "Sous-total",
+    "Shipping": "Expédition \/ Livraison",
+    "Taxes": "Taxes (TVA 19.25%)",
+    "Coupon code": "Code promo \/ coupon",
+    "Apply coupon": "Appliquer le coupon",
+    "New in store": "Nouveautés en stock"
+};
 
     // Dictionnaire en minuscules pour correspondance insensible à la casse
-    const LOWER_DICT = {};
-    for (const [k, v] of Object.entries(DICT)) {
-        LOWER_DICT[k.toLowerCase()] = v;
+    const LOWER_DICT_FR_TO_EN = {};
+    for (const [k, v] of Object.entries(DICT_FR_TO_EN)) {
+        LOWER_DICT_FR_TO_EN[k.toLowerCase()] = v;
+    }
+
+    const LOWER_DICT_EN_TO_FR = {};
+    for (const [k, v] of Object.entries(DICT_EN_TO_FR)) {
+        LOWER_DICT_EN_TO_FR[k.toLowerCase()] = v;
     }
 
     // Liste des phrases multi-mots triées par longueur décroissante
-    const PHRASES = Object.entries(DICT)
+    const PHRASES_FR_TO_EN = Object.entries(DICT_FR_TO_EN)
+        .filter(([k]) => k.length > 3)
+        .sort((a, b) => b[0].length - a[0].length);
+
+    const PHRASES_EN_TO_FR = Object.entries(DICT_EN_TO_FR)
         .filter(([k]) => k.length > 3)
         .sort((a, b) => b[0].length - a[0].length);
 
@@ -356,28 +368,32 @@
     }
 
     // Fonction de traduction directe O(1) + sous-phrases
-    function fastTranslate(str) {
+    function fastTranslate(str, targetLang) {
         if (!str || typeof str !== 'string') return str;
         const trimmed = str.trim();
         if (!trimmed) return str;
 
+        const dict = (targetLang === 'en') ? DICT_FR_TO_EN : DICT_EN_TO_FR;
+        const lowerDict = (targetLang === 'en') ? LOWER_DICT_FR_TO_EN : LOWER_DICT_EN_TO_FR;
+        const phrases = (targetLang === 'en') ? PHRASES_FR_TO_EN : PHRASES_EN_TO_FR;
+
         // 1. Correspondance exacte O(1)
-        if (DICT[trimmed]) {
-            return str.replace(trimmed, DICT[trimmed]);
+        if (dict[trimmed]) {
+            return str.replace(trimmed, dict[trimmed]);
         }
 
         // 2. Correspondance insensible à la casse O(1)
         const lower = trimmed.toLowerCase();
-        if (LOWER_DICT[lower]) {
-            return str.replace(trimmed, LOWER_DICT[lower]);
+        if (lowerDict[lower]) {
+            return str.replace(trimmed, lowerDict[lower]);
         }
 
         // 3. Remplacement des sous-phrases
         let result = str;
-        for (let i = 0; i < PHRASES.length; i++) {
-            const [fr, en] = PHRASES[i];
-            if (result.indexOf(fr) !== -1) {
-                result = result.split(fr).join(en);
+        for (let i = 0; i < phrases.length; i++) {
+            const [from, to] = phrases[i];
+            if (result.indexOf(from) !== -1) {
+                result = result.split(from).join(to);
             }
         }
         return result;
@@ -485,9 +501,9 @@
 
         let node;
         while ((node = walker.nextNode())) {
-            const rawFR = originalTextMap.get(node);
-            if (rawFR !== undefined) {
-                node.nodeValue = isEn ? fastTranslate(rawFR) : rawFR;
+            const raw = originalTextMap.get(node);
+            if (raw !== undefined) {
+                node.nodeValue = isEn ? fastTranslate(raw, 'en') : fastTranslate(raw, 'fr');
             }
         }
 
@@ -497,22 +513,22 @@
             const snap = originalAttrMap.get(el);
             if (snap) {
                 if (snap.text !== null && el.tagName === 'OPTION') {
-                    el.textContent = isEn ? fastTranslate(snap.text) : snap.text;
+                    el.textContent = isEn ? fastTranslate(snap.text, 'en') : fastTranslate(snap.text, 'fr');
                 }
                 if (snap.value !== null) {
-                    el.value = isEn ? fastTranslate(snap.value) : snap.value;
+                    el.value = isEn ? fastTranslate(snap.value, 'en') : fastTranslate(snap.value, 'fr');
                 }
                 if (snap.placeholder !== null) {
-                    el.placeholder = isEn ? fastTranslate(snap.placeholder) : snap.placeholder;
+                    el.placeholder = isEn ? fastTranslate(snap.placeholder, 'en') : fastTranslate(snap.placeholder, 'fr');
                 }
                 if (snap.title !== null) {
-                    el.title = isEn ? fastTranslate(snap.title) : snap.title;
+                    el.title = isEn ? fastTranslate(snap.title, 'en') : fastTranslate(snap.title, 'fr');
                 }
                 if (snap.ariaLabel !== null) {
-                    el.setAttribute('aria-label', isEn ? fastTranslate(snap.ariaLabel) : snap.ariaLabel);
+                    el.setAttribute('aria-label', isEn ? fastTranslate(snap.ariaLabel, 'en') : fastTranslate(snap.ariaLabel, 'fr'));
                 }
                 if (snap.alt !== null) {
-                    el.alt = isEn ? fastTranslate(snap.alt) : snap.alt;
+                    el.alt = isEn ? fastTranslate(snap.alt, 'en') : fastTranslate(snap.alt, 'fr');
                 }
             }
         });
@@ -546,6 +562,9 @@
 
         if (initialLang === 'en') {
             applyLanguage('en');
+        } else {
+            // S'assurer que les blocs React éventuels sont traduits en français
+            applyLanguage('fr');
         }
     });
 
