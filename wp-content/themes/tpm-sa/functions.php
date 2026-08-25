@@ -243,33 +243,36 @@ add_action( 'template_redirect', function() {
 } );
 
 /**
- * Helper d'image produit contextuelle (Haute Définition Usine)
+ * Helper d'image produit contextuelle (Haute Définition Usine & Pièces Jointes Réelles)
  */
 function tpm_get_product_image_url( $product ) {
     $img_dir = get_template_directory_uri() . '/assets/images/';
     if ( ! $product ) return $img_dir . 'prod1_tole.jpg';
 
+    // 1. Prioritize real attached product image from WordPress Media Library
+    $img_id = $product->get_image_id();
+    if ( $img_id ) {
+        $attached_url = wp_get_attachment_image_url( $img_id, 'large' ) ?: wp_get_attachment_url( $img_id );
+        if ( $attached_url ) {
+            return $attached_url;
+        }
+    }
+
     $sku  = strtoupper( $product->get_sku() );
     $name = strtolower( $product->get_name() );
 
-    // 1. Tôles et toiture
+    // 2. Fallbacks by category
     if ( str_starts_with( $sku, 'TOL' ) || str_contains( $name, 'tôle' ) || str_contains( $name, 'tole' ) ) {
         return $img_dir . 'prod1_tole.jpg';
     }
-
-    // 2. Accessoires toiture (Faîtières, rives, gouttières, bandes)
     if ( str_starts_with( $sku, 'ACC' ) || str_contains( $name, 'faîtière' ) || str_contains( $name, 'faitiere' ) || str_contains( $name, 'gouttière' ) || str_contains( $name, 'noue' ) || str_contains( $name, 'rive' ) || str_contains( $name, 'bande' ) ) {
         return $img_dir . 'prod3_faitiere.jpg';
     }
-
-    // 3. Fixations et étanchéité
     if ( str_starts_with( $sku, 'FIX' ) || str_contains( $name, 'vis' ) || str_contains( $name, 'tirefond' ) || str_contains( $name, 'cavalier' ) || str_contains( $name, 'rondelle' ) ) {
         if ( str_contains( $name, 'pointe' ) ) return $img_dir . 'prod7_pointe.jpg';
         if ( str_contains( $name, 'toiturole' ) || str_contains( $name, 'joint' ) || str_contains( $name, 'feutre' ) || str_contains( $name, 'bitum' ) ) return $img_dir . 'prod5_joint.jpg';
         return $img_dir . 'prod2_fixation.jpg';
     }
-
-    // 4. Intérieur & Emballages & Carreaux
     if ( str_contains( $name, 'sac' ) ) {
         return $img_dir . 'prod4_sac.jpg';
     }
