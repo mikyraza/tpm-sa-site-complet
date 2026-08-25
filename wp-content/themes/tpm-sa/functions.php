@@ -36,7 +36,13 @@ function tpm_sa_scripts() {
 
     wp_enqueue_script( 'tpm-sa-scripts',
         get_template_directory_uri() . '/assets/js/main.js',
-        array('tpm-sa-i18n'), '1.0.4', true );
+        array('tpm-sa-i18n'), '1.0.5', true );
+
+    wp_localize_script( 'tpm-sa-scripts', 'tpm_ajax', array(
+        'ajax_url' => admin_url( 'admin-ajax.php' ),
+        'cart_url' => function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart/'),
+        'nonce'    => wp_create_nonce( 'tpm_cart_nonce' ),
+    ) );
 
     // Supprimer les styles WordPress parasites
     wp_dequeue_style( 'global-styles' );
@@ -289,6 +295,54 @@ require_once get_template_directory() . '/inc/proforma-pdf.php';
  * Automated Dual-Receipt Email Delivery System (Customer + Admin)
  */
 require_once get_template_directory() . '/inc/order-receipt-email.php';
+
+/**
+ * Fast AJAX Add-to-Cart / Pro-Forma Handler (Prevents page reloads and scroll jumps)
+ */
+function tpm_ajax_add_to_cart_handler() {
+    $product_id   = isset($_POST['product_id']) ? intval($_POST['product_id']) : (isset($_GET['product_id']) ? intval($_GET['product_id']) : 0);
+    $quantity     = isset($_POST['quantity']) ? intval($_POST['quantity']) : (isset($_GET['quantity']) ? intval($_GET['quantity']) : 1);
+    $flash_length = sanitize_text_field($_REQUEST['flash_length'] ?? $_REQUEST['flash-length'] ?? '');
+    $flash_color  = sanitize_text_field($_REQUEST['flash_color'] ?? $_REQUEST['flash-color'] ?? '');
+
+    if ( ! $product_id ) {
+        wp_send_json_error( array( 'message' => 'Produit invalide.' ) );
+    }
+
+    $cart_item_data = array();
+    if ( ! empty( $flash_length ) ) {
+        $cart_item_data['flash_length'] = $flash_length;
+    }
+    if ( ! empty( $flash_color ) ) {
+        $cart_item_data['flash_color'] = $flash_color;
+    }
+
+    $passed_validation = apply_filters( 'woocommerce_add_to_cart_validation', true, $product_id, $quantity );
+
+    if ( $passed_validation ) {
+        $cart_item_key = WC()->cart->add_to_cart( $product_id, $quantity, 0, array(), $cart_item_data );
+        if ( $cart_item_key ) {
+            $count   = WC()->cart->get_cart_contents_count();
+            $product = wc_get_product( $product_id );
+            $name    = $product ? $product->get_name() : 'Article';
+
+            wp_send_json_success( array(
+                'count'        => $count,
+                'product_name' => $name,
+                'cart_url'     => wc_get_cart_url(),
+                'message'      => sprintf( '"%s" a été ajouté à votre Pro-Forma !', $name )
+            ) );
+        }
+    }
+
+    $notices = wc_get_notices( 'error' );
+    $msg     = ! empty( $notices ) ? strip_tags( $notices[0]['notice'] ) : 'Impossible d\'ajouter cet article.';
+    wc_clear_notices();
+    wp_send_json_error( array( 'message' => $msg ) );
+}
+add_action( 'wp_ajax_tpm_ajax_add_to_cart', 'tpm_ajax_add_to_cart_handler' );
+add_action( 'wp_ajax_nopriv_tpm_ajax_add_to_cart', 'tpm_ajax_add_to_cart_handler' );
+
 
 
 

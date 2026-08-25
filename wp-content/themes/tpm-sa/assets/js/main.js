@@ -124,7 +124,7 @@ function formatMoney(amount) {
 }
 
 // Notification Toast
-function showToast(message, type = 'success') {
+function showToast(message, type = 'success', actionUrl = null, actionText = 'Voir la Pro-Forma →') {
     let container = document.getElementById('tpm-toast-container');
     if (!container) {
         container = document.createElement('div');
@@ -137,11 +137,16 @@ function showToast(message, type = 'success') {
     const bgColor = type === 'success' ? 'bg-[#1C1340]' : 'bg-[#D84B1F]';
     const borderColor = type === 'success' ? 'border-[#D84B1F]' : 'border-white';
     
-    toast.className = `${bgColor} text-white px-5 py-4 rounded-md border-l-4 ${borderColor} shadow-2xl flex items-center gap-3 transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-auto`;
+    const actionBtn = actionUrl ? `<a href="${actionUrl}" class="inline-block mt-1.5 text-xs font-black text-tpm-orange hover:underline uppercase tracking-wider">${actionText}</a>` : '';
+
+    toast.className = `${bgColor} text-white px-5 py-4 rounded-xl border-l-4 ${borderColor} shadow-2xl flex items-start gap-3 transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-auto border border-white/10`;
     toast.innerHTML = `
-        <span class="material-symbols-outlined text-[#D84B1F]">${type === 'success' ? 'check_circle' : 'info'}</span>
-        <div class="flex-grow font-medium text-sm">${message}</div>
-        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-white">
+        <span class="material-symbols-outlined text-[#D84B1F] text-[22px] shrink-0 mt-0.5">${type === 'success' ? 'check_circle' : 'info'}</span>
+        <div class="flex-grow font-medium text-xs sm:text-sm leading-relaxed">
+            <div>${message}</div>
+            ${actionBtn}
+        </div>
+        <button onclick="this.closest('.pointer-events-auto').remove()" class="text-gray-400 hover:text-white shrink-0 ml-1">
             <span class="material-symbols-outlined text-sm">close</span>
         </button>
     `;
@@ -155,10 +160,169 @@ function showToast(message, type = 'success') {
     setTimeout(() => {
         toast.classList.add('opacity-0', 'translate-y-4');
         setTimeout(() => toast.remove(), 300);
-    }, 4000);
+    }, 5000);
+}
+
+/**
+ * FAST AJAX ADD TO CART / PRO-FORMA (NO PAGE RELOAD / NO SCROLL TO TOP)
+ */
+function initAjaxAddToCart() {
+    // 1. Intercept plain <a> add-to-cart clicks (e.g. ?add-to-cart=16)
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a[href*="add-to-cart="]');
+        if (!link) return;
+
+        // Don't intercept if it's an external link or has special target
+        if (link.target === '_blank') return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const href = link.getAttribute('href');
+        const urlParams = new URLSearchParams(href.split('?')[1] || '');
+        const productId = urlParams.get('add-to-cart');
+        const quantity = urlParams.get('quantity') || 1;
+        const flashLength = urlParams.get('flash_length') || urlParams.get('flash-length') || '';
+        const flashColor = urlParams.get('flash_color') || urlParams.get('flash-color') || '';
+
+        if (!productId) return;
+
+        performAjaxAddToCart(link, {
+            product_id: productId,
+            quantity: quantity,
+            flash_length: flashLength,
+            flash_color: flashColor
+        });
+    });
+
+    // 2. Intercept Flash Pro-Forma and Single Product Forms
+    document.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (!form) return;
+
+        const isFlashForm = (form.id === 'flash-proforma-form');
+        const isSingleProductForm = form.classList.contains('cart') || form.querySelector('button[name="add-to-cart"]');
+
+        if (isFlashForm || isSingleProductForm) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]') || form.querySelector('button[name="add-to-cart"]');
+            
+            let productId = formData.get('add-to-cart');
+            if (!productId && submitBtn) {
+                productId = submitBtn.value || submitBtn.getAttribute('value');
+            }
+
+            const quantity = formData.get('quantity') || 1;
+            const flashLength = formData.get('flash_length') || formData.get('flash-length') || '';
+            const flashColor = formData.get('flash_color') || formData.get('flash-color') || '';
+
+            if (!productId) return;
+
+            performAjaxAddToCart(submitBtn || form, {
+                product_id: productId,
+                quantity: quantity,
+                flash_length: flashLength,
+                flash_color: flashColor
+            });
+        }
+    });
+}
+
+/**
+ * Execute AJAX request to WordPress/WooCommerce backend
+ */
+function performAjaxAddToCart(triggerElement, data) {
+    if (!triggerElement) return;
+
+    const originalHtml = triggerElement.innerHTML;
+    const isButton = (triggerElement.tagName === 'BUTTON' || triggerElement.tagName === 'A');
+
+    // Visual feedback: Loading state
+    if (isButton) {
+        triggerElement.style.pointerEvents = 'none';
+        triggerElement.innerHTML = `
+            <span class="material-symbols-outlined text-[15px] animate-spin">sync</span>
+            <span>Ajout...</span>
+        `;
+    }
+
+    const ajaxUrl = (typeof tpm_ajax !== 'undefined' && tpm_ajax.ajax_url) ? tpm_ajax.ajax_url : '/wp-admin/admin-ajax.php';
+    const cartUrl = (typeof tpm_ajax !== 'undefined' && tpm_ajax.cart_url) ? tpm_ajax.cart_url : '/cart/';
+
+    const bodyData = new URLSearchParams();
+    bodyData.append('action', 'tpm_ajax_add_to_cart');
+    bodyData.append('product_id', data.product_id);
+    bodyData.append('quantity', data.quantity);
+    if (data.flash_length) bodyData.append('flash_length', data.flash_length);
+    if (data.flash_color) bodyData.append('flash_color', data.flash_color);
+
+    fetch(ajaxUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: bodyData.toString()
+    })
+    .then(response => response.json())
+    .then(res => {
+        if (res && res.success) {
+            // Update Header Badges
+            const newCount = res.data.count || 1;
+            document.querySelectorAll('.cart-badge-count').forEach(el => {
+                el.textContent = newCount;
+            });
+
+            const isEn = (localStorage.getItem('tpm_site_lang') === 'en');
+            document.querySelectorAll('.cart-button-label, .cart-button-text').forEach(el => {
+                el.innerHTML = isEn ? `My Pro-Forma Quote (<span class="cart-badge-count">${newCount}</span>)` : `Mon Panier Pro-Forma (<span class="cart-badge-count">${newCount}</span>)`;
+            });
+
+            // Success feedback on button
+            if (isButton) {
+                triggerElement.innerHTML = `
+                    <span class="material-symbols-outlined text-[15px] text-emerald-300">check_circle</span>
+                    <span class="text-emerald-200 font-black">Ajouté ✓</span>
+                `;
+            }
+
+            // Toast notification
+            const successMsg = isEn ? `"${res.data.product_name}" added to your Pro-Forma Quote!` : `"${res.data.product_name}" ajouté à votre Pro-Forma !`;
+            const ctaMsg = isEn ? 'View Pro-Forma Quote →' : 'Voir ma Pro-Forma →';
+            showToast(successMsg, 'success', cartUrl, ctaMsg);
+
+            // Revert button text after 1.8s
+            setTimeout(() => {
+                if (isButton) {
+                    triggerElement.innerHTML = originalHtml;
+                    triggerElement.style.pointerEvents = 'auto';
+                }
+            }, 1800);
+
+        } else {
+            const errorMsg = (res && res.data && res.data.message) ? res.data.message : 'Erreur lors de l\'ajout au panier.';
+            showToast(errorMsg, 'error');
+            if (isButton) {
+                triggerElement.innerHTML = originalHtml;
+                triggerElement.style.pointerEvents = 'auto';
+            }
+        }
+    })
+    .catch(err => {
+        console.error('AJAX add to cart error:', err);
+        showToast('Erreur de connexion lors de l\'ajout.', 'error');
+        if (isButton) {
+            triggerElement.innerHTML = originalHtml;
+            triggerElement.style.pointerEvents = 'auto';
+        }
+    });
 }
 
 // Initialisation globale au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
     updateCartBadge();
+    initAjaxAddToCart();
 });
+
