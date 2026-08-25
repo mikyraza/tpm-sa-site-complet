@@ -297,6 +297,12 @@ require_once get_template_directory() . '/inc/proforma-pdf.php';
 require_once get_template_directory() . '/inc/order-receipt-email.php';
 
 /**
+ * Integrated SMTP Engine & Test Tool
+ */
+require_once get_template_directory() . '/inc/smtp-settings.php';
+
+
+/**
  * Fast AJAX Add-to-Cart / Pro-Forma Handler (Prevents page reloads and scroll jumps)
  */
 function tpm_ajax_add_to_cart_handler() {
