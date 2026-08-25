@@ -11,22 +11,29 @@ get_header();
 $shop_url = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/');
 $cart_url = function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart/');
 
-$total_products = wp_count_posts('product')->publish ?? 58;
+$total_products = wp_count_posts('product')->publish ?? 66;
 
 // Categories for Sidebar
 $cat_toles_url       = get_term_link('toles-et-toiture', 'product_cat');
 $cat_accessoires_url = get_term_link('accessoires-toiture', 'product_cat');
 $cat_fixations_url   = get_term_link('fixations-et-etancheite', 'product_cat');
 $cat_interieurs_url  = get_term_link('accessoires-interieurs', 'product_cat');
+$cat_carreaux_url    = get_term_link('carrelages-et-sols', 'product_cat');
+$cat_douches_url     = get_term_link('douches-therapeutiques', 'product_cat');
+$cat_eponges_url     = get_term_link('eponges-metalliques', 'product_cat');
 
 if (is_wp_error($cat_toles_url))       $cat_toles_url = $shop_url;
 if (is_wp_error($cat_accessoires_url)) $cat_accessoires_url = $shop_url;
 if (is_wp_error($cat_fixations_url))   $cat_fixations_url = $shop_url;
 if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
+if (is_wp_error($cat_carreaux_url))    $cat_carreaux_url = $shop_url;
+if (is_wp_error($cat_douches_url))     $cat_douches_url = $shop_url;
+if (is_wp_error($cat_eponges_url))     $cat_eponges_url = $shop_url;
 
 $current_term = is_product_category() ? get_queried_object() : null;
 $current_slug = $current_term ? $current_term->slug : '';
 $current_title = $current_term ? $current_term->name : 'Tous les Articles';
+$is_interior_group = in_array($current_slug, ['accessoires-interieurs', 'carrelages-et-sols', 'douches-therapeutiques', 'eponges-metalliques']);
 ?>
 
 <main id="primary" class="site-main flex-grow bg-slate-50 font-sans">
@@ -100,36 +107,71 @@ $current_title = $current_term ? $current_term->name : 'Tous les Articles';
                             <a href="<?php echo esc_url($shop_url); ?>" 
                                class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo (!is_product_category() && !is_search()) ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
                                 <span>Tous les articles</span>
-                                <span class="text-[11px] opacity-75 font-normal">59</span>
+                                <span class="text-[11px] opacity-75 font-normal">66</span>
                             </a>
 
                             <!-- 1. Tôles et toiture -->
                             <a href="<?php echo esc_url($cat_toles_url); ?>" 
                                class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'toles-et-toiture') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
                                 <span>Tôles et toiture</span>
-                                <span class="text-[11px] <?php echo ($current_slug === 'toles-et-toiture') ? 'text-tpm-orange' : 'text-gray-400'; ?> font-bold">10</span>
+                                <span class="text-[11px] <?php echo ($current_slug === 'toles-et-toiture') ? 'text-tpm-orange font-bold' : 'text-gray-400 font-normal'; ?>">10</span>
                             </a>
 
                             <!-- 2. Accessoires toiture -->
                             <a href="<?php echo esc_url($cat_accessoires_url); ?>" 
                                class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'accessoires-toiture') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
                                 <span>Accessoires toiture</span>
-                                <span class="text-[11px] <?php echo ($current_slug === 'accessoires-toiture') ? 'text-tpm-orange' : 'text-gray-400'; ?> font-bold">17</span>
+                                <span class="text-[11px] <?php echo ($current_slug === 'accessoires-toiture') ? 'text-tpm-orange font-bold' : 'text-gray-400 font-normal'; ?>">24</span>
                             </a>
 
                             <!-- 3. Fixations et étanchéité -->
                             <a href="<?php echo esc_url($cat_fixations_url); ?>" 
                                class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'fixations-et-etancheite') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
                                 <span>Fixations et étanchéité</span>
-                                <span class="text-[11px] <?php echo ($current_slug === 'fixations-et-etancheite') ? 'text-tpm-orange' : 'text-gray-400'; ?> font-bold">10</span>
+                                <span class="text-[11px] <?php echo ($current_slug === 'fixations-et-etancheite') ? 'text-tpm-orange font-bold' : 'text-gray-400 font-normal'; ?>">10</span>
                             </a>
 
-                            <!-- 4. Accessoires intérieurs -->
-                            <a href="<?php echo esc_url($cat_interieurs_url); ?>" 
-                               class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'accessoires-interieurs') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
-                                <span>Accessoires intérieurs</span>
-                                <span class="text-[11px] <?php echo ($current_slug === 'accessoires-interieurs') ? 'text-tpm-orange' : 'text-gray-400'; ?> font-bold">22</span>
-                            </a>
+                            <!-- 4. Accessoires intérieurs (Parent) -->
+                            <div>
+                                <a href="<?php echo esc_url($cat_interieurs_url); ?>" 
+                                   class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors <?php echo ($current_slug === 'accessoires-interieurs') ? 'bg-tpm-navy text-white shadow-sm' : 'text-gray-700 hover:bg-slate-100'; ?>">
+                                    <span>Accessoires intérieurs</span>
+                                    <span class="text-[11px] <?php echo ($current_slug === 'accessoires-interieurs') ? 'text-tpm-orange font-bold' : 'text-gray-400 font-normal'; ?>">22</span>
+                                </a>
+
+                                <!-- Subcategories Indented List -->
+                                <div class="ml-3 pl-2.5 border-l-2 border-slate-200 my-1 space-y-1">
+                                    <!-- Subcat 1: Carreaux & Sols -->
+                                    <a href="<?php echo esc_url($cat_carreaux_url); ?>" 
+                                       class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-[11px] transition-colors <?php echo ($current_slug === 'carrelages-et-sols') ? 'bg-tpm-orange text-white font-black shadow-sm' : 'text-gray-600 hover:bg-slate-100'; ?>">
+                                        <span class="flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[14px]">grid_view</span>
+                                            <span>Carreaux &amp; Sols</span>
+                                        </span>
+                                        <span class="<?php echo ($current_slug === 'carrelages-et-sols') ? 'text-white' : 'text-gray-400'; ?> font-bold">14</span>
+                                    </a>
+
+                                    <!-- Subcat 2: Douches Thérapeutiques -->
+                                    <a href="<?php echo esc_url($cat_douches_url); ?>" 
+                                       class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-[11px] transition-colors <?php echo ($current_slug === 'douches-therapeutiques') ? 'bg-tpm-orange text-white font-black shadow-sm' : 'text-gray-600 hover:bg-slate-100'; ?>">
+                                        <span class="flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[14px]">shower</span>
+                                            <span>Douches Thérapeutiques</span>
+                                        </span>
+                                        <span class="<?php echo ($current_slug === 'douches-therapeutiques') ? 'text-white' : 'text-gray-400'; ?> font-bold">6</span>
+                                    </a>
+
+                                    <!-- Subcat 3: Éponges Métalliques -->
+                                    <a href="<?php echo esc_url($cat_eponges_url); ?>" 
+                                       class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-[11px] transition-colors <?php echo ($current_slug === 'eponges-metalliques') ? 'bg-tpm-orange text-white font-black shadow-sm' : 'text-gray-600 hover:bg-slate-100'; ?>">
+                                        <span class="flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[14px]">cleaning_services</span>
+                                            <span>Éponges Métalliques</span>
+                                        </span>
+                                        <span class="<?php echo ($current_slug === 'eponges-metalliques') ? 'text-white' : 'text-gray-400'; ?> font-bold">2</span>
+                                    </a>
+                                </div>
+                            </div>
                         </nav>
                     </div>
 
@@ -180,6 +222,35 @@ $current_title = $current_term ? $current_term->name : 'Tous les Articles';
                             </form>
                         </div>
                     </div>
+
+                    <?php if ($is_interior_group) : ?>
+                        <!-- Subcategory Quick Filter Pills -->
+                        <div class="flex flex-wrap gap-2 pt-1 pb-1">
+                            <a href="<?php echo esc_url($cat_interieurs_url); ?>" 
+                               class="text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm <?php echo ($current_slug === 'accessoires-interieurs') ? 'bg-tpm-navy text-white shadow' : 'bg-white text-gray-700 hover:bg-slate-100 border border-gray-200'; ?>">
+                                <span>Tous les Accessoires Intérieurs</span>
+                                <span class="text-[10px] bg-slate-200/50 px-1.5 py-0.5 rounded-full text-tpm-navy font-bold">22</span>
+                            </a>
+                            <a href="<?php echo esc_url($cat_carreaux_url); ?>" 
+                               class="text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm <?php echo ($current_slug === 'carrelages-et-sols') ? 'bg-tpm-orange text-white shadow' : 'bg-white text-gray-700 hover:bg-slate-100 border border-gray-200'; ?>">
+                                <span class="material-symbols-outlined text-[16px]">grid_view</span>
+                                <span>Carreaux &amp; Sols</span>
+                                <span class="text-[10px] bg-slate-200/50 px-1.5 py-0.5 rounded-full <?php echo ($current_slug === 'carrelages-et-sols') ? 'text-white' : 'text-tpm-navy'; ?> font-bold">14</span>
+                            </a>
+                            <a href="<?php echo esc_url($cat_douches_url); ?>" 
+                               class="text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm <?php echo ($current_slug === 'douches-therapeutiques') ? 'bg-tpm-orange text-white shadow' : 'bg-white text-gray-700 hover:bg-slate-100 border border-gray-200'; ?>">
+                                <span class="material-symbols-outlined text-[16px]">shower</span>
+                                <span>Douches Thérapeutiques</span>
+                                <span class="text-[10px] bg-slate-200/50 px-1.5 py-0.5 rounded-full <?php echo ($current_slug === 'douches-therapeutiques') ? 'text-white' : 'text-tpm-navy'; ?> font-bold">6</span>
+                            </a>
+                            <a href="<?php echo esc_url($cat_eponges_url); ?>" 
+                               class="text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm <?php echo ($current_slug === 'eponges-metalliques') ? 'bg-tpm-orange text-white shadow' : 'bg-white text-gray-700 hover:bg-slate-100 border border-gray-200'; ?>">
+                                <span class="material-symbols-outlined text-[16px]">cleaning_services</span>
+                                <span>Éponges Métalliques</span>
+                                <span class="text-[10px] bg-slate-200/50 px-1.5 py-0.5 rounded-full <?php echo ($current_slug === 'eponges-metalliques') ? 'text-white' : 'text-tpm-navy'; ?> font-bold">2</span>
+                            </a>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- PRODUCTS 3-COLUMN GRID -->
                     <?php if ( woocommerce_product_loop() ) : ?>

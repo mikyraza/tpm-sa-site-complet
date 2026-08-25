@@ -370,12 +370,9 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
                         </h3>
                     </a>
                     <ul class="flex flex-col gap-2 text-xs text-gray-600 font-medium">
-                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-sol-60x60-italien/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Carreaux Sol 60X60 Italien</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-sol-60x120-italien/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Carreaux Sol 60X120 Italien</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-murs-25x40-ref-pmc42054c/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Carreaux Murs 25X40 PMC</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/cartons-carreaux-sol-40x40-ref-ymg44223c/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Carreaux Sol 40X40 YMG</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/douche-therapeutique-zagonel-moment-grand-modele/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Douche Zagonel Moment</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/product/douche-therapeutique-duo-shower-grand-modele/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Douche Duo Shower Grand Modèle</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product-category/carrelages-et-sols/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5 font-bold text-tpm-navy">→ Carreaux &amp; Sols <span class="text-[10px] text-tpm-orange font-normal">(14 réf.)</span></a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product-category/douches-therapeutiques/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5 font-bold text-tpm-navy">→ Douches Thérapeutiques <span class="text-[10px] text-tpm-orange font-normal">(6 réf.)</span></a></li>
+                        <li><a href="<?php echo esc_url( home_url('/product-category/eponges-metalliques/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5 font-bold text-tpm-navy">→ Éponges Métalliques <span class="text-[10px] text-tpm-orange font-normal">(2 réf.)</span></a></li>
                         <li class="pt-1"><a href="<?php echo esc_url($cat_interieurs_url); ?>" class="text-tpm-orange font-bold hover:underline flex items-center gap-1">Voir les 22 articles intérieur &raquo;</a></li>
                     </ul>
                 </div>
@@ -388,7 +385,7 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
                             Services &amp; Cotations B2B
                         </div>
                         <h4 class="text-sm font-bold text-white mb-2">Usine TPM SA (Douala &amp; Bekoko)</h4>
-                        <p class="text-xs text-gray-300 mb-4 leading-relaxed">Consultez l'inventaire officiel de 58 articles usine et éditez votre Pro-Forma instantanément.</p>
+                        <p class="text-xs text-gray-300 mb-4 leading-relaxed">Consultez l'inventaire officiel de 66 articles usine et éditez votre Pro-Forma instantanément.</p>
                         
                         <div class="space-y-1.5 pb-4 border-b border-white/10 text-xs text-gray-300">
                             <a href="<?php echo esc_url( home_url('/service-zingage/') ); ?>" class="hover:text-tpm-orange flex items-center gap-1.5 transition-colors">
