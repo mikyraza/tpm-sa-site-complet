@@ -126,17 +126,28 @@ add_action( 'woocommerce_single_product_summary', function() {
 }, 35 );
 
 /**
- * Sauvegarder les attributs Flash Pro-Forma (Longueur, Couleur)
+ * Sauvegarder les attributs Flash Pro-Forma (Longueur, Couleur) - Support GET & POST
  */
 add_filter('woocommerce_add_cart_item_data', function($cart_item_data, $product_id, $variation_id) {
-    if (!empty($_POST['flash-length'])) {
-        $cart_item_data['flash_length'] = sanitize_text_field($_POST['flash-length']);
+    $length = $_REQUEST['flash_length'] ?? $_REQUEST['flash-length'] ?? '';
+    $color  = $_REQUEST['flash_color'] ?? $_REQUEST['flash-color'] ?? '';
+    
+    if (!empty($length)) {
+        $cart_item_data['flash_length'] = sanitize_text_field($length);
     }
-    if (!empty($_POST['flash-color'])) {
-        $cart_item_data['flash_color'] = sanitize_text_field($_POST['flash-color']);
+    if (!empty($color)) {
+        $cart_item_data['flash_color'] = sanitize_text_field($color);
     }
     return $cart_item_data;
 }, 10, 3);
+
+/**
+ * Assurer que 100% des articles du catalogue TPM SA sont toujours éligibles et commandables dans la Pro-Forma
+ */
+add_filter( 'woocommerce_product_is_in_stock', '__return_true', 99 );
+add_filter( 'woocommerce_product_backorders_allowed', '__return_true', 99 );
+add_filter( 'woocommerce_product_is_purchasable', '__return_true', 99 );
+
 
 add_filter('woocommerce_get_item_data', function($item_data, $cart_item) {
     if (!empty($cart_item['flash_length'])) {
