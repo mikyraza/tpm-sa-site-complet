@@ -274,4 +274,10 @@ function tpm_get_product_image_url( $product ) {
  */
 require_once get_template_directory() . '/inc/proforma-pdf.php';
 
+/**
+ * Automated Dual-Receipt Email Delivery System (Customer + Admin)
+ */
+require_once get_template_directory() . '/inc/order-receipt-email.php';
+
+
 
