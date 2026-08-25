@@ -322,7 +322,7 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
                                 <span class="material-symbols-outlined text-tpm-orange text-[20px]">architecture</span>
                                 Accessoires toiture
                             </span>
-                            <span class="text-[11px] bg-slate-200 text-tpm-navy font-bold px-2 py-0.5 rounded-full">17</span>
+                            <span class="text-[11px] bg-slate-200 text-tpm-navy font-bold px-2 py-0.5 rounded-full">24</span>
                         </h3>
                     </a>
                     <ul class="flex flex-col gap-2 text-xs text-gray-600 font-medium">
@@ -332,7 +332,7 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
                         <li><a href="<?php echo esc_url( home_url('/product/rives-de-faitage-0-33-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Rives de faîtage 0.33/0.35 ml</a></li>
                         <li><a href="<?php echo esc_url( home_url('/product/gouttiere-alu-0-33-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Gouttière alu 0.33/0.35 ml</a></li>
                         <li><a href="<?php echo esc_url( home_url('/product/noues-en-alu-0-33-0-35-ml-nature/') ); ?>" class="hover:text-tpm-orange transition-colors block py-0.5">→ Noues en alu 0.33/0.35 ml</a></li>
-                        <li class="pt-1"><a href="<?php echo esc_url($cat_accessoires_url); ?>" class="text-tpm-orange font-bold hover:underline flex items-center gap-1">Voir les 17 accessoires &raquo;</a></li>
+                        <li class="pt-1"><a href="<?php echo esc_url($cat_accessoires_url); ?>" class="text-tpm-orange font-bold hover:underline flex items-center gap-1">Voir les 24 accessoires &raquo;</a></li>
                     </ul>
                 </div>
 

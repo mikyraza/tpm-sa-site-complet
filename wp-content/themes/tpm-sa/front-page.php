@@ -275,7 +275,7 @@ $woo_products = $wpdb->get_results( "
                                  decoding="async" 
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                             <span class="absolute top-3 left-3 bg-tpm-navy/90 backdrop-blur-sm text-white font-black text-[10px] px-2.5 py-1 rounded shadow uppercase tracking-wider">
-                                PÔLE N°2 • 17 RÉF.
+                                PÔLE N°2 • 24 RÉF.
                             </span>
                         </div>
                         <div class="p-5 space-y-2">
@@ -290,7 +290,7 @@ $woo_products = $wpdb->get_results( "
                     <div class="p-5 pt-0">
                         <a href="<?php echo esc_url($cat_accessoires_url); ?>" 
                            class="w-full bg-tpm-navy hover:bg-tpm-orange text-white font-bold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-1 shadow-sm">
-                            <span>Voir les 17 Accessoires</span>
+                            <span>Voir les 24 Accessoires</span>
                             <span class="material-symbols-outlined text-[16px]">chevron_right</span>
                         </a>
                     </div>
