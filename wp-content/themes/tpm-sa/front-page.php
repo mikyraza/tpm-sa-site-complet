@@ -51,7 +51,7 @@ $flash_groups = function_exists('tpm_get_flash_proforma_groups') ? tpm_get_flash
 
                     <!-- Main Heading -->
                     <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight uppercase tracking-tight">
-                        LE LEADER DE LA MÉTALLURGIE &amp; DES MATÉRIAUX INDUSTRIELS AU CAMEROUN.
+                        BÂTIMENTS SOLIDES = MATÉRIAUX SOLIDES AVEC GARANTIE DE DURABILITÉ
                     </h1>
 
                     <!-- Paragraph -->
