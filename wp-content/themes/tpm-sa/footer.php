@@ -94,7 +94,7 @@
                 <li><a href="<?php echo esc_url( home_url('/chantiers-btp/') ); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">local_shipping</span> Approvisionnement Chantiers BTP</a></li>
                 <li><a href="<?php echo esc_url( home_url('/service-zingage/') ); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">bolt</span> Électro-Zingage 800 VA</a></li>
                 <li><a href="<?php echo esc_url( $shop_url ); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">storefront</span> Catalogue Général (58 Articles)</a></li>
-                <li><a href="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>" target="_blank" download="Catalogue_General_TPM_SA_2026.pdf" class="hover:text-tpm-orange transition-colors flex items-center gap-2 text-tpm-orange font-bold"><span class="material-symbols-outlined text-[16px]">download</span> Télécharger le Catalogue (PDF)</a></li>
+                <li><a href="javascript:void(0)" onclick="openCataloguePreview()" class="hover:text-tpm-orange transition-colors flex items-center gap-2 text-tpm-orange font-bold cursor-pointer"><span class="material-symbols-outlined text-[16px]">visibility</span> Télécharger le Catalogue (PDF)</a></li>
             </ul>
         </div>
 
@@ -139,6 +139,96 @@
     </div>
 </footer>
 
+<!-- MODAL APERÇU INTERACTIF DU CATALOGUE GÉNÉRAL 2026 AVANT TÉLÉCHARGEMENT -->
+<div id="catalogue-preview-modal" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4 md:p-6 transition-all duration-300" onclick="if(event.target === this) closeCataloguePreview()">
+    <div class="bg-white w-full max-w-5xl h-[92vh] max-h-[920px] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-300 transform transition-all" onclick="event.stopPropagation()">
+        
+        <!-- En-tête du Modal -->
+        <div class="bg-tpm-navy text-white px-4 sm:px-6 py-3 flex items-center justify-between border-b-2 border-tpm-orange shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="bg-white p-1 rounded-md shrink-0 flex items-center justify-center shadow-sm">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/logo_tpm.png' ); ?>" alt="TPM SA" class="h-6 sm:h-7 w-auto object-contain" />
+                </div>
+                <div>
+                    <h3 class="text-xs sm:text-sm font-black uppercase text-white m-0 tracking-wide flex items-center gap-2">
+                        Aperçu du Catalogue Général 2026
+                        <span class="bg-tpm-orange text-[9px] font-bold px-2 py-0.5 rounded text-white font-mono uppercase">12 Pages Complètes</span>
+                    </h3>
+                    <p class="text-[10px] text-gray-300 m-0">TPM SA • Groupe CAC — Solutions Métallurgiques &amp; Matériaux de Construction</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>" target="_blank" class="hidden sm:flex items-center gap-1 text-[11px] text-gray-200 hover:text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition font-medium">
+                    <span class="material-symbols-outlined text-[15px]">open_in_new</span>
+                    Plein écran
+                </a>
+                <button type="button" onclick="closeCataloguePreview()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-red-600 text-white flex items-center justify-center transition" title="Fermer (Échap)">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Zone d'Aperçu PDF (iframe responsive) -->
+        <div class="flex-1 w-full h-full bg-slate-100 relative">
+            <iframe id="catalogue-preview-iframe" 
+                    src="" 
+                    data-src="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>#toolbar=1&navpanes=1" 
+                    class="w-full h-full border-0" 
+                    title="Aperçu du Catalogue Général TPM SA 2026">
+            </iframe>
+        </div>
+
+        <!-- Pied de page du Modal : Confirmation de Téléchargement -->
+        <div class="bg-slate-50 border-t border-gray-200 px-4 sm:px-6 py-3 flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
+            <div class="text-[11px] text-gray-600 flex items-center gap-1.5 text-center sm:text-left">
+                <span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+                <span>Document officiel certifié • <strong>12 pages</strong> • Taille : <strong>5,18 Mo</strong></span>
+            </div>
+            <div class="flex items-center gap-2.5 w-full sm:w-auto">
+                <button type="button" onclick="closeCataloguePreview()" class="w-1/2 sm:w-auto px-4 py-2 text-xs font-bold text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg transition text-center">
+                    Fermer
+                </button>
+                <a href="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>" 
+                   download="Catalogue_General_TPM_SA_2026.pdf" 
+                   class="w-1/2 sm:w-auto px-5 py-2 text-xs font-black text-white bg-tpm-orange hover:bg-orange-700 rounded-lg shadow-md hover:shadow-lg transition flex items-center justify-center gap-1.5 uppercase tracking-wider">
+                    <span class="material-symbols-outlined text-[16px]">download</span>
+                    <span>Confirmer le Téléchargement</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function openCataloguePreview() {
+    const modal = document.getElementById('catalogue-preview-modal');
+    const iframe = document.getElementById('catalogue-preview-iframe');
+    if (modal && iframe) {
+        if (!iframe.src || iframe.src === '' || iframe.src === 'about:blank' || iframe.src === window.location.href) {
+            iframe.src = iframe.getAttribute('data-src');
+        }
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeCataloguePreview() {
+    const modal = document.getElementById('catalogue-preview-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeCataloguePreview();
+    }
+});
+</script>
+
 <?php wp_footer(); ?>
 </body>
 </html>
+

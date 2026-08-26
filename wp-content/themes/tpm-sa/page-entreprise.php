@@ -106,8 +106,8 @@ $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
                         </div>
 
                         <div class="pt-2">
-                            <a href="<?php echo esc_url($catalog_pdf_url); ?>" target="_blank" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-extrabold py-3 px-4 rounded-lg transition-colors text-center flex items-center justify-center gap-2 text-xs uppercase tracking-wider shadow-lg">
-                                <span class="material-symbols-outlined text-[18px]">download</span>
+                            <a href="javascript:void(0)" onclick="openCataloguePreview()" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-extrabold py-3 px-4 rounded-lg transition-colors text-center flex items-center justify-center gap-2 text-xs uppercase tracking-wider shadow-lg cursor-pointer">
+                                <span class="material-symbols-outlined text-[18px]">visibility</span>
                                 Télécharger le Catalogue Général PDF
                             </a>
                         </div>

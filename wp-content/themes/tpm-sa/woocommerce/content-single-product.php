@@ -237,8 +237,8 @@ do_action( 'woocommerce_before_single_product' );
                             <span class="material-symbols-outlined text-[14px]">chat</span>
                             WhatsApp
                         </a>
-                        <a href="<?php echo esc_url($catalog_pdf_url); ?>" target="_blank" download="Catalogue_General_TPM_SA_2026.pdf" class="bg-white hover:bg-slate-100 text-tpm-navy border border-gray-300 font-bold py-2 px-2 rounded-lg text-[11px] uppercase tracking-wider text-center flex items-center justify-center gap-1 transition shadow-sm">
-                            <span class="material-symbols-outlined text-[14px] text-tpm-orange">picture_as_pdf</span>
+                        <a href="javascript:void(0)" onclick="openCataloguePreview()" class="bg-white hover:bg-slate-100 text-tpm-navy border border-gray-300 font-bold py-2 px-2 rounded-lg text-[11px] uppercase tracking-wider text-center flex items-center justify-center gap-1 transition shadow-sm cursor-pointer">
+                            <span class="material-symbols-outlined text-[14px] text-tpm-orange">visibility</span>
                             Catalogue PDF
                         </a>
                     </div>
