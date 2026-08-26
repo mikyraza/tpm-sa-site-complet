@@ -303,8 +303,11 @@ function tpm_send_dual_order_receipt( $order_id ) {
 
     // Admin email
     $admin_email = trim( (string) get_option( 'admin_email' ) );
-    if ( empty( $admin_email ) || ! is_email( $admin_email ) ) {
-        $admin_email = 'cac_vis3@yahoo.fr';
+
+    // Company email (TPM SA / Groupe CAC commercial direction)
+    $company_tpm_email = trim( (string) get_option( 'tpm_smtp_from_email', 'cac_vis3@yahoo.fr' ) );
+    if ( empty( $company_tpm_email ) || ! is_email( $company_tpm_email ) ) {
+        $company_tpm_email = 'cac_vis3@yahoo.fr';
     }
 
     $client_name = trim( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() );
@@ -336,9 +339,17 @@ function tpm_send_dual_order_receipt( $order_id ) {
     }
 
     // 2. Send ONE styled email to the Admin
-    if ( ! empty( $admin_email ) && is_email( $admin_email ) ) {
+    if ( ! empty( $admin_email ) && is_email( $admin_email ) && strtolower( $admin_email ) !== strtolower( $customer_email ) ) {
         $admin_subject = sprintf( '[Nouvelle Commande] TPM SA — Facture Pro-Forma #%s — %s', $order_number, $client_name );
         wp_mail( $admin_email, $admin_subject, $message, $headers, $attachments );
+    }
+
+    // 3. Send ONE styled email to the Company (TPM SA: cac_vis3@yahoo.fr)
+    if ( ! empty( $company_tpm_email ) && is_email( $company_tpm_email )
+         && strtolower( $company_tpm_email ) !== strtolower( $admin_email )
+         && strtolower( $company_tpm_email ) !== strtolower( $customer_email ) ) {
+        $company_subject = sprintf( '[Direction Commerciale] TPM SA — Facture Pro-Forma #%s — %s', $order_number, $client_name );
+        wp_mail( $company_tpm_email, $company_subject, $message, $headers, $attachments );
     }
 }
 
