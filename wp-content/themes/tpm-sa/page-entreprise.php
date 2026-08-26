@@ -69,46 +69,46 @@ $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
                     </div>
                 </div>
 
-                <!-- Right: Official Card -->
+                <!-- Right: Official Card (Same White Styling as Home Page Flash Pro-Forma Card) -->
                 <div class="lg:col-span-5">
-                    <div class="bg-tpm-navy border border-white/20 rounded-2xl p-6 sm:p-8 space-y-5 shadow-2xl text-white">
-                        <div class="flex items-center gap-4 border-b border-white/15 pb-4">
-                            <div class="w-14 h-14 bg-tpm-orange rounded-xl flex items-center justify-center font-black text-2xl text-white shrink-0 shadow-lg">
+                    <div class="bg-white rounded-2xl p-6 sm:p-8 space-y-5 shadow-2xl border border-gray-100 text-gray-900 relative">
+                        <div class="flex items-center gap-4 border-b border-gray-200 pb-4">
+                            <div class="w-14 h-14 bg-tpm-orange rounded-xl flex items-center justify-center font-black text-2xl text-white shrink-0 shadow-md">
                                 TPM
                             </div>
                             <div>
-                                <h3 class="font-extrabold text-lg text-white leading-tight">TPM SA (Groupe CAC)</h3>
-                                <p class="text-xs text-gray-300 font-medium">Transformation Métallique &amp; Plastique</p>
+                                <h3 class="font-extrabold text-lg text-tpm-navy leading-tight">TPM SA (Groupe CAC)</h3>
+                                <p class="text-xs text-gray-500 font-medium">Transformation Métallique &amp; Plastique</p>
                             </div>
                         </div>
 
-                        <div class="space-y-3 text-xs text-gray-200">
-                            <div class="flex justify-between items-center py-1 border-b border-white/10">
-                                <span class="text-gray-400">Fondateur Visionnaire :</span>
-                                <strong class="text-white">M. NJIPNGANG</strong>
+                        <div class="space-y-3 text-xs text-gray-700">
+                            <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+                                <span class="text-gray-500 font-medium">Fondateur Visionnaire :</span>
+                                <strong class="text-tpm-navy font-bold">M. NJIPNGANG</strong>
                             </div>
-                            <div class="flex justify-between items-center py-1 border-b border-white/10">
-                                <span class="text-gray-400">Siège &amp; Usines :</span>
-                                <strong class="text-white">Douala (PK12 &amp; Bekoko)</strong>
+                            <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+                                <span class="text-gray-500 font-medium">Siège &amp; Usines :</span>
+                                <strong class="text-tpm-navy font-bold">Douala (PK12 &amp; Bekoko)</strong>
                             </div>
-                            <div class="flex justify-between items-center py-1 border-b border-white/10">
-                                <span class="text-gray-400">Numéro NIU :</span>
-                                <strong class="text-tpm-orange font-mono">M052217435713Q</strong>
+                            <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+                                <span class="text-gray-500 font-medium">Numéro NIU :</span>
+                                <strong class="text-tpm-orange font-mono font-bold">M052217435713Q</strong>
                             </div>
-                            <div class="flex justify-between items-center py-1 border-b border-white/10">
-                                <span class="text-gray-400">Régime Fiscal :</span>
-                                <strong class="text-white">TVA 19.25% Récupérable</strong>
+                            <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+                                <span class="text-gray-500 font-medium">Régime Fiscal :</span>
+                                <strong class="text-emerald-700 font-bold">TVA 19.25% Récupérable</strong>
                             </div>
-                            <div class="flex justify-between items-center py-1">
-                                <span class="text-gray-400">Zone de Livraison :</span>
-                                <strong class="text-emerald-400">Cameroun &amp; Zone CEMAC</strong>
+                            <div class="flex justify-between items-center py-1.5">
+                                <span class="text-gray-500 font-medium">Zone de Livraison :</span>
+                                <strong class="text-tpm-navy font-bold">Cameroun &amp; Zone CEMAC</strong>
                             </div>
                         </div>
 
                         <div class="pt-2">
-                            <a href="javascript:void(0)" onclick="openCataloguePreview()" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-extrabold py-3 px-4 rounded-lg transition-colors text-center flex items-center justify-center gap-2 text-xs uppercase tracking-wider shadow-lg cursor-pointer">
+                            <a href="javascript:void(0)" onclick="openCataloguePreview()" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-extrabold py-3.5 px-4 rounded-lg transition-all text-center flex items-center justify-center gap-2 text-xs uppercase tracking-wider shadow-md hover:shadow-lg cursor-pointer">
                                 <span class="material-symbols-outlined text-[18px]">visibility</span>
-                                Télécharger le Catalogue Général PDF
+                                <span>Télécharger le Catalogue Général PDF</span>
                             </a>
                         </div>
                     </div>
