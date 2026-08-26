@@ -21,20 +21,8 @@ if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
 
 $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
 
-// Fast lightweight query for the Flash Pro-Forma Form
-global $wpdb;
-$woo_products = $wpdb->get_results( "
-    SELECT p.ID, p.post_title, 
-           COALESCE(pm_price.meta_value, '5800') as price,
-           COALESCE(pm_unit.meta_value, 'mètre linéaire') as unit,
-           COALESCE(pm_sku.meta_value, 'TPM') as sku
-    FROM {$wpdb->posts} p
-    LEFT JOIN {$wpdb->postmeta} pm_price ON (p.ID = pm_price.post_id AND pm_price.meta_key = '_price')
-    LEFT JOIN {$wpdb->postmeta} pm_unit ON (p.ID = pm_unit.post_id AND pm_unit.meta_key = '_unit')
-    LEFT JOIN {$wpdb->postmeta} pm_sku ON (p.ID = pm_sku.post_id AND pm_sku.meta_key = '_sku')
-    WHERE p.post_type = 'product' AND p.post_status = 'publish'
-    ORDER BY p.menu_order ASC, p.post_title ASC
-" );
+// Structured grouped products for the Flash Pro-Forma Form
+$flash_groups = function_exists('tpm_get_flash_proforma_groups') ? tpm_get_flash_proforma_groups() : [];
 ?>
 
 <main id="primary" class="site-main flex-grow bg-slate-50 font-sans">
@@ -124,45 +112,49 @@ $woo_products = $wpdb->get_results( "
                             <!-- Article Select -->
                             <div class="space-y-1">
                                 <label class="block text-[11px] font-extrabold uppercase text-gray-700">
-                                    SÉLECTIONNER UN ARTICLE <span class="text-tpm-orange">*</span>
+                                    SÉLECTIONNER UN ARTICLE DU CATALOGUE <span class="text-tpm-orange">*</span>
                                 </label>
-                                <select id="flash-product-select" name="add-to-cart" class="w-full text-xs font-bold text-tpm-navy bg-slate-50 border border-gray-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-tpm-orange transition">
-                                    <?php if (!empty($woo_products)): ?>
-                                        <?php foreach ($woo_products as $p): ?>
-                                            <option value="<?php echo esc_attr($p->ID); ?>" 
-                                                    data-price="<?php echo esc_attr($p->price); ?>"
-                                                    data-unit="<?php echo esc_attr($p->unit); ?>"
-                                                    data-sku="<?php echo esc_attr($p->sku); ?>">
-                                                <?php echo esc_html($p->post_title); ?> — <?php echo number_format((float)$p->price, 0, ',', ' '); ?> FCFA HT
-                                            </option>
+                                <select id="flash-product-select" name="add-to-cart" class="w-full text-xs font-bold text-tpm-navy bg-slate-50 border border-gray-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer">
+                                    <?php if (!empty($flash_groups)): ?>
+                                        <?php foreach ($flash_groups as $group): ?>
+                                            <optgroup label="<?php echo esc_attr($group['label']); ?>" class="font-extrabold text-tpm-navy bg-slate-100 py-1">
+                                                <?php foreach ($group['products'] as $p): ?>
+                                                    <option value="<?php echo esc_attr($p['id']); ?>" 
+                                                            data-price="<?php echo esc_attr($p['price']); ?>"
+                                                            data-unit="<?php echo esc_attr($p['unit']); ?>"
+                                                            data-sku="<?php echo esc_attr($p['sku']); ?>"
+                                                            data-length-label="<?php echo esc_attr($p['details']['length_label']); ?>"
+                                                            data-color-label="<?php echo esc_attr($p['details']['color_label']); ?>"
+                                                            data-lengths="<?php echo esc_attr(json_encode($p['details']['lengths'], JSON_UNESCAPED_UNICODE)); ?>"
+                                                            data-colors="<?php echo esc_attr(json_encode($p['details']['colors'], JSON_UNESCAPED_UNICODE)); ?>"
+                                                            class="font-medium text-gray-900 bg-white py-1">
+                                                        <?php echo esc_html($p['name']); ?> — <?php echo number_format((float)$p['price'], 0, ',', ' '); ?> FCFA HT
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </optgroup>
                                         <?php endforeach; ?>
                                     <?php else: ?>
-                                        <option value="16" data-price="5800" data-unit="mètre linéaire" data-sku="TOL-ALU-035">Tôle Bac Alu 4N ET 5N 0,35 — 5 800 FCFA HT</option>
+                                        <option value="16" data-price="2600" data-unit="mètre linéaire" data-sku="TOL-001">Tôle Bac Alu 4N ET 5N — 2 600 FCFA HT</option>
                                     <?php endif; ?>
                                 </select>
                             </div>
 
-                            <!-- Longueur & Couleur -->
+                            <!-- List Box 2 (Format / Longueur) & List Box 3 (Finition / Couleur) -->
                             <div class="grid grid-cols-2 gap-3">
                                 <div class="space-y-1">
-                                    <label class="block text-[10px] font-extrabold uppercase text-gray-700">LONGUEUR / FORMAT</label>
-                                    <select name="flash_length" class="w-full text-xs bg-slate-50 border border-gray-300 rounded-lg px-2.5 py-2 outline-none focus:ring-2 focus:ring-tpm-orange transition font-semibold text-gray-800">
-                                        <option value="Standard 6.00m">Standard 6.00m</option>
-                                        <option value="Sur-mesure 3.00m">Sur-mesure 3.00m</option>
-                                        <option value="Sur-mesure 4.00m">Sur-mesure 4.00m</option>
-                                        <option value="Sur-mesure 5.00m">Sur-mesure 5.00m</option>
-                                        <option value="Sur-mesure 8.00m">Sur-mesure 8.00m</option>
-                                        <option value="Sur-mesure 10.00m">Sur-mesure 10.00m</option>
+                                    <label id="flash-length-label" class="block text-[10px] font-extrabold uppercase text-gray-700 truncate">
+                                        LONGUEUR / FORMAT
+                                    </label>
+                                    <select id="flash-length-select" name="flash_length" class="w-full text-xs bg-slate-50 border border-gray-300 rounded-lg px-2.5 py-2 outline-none focus:ring-2 focus:ring-tpm-orange transition font-semibold text-gray-800 cursor-pointer">
+                                        <!-- Dynamically generated to match selected product -->
                                     </select>
                                 </div>
                                 <div class="space-y-1">
-                                    <label class="block text-[10px] font-extrabold uppercase text-gray-700">COULEUR RAL</label>
-                                    <select name="flash_color" class="w-full text-xs bg-slate-50 border border-gray-300 rounded-lg px-2.5 py-2 outline-none focus:ring-2 focus:ring-tpm-orange transition font-semibold text-gray-800">
-                                        <option value="Bordeau RAL 3005">Bordeau RAL 3005</option>
-                                        <option value="Bleu Cendre RAL 5014">Bleu Cendre RAL 5014</option>
-                                        <option value="Orange Terracotta">Orange Terracotta</option>
-                                        <option value="Vert Olive">Vert Olive</option>
-                                        <option value="Alu Naturel">Alu Naturel (Brut)</option>
+                                    <label id="flash-color-label" class="block text-[10px] font-extrabold uppercase text-gray-700 truncate">
+                                        COULEUR RAL / FINITION
+                                    </label>
+                                    <select id="flash-color-select" name="flash_color" class="w-full text-xs bg-slate-50 border border-gray-300 rounded-lg px-2.5 py-2 outline-none focus:ring-2 focus:ring-tpm-orange transition font-semibold text-gray-800 cursor-pointer">
+                                        <!-- Dynamically generated to match selected product -->
                                     </select>
                                 </div>
                             </div>
@@ -739,29 +731,90 @@ $woo_products = $wpdb->get_results( "
 
 <script>
 (function() {
-    // Dynamic Flash Pro-Forma calculation
-    const select = document.getElementById('flash-product-select');
-    const qtyInput = document.getElementById('flash-quantity-input');
-    const totalDisplay = document.getElementById('flash-total-display');
-    const unitLabel = document.getElementById('flash-unit-label');
+    // Dynamic Flash Pro-Forma Synchronizer
+    const productSelect = document.getElementById('flash-product-select');
+    const lengthSelect  = document.getElementById('flash-length-select');
+    const colorSelect   = document.getElementById('flash-color-select');
+    const lengthLabel   = document.getElementById('flash-length-label');
+    const colorLabel    = document.getElementById('flash-color-label');
+    const qtyInput      = document.getElementById('flash-quantity-input');
+    const totalDisplay  = document.getElementById('flash-total-display');
+    const unitLabel     = document.getElementById('flash-unit-label');
 
-    function updateFlashPrice() {
-        if (!select || !qtyInput || !totalDisplay) return;
-        const opt = select.options[select.selectedIndex];
+    function updateFlashProductDetails() {
+        if (!productSelect) return;
+        const opt = productSelect.options[productSelect.selectedIndex];
         if (!opt) return;
 
-        const price = parseFloat(opt.getAttribute('data-price')) || 5800;
-        const unit = opt.getAttribute('data-unit') || 'mètres linéaires';
-        const qty = parseInt(qtyInput.value, 10) || 1;
+        // 1. Update List Box 2 Label & Options (Format / Longueur / Dimension)
+        const lengthLabelText = opt.getAttribute('data-length-label') || 'LONGUEUR / FORMAT';
+        if (lengthLabel) lengthLabel.textContent = lengthLabelText;
+
+        if (lengthSelect) {
+            lengthSelect.innerHTML = '';
+            let lengths = [];
+            try {
+                lengths = JSON.parse(opt.getAttribute('data-lengths') || '[]');
+            } catch (e) {
+                lengths = ['Standard Usine'];
+            }
+            if (!lengths || !lengths.length) lengths = ['Standard Usine'];
+
+            lengths.forEach(function(val) {
+                const el = document.createElement('option');
+                el.value = val;
+                el.textContent = val;
+                lengthSelect.appendChild(el);
+            });
+        }
+
+        // 2. Update List Box 3 Label & Options (Finition / Couleur RAL / Matière)
+        const colorLabelText = opt.getAttribute('data-color-label') || 'COULEUR RAL / FINITION';
+        if (colorLabel) colorLabel.textContent = colorLabelText;
+
+        if (colorSelect) {
+            colorSelect.innerHTML = '';
+            let colors = [];
+            try {
+                colors = JSON.parse(opt.getAttribute('data-colors') || '[]');
+            } catch (e) {
+                colors = ['Standard Usine'];
+            }
+            if (!colors || !colors.length) colors = ['Standard Usine'];
+
+            colors.forEach(function(val) {
+                const el = document.createElement('option');
+                el.value = val;
+                el.textContent = val;
+                colorSelect.appendChild(el);
+            });
+        }
+
+        // 3. Update Price and Unit Label
+        updateFlashPrice();
+    }
+
+    function updateFlashPrice() {
+        if (!productSelect || !qtyInput || !totalDisplay) return;
+        const opt = productSelect.options[productSelect.selectedIndex];
+        if (!opt) return;
+
+        const price = parseFloat(opt.getAttribute('data-price')) || 0;
+        const unit  = opt.getAttribute('data-unit') || 'unités';
+        const qty   = parseInt(qtyInput.value, 10) || 1;
 
         const total = price * qty;
         totalDisplay.textContent = total.toLocaleString('fr-FR');
         if (unitLabel) unitLabel.textContent = unit;
     }
 
-    if (select) select.addEventListener('change', updateFlashPrice);
+    if (productSelect) productSelect.addEventListener('change', updateFlashProductDetails);
     if (qtyInput) qtyInput.addEventListener('input', updateFlashPrice);
-    updateFlashPrice();
+
+    // Initial run on DOM load
+    if (productSelect) {
+        updateFlashProductDetails();
+    }
 })();
 </script>
 

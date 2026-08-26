@@ -363,6 +363,226 @@ add_filter( 'formatted_woocommerce_price', function( $formatted_price ) {
     return str_replace( ' ', '&nbsp;', $formatted_price );
 }, 20, 1 );
 
+/**
+ * Get dynamic specification and color options matching an actual WooCommerce product
+ */
+function tpm_get_product_flash_details( $product_or_title, $cat_slug = '', $unit = 'unité' ) {
+    if ( is_a( $product_or_title, 'WC_Product' ) ) {
+        $title    = $product_or_title->get_name();
+        $terms    = wp_get_post_terms( $product_or_title->get_id(), 'product_cat', ['fields' => 'slugs'] );
+        $cat_slug = ! empty( $terms ) ? $terms[0] : '';
+        $unit     = get_post_meta( $product_or_title->get_id(), '_unit', true ) ?: 'unité';
+    } else {
+        $title = (string) $product_or_title;
+    }
+
+    $lengths = [];
+    $colors  = [];
+    $length_label = 'LONGUEUR / FORMAT';
+    $color_label  = 'COULEUR / FINITION';
+
+    // 1. Tôles et toiture
+    if ( $cat_slug === 'toles-et-toiture' || preg_match( '/tôle|tole/iu', $title ) ) {
+        $length_label = 'LONGUEUR DE COUPE';
+        $color_label  = 'COULEUR RAL';
+        $lengths = [
+            'Standard 6.00m',
+            'Sur-mesure 3.00m',
+            'Sur-mesure 4.00m',
+            'Sur-mesure 5.00m',
+            'Sur-mesure 7.00m',
+            'Sur-mesure 8.00m',
+            'Sur-mesure 10.00m',
+            'Sur-mesure 12.00m'
+        ];
+        if ( preg_match( '/nature|brut|alu 4n/iu', $title ) ) {
+            $colors = [ 'Alu Naturel (Brut non laqué)' ];
+        } else {
+            $colors = [
+                'Bordeaux RAL 3005',
+                'Bleu Cendre RAL 5014',
+                'Orange Terracotta',
+                'Vert Olive RAL 6003',
+                'Gris Anthracite RAL 7016'
+            ];
+        }
+    }
+    // 2. Accessoires toiture (Faîtières, Bandes, Rives, Gouttières, Noues)
+    elseif ( $cat_slug === 'accessoires-toiture' || preg_match( '/fa[iî]ti[eè]re|bandes\s+ourl[eé]es|rives|goutti[eè]re|noues/iu', $title ) ) {
+        $length_label = 'FORMAT / LONGUEUR';
+        $color_label  = 'FINITION / COULEUR';
+        $lengths = [
+            'Élément Standard 2.00m',
+            'Élément Standard 3.00m',
+            'Découpe Sur-mesure au ml'
+        ];
+        if ( preg_match( '/pr[eé]laqu/iu', $title ) ) {
+            $colors = [
+                'Bordeaux RAL 3005',
+                'Bleu Cendre RAL 5014',
+                'Orange Terracotta',
+                'Vert Olive RAL 6003'
+            ];
+        } elseif ( preg_match( '/nature|brut/iu', $title ) ) {
+            $colors = [ 'Aluminium Naturel (Brut)' ];
+        } else {
+            $colors = [
+                'Aluminium Naturel (Brut)',
+                'Prélaqué Standard Usine'
+            ];
+        }
+    }
+    // 3. Fixations et étanchéité
+    elseif ( $cat_slug === 'fixations-et-etancheite' || preg_match( '/vis|tirefond|tige|cavalier|toiturole|feutre|rondelle|plaquette/iu', $title ) ) {
+        $length_label = 'DIMENSION / FORMAT';
+        $color_label  = 'TYPE / FINITION';
+        if ( preg_match( '/vis\s+auto/iu', $title ) ) {
+            preg_match( '/6[Xx]\d+/', $title, $m );
+            $dim = ! empty( $m[0] ) ? strtoupper( $m[0] ) : '6X70';
+            $lengths = [ "Dimension {$dim} mm (Vis + Rondelle EPDM)" ];
+            $colors  = [ 'Acier Cémenté Galvanisé / Zingué', 'Tête Laquée Couleur Toiture' ];
+        } elseif ( preg_match( '/tirefond/iu', $title ) ) {
+            preg_match( '/6[Xx]\d+/', $title, $m );
+            $dim = ! empty( $m[0] ) ? strtoupper( $m[0] ) : '6X80';
+            $lengths = [ "Dimension {$dim} mm (Paquet de 72 pcs)" ];
+            $colors  = [ 'Acier Zingué Haute Résistance' ];
+        } elseif ( preg_match( '/tige/iu', $title ) ) {
+            $lengths = [ 'Dimension 6x300 mm (Filetage continu)' ];
+            $colors  = [ 'Acier Zingué' ];
+        } elseif ( preg_match( '/cavalier/iu', $title ) ) {
+            $lengths = [ 'Boîte de 100 pièces (Pour bac 4N/5N/Tuile)' ];
+            if ( preg_match( '/pr[eé]laqu/iu', $title ) ) {
+                $colors = [ 'Prélaqué Bordeaux RAL 3005', 'Prélaqué Bleu Cendre', 'Prélaqué Terracotta', 'Prélaqué Vert Olive' ];
+            } else {
+                $colors = [ 'Aluminium Naturel' ];
+            }
+        } elseif ( preg_match( '/toiturole/iu', $title ) ) {
+            $lengths = [ 'Rouleau de 10 mètres linéaires (Larg. 1m)' ];
+            $colors  = [ 'Armature Bitume Étanche 900G' ];
+        } elseif ( preg_match( '/feutre|rondelle|plaquette/iu', $title ) ) {
+            $lengths = [ 'Boîte de 100 pièces' ];
+            $colors  = [ 'Feutre Bitumé Imperméable' ];
+        } else {
+            $lengths = [ 'Format Standard Usine' ];
+            $colors  = [ 'Standard Usine' ];
+        }
+    }
+    // 4. Accessoires intérieurs (Carreaux, Douches, Éponges)
+    elseif ( $cat_slug === 'accessoires-interieurs' || preg_match( '/carreau|[eé]ponge|douche/iu', $title ) ) {
+        if ( preg_match( '/carreau/iu', $title ) ) {
+            $length_label = 'FORMAT CARREAU';
+            $color_label  = 'ASPECT / CHOIX';
+            preg_match( '/\d+[Xx]\d+/', $title, $m );
+            $dim = ! empty( $m[0] ) ? $m[0] . ' cm' : 'Standard';
+            $lengths = [ "Format {$dim} (Vente au carton)" ];
+
+            preg_match( '/Réf\s+([A-Z0-9]+)/i', $title, $ref_m );
+            $ref = ! empty( $ref_m[1] ) ? "Réf. " . $ref_m[1] . " - " : "";
+            $colors = [
+                $ref . '1er Choix Certifié (Haute résistance)',
+                $ref . 'Finition Émaillée Brillante / Satinée',
+                $ref . 'Finition Mate Antidérapante'
+            ];
+        } elseif ( preg_match( '/douche/iu', $title ) ) {
+            $length_label = 'MODÈLE & FORMAT';
+            $color_label  = 'ALIMENTATION & FINITION';
+            if ( preg_match( '/grand modèle|duo/iu', $title ) ) {
+                $lengths = [ 'Grand Modèle — Multi-jets (Haute Puissance)' ];
+            } elseif ( preg_match( '/petit modèle/iu', $title ) ) {
+                $lengths = [ 'Petit Modèle — Compact Économique' ];
+            } else {
+                $lengths = [ 'Modèle Central Polyvalent' ];
+            }
+            $colors = [
+                '220V - Blanc Sanitaire Finition Chrome',
+                '220V - Standard Fabricant'
+            ];
+        } elseif ( preg_match( '/[eé]ponge/iu', $title ) ) {
+            $length_label = 'CONDITIONNEMENT';
+            $color_label  = 'TYPE DE MAILLE';
+            if ( preg_match( '/25/iu', $title ) ) {
+                $lengths = [ 'Sachet de 25 pièces' ];
+            } else {
+                $lengths = [ 'Sachet de 20 pièces' ];
+            }
+            if ( preg_match( '/non\s+doubl/iu', $title ) ) {
+                $colors = [ 'Maille Simple Non Doublée (Acier Inox)' ];
+            } else {
+                $colors = [ 'Maille Renforcée Doublée (Longue Durée)' ];
+            }
+        } else {
+            $length_label = 'FORMAT';
+            $color_label  = 'FINITION';
+            $lengths = [ 'Format Standard' ];
+            $colors  = [ 'Standard' ];
+        }
+    } else {
+        $lengths = [ 'Standard Usine' ];
+        $colors  = [ 'Standard' ];
+    }
+
+    return [
+        'length_label' => $length_label,
+        'color_label'  => $color_label,
+        'lengths'      => $lengths,
+        'colors'       => $colors,
+        'unit'         => $unit,
+    ];
+}
+
+/**
+ * Retrieve all products structured by categories for Flash Pro-Forma card
+ */
+function tpm_get_flash_proforma_groups() {
+    $products = wc_get_products([
+        'status'  => 'publish',
+        'limit'   => -1,
+        'orderby' => 'menu_order',
+        'order'   => 'ASC'
+    ]);
+
+    $categories_order = [
+        'toles-et-toiture'       => '1. Tôles & Couvertures BAC',
+        'accessoires-toiture'    => '2. Accessoires Toiture & Faîtages',
+        'fixations-et-etancheite'=> '3. Fixations, Vis & Étanchéité',
+        'accessoires-interieurs' => '4. Accessoires Intérieurs (Carreaux, Douches, Éponges)'
+    ];
+
+    $grouped = [];
+    foreach ($categories_order as $slug => $label) {
+        $grouped[$slug] = ['label' => $label, 'products' => []];
+    }
+    $grouped['autre'] = ['label' => '5. Autres Références', 'products' => []];
+
+    foreach ($products as $p) {
+        $terms = wp_get_post_terms($p->get_id(), 'product_cat');
+        $matched_slug = 'autre';
+        foreach ($terms as $t) {
+            if (isset($categories_order[$t->slug])) {
+                $matched_slug = $t->slug;
+                break;
+            }
+        }
+
+        $unit = get_post_meta($p->get_id(), '_unit', true) ?: 'unité';
+        $details = tpm_get_product_flash_details($p, $matched_slug, $unit);
+
+        $grouped[$matched_slug]['products'][] = [
+            'id'      => $p->get_id(),
+            'name'    => $p->get_name(),
+            'price'   => $p->get_price(),
+            'unit'    => $unit,
+            'sku'     => $p->get_sku() ?: ('TPM-' . $p->get_id()),
+            'details' => $details,
+        ];
+    }
+
+    return array_filter($grouped, function($g) {
+        return ! empty($g['products']);
+    });
+}
+
+
 
 
 
