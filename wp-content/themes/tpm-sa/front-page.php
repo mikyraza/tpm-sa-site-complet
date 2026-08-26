@@ -238,7 +238,7 @@ $woo_products = $wpdb->get_results( "
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
                     <div>
                         <div class="relative aspect-[16/11] overflow-hidden bg-slate-100">
-                            <img src="<?php echo esc_url($theme_img_uri . 'pole1_toles.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_cat_toles.jfif'); ?>" 
                                  alt="Tôles et toiture" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -269,7 +269,7 @@ $woo_products = $wpdb->get_results( "
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
                     <div>
                         <div class="relative aspect-[16/11] overflow-hidden bg-slate-100">
-                            <img src="<?php echo esc_url($theme_img_uri . 'pole2_accessoires.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_cat_accessoires.jfif'); ?>" 
                                  alt="Accessoires toiture" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -300,7 +300,7 @@ $woo_products = $wpdb->get_results( "
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
                     <div>
                         <div class="relative aspect-[16/11] overflow-hidden bg-slate-100">
-                            <img src="<?php echo esc_url($theme_img_uri . 'pole3_fixations.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_cat_fixations.jfif'); ?>" 
                                  alt="Fixations et étanchéité" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -331,7 +331,7 @@ $woo_products = $wpdb->get_results( "
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
                     <div>
                         <div class="relative aspect-[16/11] overflow-hidden bg-slate-100">
-                            <img src="<?php echo esc_url($theme_img_uri . 'pole4_sacs.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_cat_interieurs.jfif'); ?>" 
                                  alt="Accessoires intérieurs" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -392,7 +392,7 @@ $woo_products = $wpdb->get_results( "
                     <div>
                         <!-- Top Image Box with Floating Tags -->
                         <div class="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                            <img src="<?php echo esc_url($theme_img_uri . 'prod1_tole.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_prod_tole_bordeau.jfif'); ?>" 
                                  alt="Tôle BAC Prélaquée 0.50mm – Bordeau" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -430,12 +430,12 @@ $woo_products = $wpdb->get_results( "
 
                     <!-- Price & Action Row -->
                     <div class="p-5 pt-0 border-t border-gray-100 flex items-center justify-between mt-2 pt-3">
-                        <div>
-                            <span class="text-lg font-black text-tpm-orange">5 800 XAF</span>
-                            <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
+                        <div class="whitespace-nowrap">
+                            <span class="text-base sm:text-lg font-black text-tpm-orange whitespace-nowrap">5&nbsp;800&nbsp;XAF</span>
+                            <span class="text-[9px] text-gray-400 block font-medium uppercase mt-0.5">+ TVA 19.25%</span>
                         </div>
                         <a href="?add-to-cart=<?php echo esc_attr($woo_products[0]->ID ?? 16); ?>" 
-                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
+                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors whitespace-nowrap shrink-0">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
                         </a>
@@ -446,7 +446,7 @@ $woo_products = $wpdb->get_results( "
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
                     <div>
                         <div class="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                            <img src="<?php echo esc_url($theme_img_uri . 'project2.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_prod_tole_bleu.jfif'); ?>" 
                                  alt="Tôle BAC Prélaquée 0.50mm – Bleu Cendre" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -481,12 +481,12 @@ $woo_products = $wpdb->get_results( "
                     </div>
 
                     <div class="p-5 pt-0 border-t border-gray-100 flex items-center justify-between mt-2 pt-3">
-                        <div>
-                            <span class="text-lg font-black text-tpm-orange">5 800 XAF</span>
-                            <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
+                        <div class="whitespace-nowrap">
+                            <span class="text-base sm:text-lg font-black text-tpm-orange whitespace-nowrap">5&nbsp;800&nbsp;XAF</span>
+                            <span class="text-[9px] text-gray-400 block font-medium uppercase mt-0.5">+ TVA 19.25%</span>
                         </div>
                         <a href="?add-to-cart=<?php echo esc_attr($woo_products[1]->ID ?? 24); ?>" 
-                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
+                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors whitespace-nowrap shrink-0">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
                         </a>
@@ -497,7 +497,7 @@ $woo_products = $wpdb->get_results( "
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
                     <div>
                         <div class="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                            <img src="<?php echo esc_url($theme_img_uri . 'prod3_faitiere.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_prod_faitiere.jfif'); ?>" 
                                  alt="Faîtière à Bord Rabattu 0.50mm" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -532,12 +532,12 @@ $woo_products = $wpdb->get_results( "
                     </div>
 
                     <div class="p-5 pt-0 border-t border-gray-100 flex items-center justify-between mt-2 pt-3">
-                        <div>
-                            <span class="text-lg font-black text-tpm-orange">4 500 XAF</span>
-                            <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
+                        <div class="whitespace-nowrap">
+                            <span class="text-base sm:text-lg font-black text-tpm-orange whitespace-nowrap">4&nbsp;500&nbsp;XAF</span>
+                            <span class="text-[9px] text-gray-400 block font-medium uppercase mt-0.5">+ TVA 19.25%</span>
                         </div>
                         <a href="?add-to-cart=<?php echo esc_attr($woo_products[2]->ID ?? 25); ?>" 
-                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
+                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors whitespace-nowrap shrink-0">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
                         </a>
@@ -548,7 +548,7 @@ $woo_products = $wpdb->get_results( "
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
                     <div>
                         <div class="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                            <img src="<?php echo esc_url($theme_img_uri . 'prod2_fixation.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_prod_fixations.jfif'); ?>" 
                                  alt="Fixations Complètes 6x80mm" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -583,12 +583,12 @@ $woo_products = $wpdb->get_results( "
                     </div>
 
                     <div class="p-5 pt-0 border-t border-gray-100 flex items-center justify-between mt-2 pt-3">
-                        <div>
-                            <span class="text-lg font-black text-tpm-orange">12 500 XAF</span>
-                            <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
+                        <div class="whitespace-nowrap">
+                            <span class="text-base sm:text-lg font-black text-tpm-orange whitespace-nowrap">12&nbsp;500&nbsp;XAF</span>
+                            <span class="text-[9px] text-gray-400 block font-medium uppercase mt-0.5">+ TVA 19.25%</span>
                         </div>
                         <a href="?add-to-cart=<?php echo esc_attr($woo_products[3]->ID ?? 21); ?>" 
-                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
+                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors whitespace-nowrap shrink-0">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
                         </a>
@@ -599,7 +599,7 @@ $woo_products = $wpdb->get_results( "
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
                     <div>
                         <div class="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                            <img src="<?php echo esc_url($theme_img_uri . 'prod5_joint.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_prod_joint.jfif'); ?>" 
                                  alt="Joint Bitumé Étanchéité 10M" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -634,12 +634,12 @@ $woo_products = $wpdb->get_results( "
                     </div>
 
                     <div class="p-5 pt-0 border-t border-gray-100 flex items-center justify-between mt-2 pt-3">
-                        <div>
-                            <span class="text-lg font-black text-tpm-orange">8 500 XAF</span>
-                            <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
+                        <div class="whitespace-nowrap">
+                            <span class="text-base sm:text-lg font-black text-tpm-orange whitespace-nowrap">8&nbsp;500&nbsp;XAF</span>
+                            <span class="text-[9px] text-gray-400 block font-medium uppercase mt-0.5">+ TVA 19.25%</span>
                         </div>
                         <a href="?add-to-cart=<?php echo esc_attr($woo_products[4]->ID ?? 22); ?>" 
-                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
+                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors whitespace-nowrap shrink-0">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
                         </a>
@@ -650,7 +650,7 @@ $woo_products = $wpdb->get_results( "
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
                     <div>
                         <div class="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                            <img src="<?php echo esc_url($theme_img_uri . 'prod4_sac.jpg'); ?>" 
+                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_prod_sacs.jfif'); ?>" 
                                  alt="Sacs PP Blancs Tissés 50kg" 
                                  loading="lazy" 
                                  decoding="async" 
@@ -685,12 +685,12 @@ $woo_products = $wpdb->get_results( "
                     </div>
 
                     <div class="p-5 pt-0 border-t border-gray-100 flex items-center justify-between mt-2 pt-3">
-                        <div>
-                            <span class="text-lg font-black text-tpm-orange">62 500 XAF</span>
-                            <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
+                        <div class="whitespace-nowrap">
+                            <span class="text-base sm:text-lg font-black text-tpm-orange whitespace-nowrap">62&nbsp;500&nbsp;XAF</span>
+                            <span class="text-[9px] text-gray-400 block font-medium uppercase mt-0.5">+ TVA 19.25%</span>
                         </div>
                         <a href="?add-to-cart=<?php echo esc_attr($woo_products[5]->ID ?? 23); ?>" 
-                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors">
+                           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors whitespace-nowrap shrink-0">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
                         </a>
