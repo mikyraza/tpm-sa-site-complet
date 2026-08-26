@@ -304,7 +304,10 @@ require_once get_template_directory() . '/inc/order-receipt-email.php';
  */
 require_once get_template_directory() . '/inc/smtp-settings.php';
 
-
+/**
+ * Fiches Techniques Certifiées TPM SA (Groupe CAC)
+ */
+require_once get_template_directory() . '/inc/fiche-technique.php';
 /**
  * Fast AJAX Add-to-Cart / Pro-Forma Handler (Prevents page reloads and scroll jumps)
  */
