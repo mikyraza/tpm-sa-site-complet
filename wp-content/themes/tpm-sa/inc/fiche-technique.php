@@ -736,7 +736,49 @@ function tpm_get_product_fiche_technique( $product ) {
         ];
     }
 
+    // ONLY the actual standard roofing sheets (Tôles Bacs & Ondulées) have the authentic blueprint diagram
+    // For all other products, details are rendered purely in text form without repeated/generic diagrams
+    $has_proper_diagram = false;
+    if ( ( $cat_slug === 'toles-et-toiture' || preg_match( '/tôle|tole/iu', $title ) ) && ! preg_match( '/tuile/iu', $title ) ) {
+        $has_proper_diagram = true;
+    }
+
+    // Tailored storage, handling & warranty guidelines in text form
+    if ( $product_family === 'tole' || $product_family === 'accessoire' ) {
+        $stockage_info = [
+            'stockage'    => "Stocker à plat sous abri sec et bien aéré, sur cales en bois surélevées du sol. Éviter le contact avec le sol humide.",
+            'manutention' => "Porter des gants de protection anti-coupure. Porter les éléments à deux personnes sans les faire frotter pour préserver la finition.",
+            'garantie'    => "Garantie usine TPM SA contre toute corrosion perforante. Conforme Norme Camerounaise (NC) & ISO 9001:2015."
+        ];
+    } elseif ( $product_family === 'fixation' ) {
+        $stockage_info = [
+            'stockage'    => "Conserver dans les boîtes ou paquets d'origine scellés, dans un local sec et tempéré à l'abri de l'humidité.",
+            'manutention' => "Vérifier la bonne assise du joint EPDM avant serrage. Utiliser des douilles hexagonales calibrées sans jeu.",
+            'garantie'    => "Garantie de résistance mécanique à l'arrachement et protection anticorrosion électro-zinguée certifiée."
+        ];
+    } elseif ( $product_family === 'carrelage' ) {
+        $stockage_info = [
+            'stockage'    => "Stocker les cartons verticalement sur chant sur palettes stables, à l'abri des intempéries et des chocs.",
+            'manutention' => "Manipuler les cartons avec précaution pour éviter l'ébréchage des arêtes. Vérifier les calibres et bains avant pose.",
+            'garantie'    => "Carrelage premier choix garanti sans défaut de surface (Groupe BIa). Conforme norme internationale ISO 13006."
+        ];
+    } elseif ( $product_family === 'douche' ) {
+        $stockage_info = [
+            'stockage'    => "Conserver dans l'emballage protecteur d'origine dans un endroit sec jusqu'au moment du raccordement.",
+            'manutention' => "Ne pas tirer sur les conducteurs électriques. Réaliser impérativement la mise en eau avant la première mise sous tension.",
+            'garantie'    => "Garantie constructeur TPM SA contre tout défaut d'assemblage ou de composant électrique."
+        ];
+    } else {
+        $stockage_info = [
+            'stockage'    => "Conserver dans un magasin sec, propre et ventilé, à l'écart des sources de chaleur et du soleil direct continu.",
+            'manutention' => "Manipuler les conditionnements sans les traîner au sol afin de préserver l'intégrité des emballages.",
+            'garantie'    => "Qualité industrielle contrôlée en laboratoire usine TPM SA à Douala Bekoko & PK12."
+        ];
+    }
+
     return [
+        'has_proper_diagram' => $has_proper_diagram,
+        'stockage_info'      => $stockage_info,
         'ref'              => $ref,
         'title'            => $title,
         'designation'      => $designation,

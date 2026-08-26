@@ -2,7 +2,7 @@
 /**
  * woocommerce/content-single-product.php
  * Fiche Technique Officielle Certifiée TPM SA (Groupe CAC)
- * Conforme au modèle certifié de Fiche Technique & Commerciale (2 Pages)
+ * Standard Certifié : Diagrammes authentiques sur tôles éligibles, Texte structuré exhaustif pour les autres produits
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,12 @@ $cart_url     = function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_ur
 
 // Retrieve complete certified Fiche Technique data
 $fiche = function_exists('tpm_get_product_fiche_technique') ? tpm_get_product_fiche_technique($product) : [];
-$product_family = $fiche['product_family'] ?? 'tole';
+$has_proper_diagram = ! empty($fiche['has_proper_diagram']);
+$stockage_info = $fiche['stockage_info'] ?? [
+    'stockage'    => "Stocker à plat sous abri sec et bien aéré, sur cales en bois surélevées du sol.",
+    'manutention' => "Manipuler avec précaution pour préserver la qualité de finition du produit.",
+    'garantie'    => "Garantie usine TPM SA conforme Norme Camerounaise (NC) & ISO 9001:2015."
+];
 
 // Dynamic options for format/length and color/finish
 $flash_details = function_exists('tpm_get_product_flash_details') ? tpm_get_product_flash_details($product) : [
@@ -61,11 +66,13 @@ do_action( 'woocommerce_before_single_product' );
         margin: 0 !important;
     }
     .sheet-page-1 {
-        page-break-after: always !important;
-        break-after: page !important;
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
+        <?php if ($has_proper_diagram): ?>
+        page-break-after: always !important;
+        break-after: page !important;
+        <?php endif; ?>
     }
     .sheet-page-2 {
         page-break-before: always !important;
@@ -196,7 +203,7 @@ do_action( 'woocommerce_before_single_product' );
     </div>
 
     <!-- =================================================================== -->
-    <!-- PAGE 1 : FICHE DESCRIPTIVE TECHNIQUE & COMMERCIALE                 -->
+    <!-- FICHE DESCRIPTIVE TECHNIQUE & COMMERCIALE                          -->
     <!-- =================================================================== -->
     <div class="sheet-page-1 bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-xl space-y-6">
 
@@ -321,27 +328,68 @@ do_action( 'woocommerce_before_single_product' );
             </div>
         </div>
 
-        <!-- PIED DE PAGE : PAGE 1 / 2 -->
+        <?php if ( ! $has_proper_diagram ): ?>
+            <!-- SECTIONS TEXTUELLES EXCLUSIVES POUR LES PRODUITS SANS CROQUIS SPÉCIFIQUE -->
+            <div class="space-y-3 pt-4 border-t border-slate-200">
+                <h2 class="text-sm sm:text-base font-black text-[#154c9e] uppercase tracking-wider border-b-2 border-[#154c9e] pb-1 m-0">
+                    LOGISTIQUE, STOCKAGE CHANTIER &amp; GARANTIE USINE
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/60 shadow-2xs">
+                        <div class="font-black text-xs text-[#154c9e] flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[18px]">warehouse</span>
+                            Stockage &amp; Entrepôt
+                        </div>
+                        <p class="text-[11px] text-gray-600 mt-2 leading-relaxed m-0">
+                            <?php echo esc_html($stockage_info['stockage']); ?>
+                        </p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/60 shadow-2xs">
+                        <div class="font-black text-xs text-[#154c9e] flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[18px]">front_hand</span>
+                            Manutention Chantier
+                        </div>
+                        <p class="text-[11px] text-gray-600 mt-2 leading-relaxed m-0">
+                            <?php echo esc_html($stockage_info['manutention']); ?>
+                        </p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/60 shadow-2xs">
+                        <div class="font-black text-xs text-[#154c9e] flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[18px]">verified_user</span>
+                            Garantie &amp; Conformité
+                        </div>
+                        <p class="text-[11px] text-gray-600 mt-2 leading-relaxed m-0">
+                            <?php echo esc_html($stockage_info['garantie']); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- PIED DE PAGE DE LA FICHE -->
         <div class="pt-4 border-t border-slate-200 flex justify-between items-center text-[10px] text-gray-400 font-mono tracking-wide">
             <span>Fiche Technique &amp; Descriptif Produit | <?php echo esc_html($title); ?></span>
-            <span>Page 1 / 2</span>
+            <span><?php echo $has_proper_diagram ? 'Page 1 / 2' : 'Fiche Officielle • Certifié TPM SA'; ?></span>
         </div>
 
     </div>
 
     <!-- =================================================================== -->
-    <!-- PAGE 2 : CROQUIS TECHNIQUES & DÉTAILS DE FIXATION                   -->
+    <!-- PAGE 2 : CROQUIS TECHNIQUES (UNIQUEMENT PRODUITS AVEC PLAN PROPRE) -->
     <!-- =================================================================== -->
-    <div class="sheet-page-2 bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-xl space-y-8">
+    <?php if ( $has_proper_diagram ): ?>
+        <div class="sheet-page-2 bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-xl space-y-8">
 
-        <!-- TITRE CROQUIS TECHNIQUES -->
-        <div>
-            <h2 class="text-base sm:text-lg font-black text-[#154c9e] uppercase tracking-wider border-b-2 border-[#154c9e] pb-1 m-0">
-                CROQUIS TECHNIQUES &amp; DÉTAILS DE FIXATION
-            </h2>
-        </div>
+            <!-- TITRE CROQUIS TECHNIQUES -->
+            <div>
+                <h2 class="text-base sm:text-lg font-black text-[#154c9e] uppercase tracking-wider border-b-2 border-[#154c9e] pb-1 m-0">
+                    CROQUIS TECHNIQUES &amp; DÉTAILS DE FIXATION
+                </h2>
+            </div>
 
-        <?php if ($product_family === 'tole'): ?>
             <!-- 1. PROFILS EN COUPE & STRUCTURE MULTICOUCHE PRÉLAQUÉE -->
             <div class="space-y-4">
                 <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
@@ -484,227 +532,14 @@ do_action( 'woocommerce_before_single_product' );
                 </div>
             </div>
 
-        <?php elseif ($product_family === 'accessoire'): ?>
-            <!-- 1. PROFILS EN COUPE DE L'ACCESSOIRE -->
-            <div class="space-y-4">
-                <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
-                    1. GÉOMÉTRIE &amp; DÉVELOPPÉ RÉGLEMENTAIRE (DÉVELOPPÉ 0,33 M À 0,35 M)
-                </h3>
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs space-y-4">
-                    <div class="w-full overflow-x-auto">
-                        <svg viewBox="0 0 800 160" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                            <!-- Profil Faîtière Double Pente avec Relevés -->
-                            <path d="M 50,130 L 100,120 L 380,30 L 400,25 L 420,30 L 700,120 L 750,130" />
-                            <!-- Aile gauche -->
-                            <line x1="100" y1="120" x2="380" y2="30" stroke="#2563eb" stroke-width="4" />
-                            <text x="240" y="65" fill="#1e40af" font-size="11" font-weight="bold" transform="rotate(-18 240 65)">Aile gauche (160 mm)</text>
-                            <!-- Aile droite -->
-                            <line x1="420" y1="30" x2="700" y2="120" stroke="#2563eb" stroke-width="4" />
-                            <text x="560" y="65" fill="#1e40af" font-size="11" font-weight="bold" transform="rotate(18 560 65)">Aile droite (160 mm)</text>
-                            <!-- Ourlet anti-goutte aux extrémités -->
-                            <circle cx="50" cy="130" r="4" fill="#154c9e" />
-                            <circle cx="750" cy="130" r="4" fill="#154c9e" />
-                            <!-- Angle au faîte -->
-                            <path d="M 370,50 Q 400,65 430,50" stroke="#f59e0b" stroke-width="2" />
-                            <text x="400" y="80" fill="#b45309" font-size="10" font-weight="bold" text-anchor="middle">Angle adaptable (100° à 140°)</text>
-                        </svg>
-                    </div>
-                </div>
+            <!-- PIED DE PAGE : PAGE 2 / 2 -->
+            <div class="pt-4 border-t border-slate-200 flex justify-between items-center text-[10px] text-gray-400 font-mono tracking-wide">
+                <span>Fiche Technique &amp; Descriptif Produit | <?php echo esc_html($title); ?></span>
+                <span>Page 2 / 2</span>
             </div>
 
-            <!-- 2. SCHÉMA DE JONCTION SUR COUVERTURE -->
-            <div class="space-y-4 pt-2">
-                <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
-                    2. SCHÉMA DE JONCTION ÉTANCHE SUR TÔLE DE COUVERTURE
-                </h3>
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs">
-                    <svg viewBox="0 0 800 220" class="w-full h-auto">
-                        <!-- Deux versants de tôle -->
-                        <path d="M 50,180 L 380,60" stroke="#94a3b8" stroke-width="5" stroke-linecap="round" />
-                        <path d="M 750,180 L 420,60" stroke="#94a3b8" stroke-width="5" stroke-linecap="round" />
-                        <!-- Faîtière au-dessus -->
-                        <path d="M 120,160 L 400,50 L 680,160" fill="none" stroke="#154c9e" stroke-width="5" stroke-linecap="round" />
-                        <!-- Fixation sur onde -->
-                        <line x1="260" y1="90" x2="260" y2="135" stroke="#ef4444" stroke-width="3" stroke-linecap="round" />
-                        <rect x="252" y="80" width="16" height="10" fill="#dc2626" rx="2" />
-                        <line x1="540" y1="90" x2="540" y2="135" stroke="#ef4444" stroke-width="3" stroke-linecap="round" />
-                        <rect x="532" y="80" width="16" height="10" fill="#dc2626" rx="2" />
-                        <text x="400" y="30" fill="#154c9e" font-size="12" font-weight="900" text-anchor="middle">FAÎTIÈRE COIFFANTE EN ALUMINIUM PUR</text>
-                        <text x="400" y="195" fill="#475569" font-size="11" font-weight="bold" text-anchor="middle">Vissage étanche traversant au sommet d'onde de part et d'autre de la crête</text>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- 3. NUANCIER RAL COORDONNÉ -->
-            <div class="space-y-3 pt-2">
-                <div class="text-xs font-black uppercase tracking-wider text-[#154c9e] text-center border-b border-slate-200 pb-1.5">
-                    NUANCIER RAL ASSORTI AUX TÔLES DE TOITURE :
-                </div>
-                <div class="grid grid-cols-5 gap-3 text-center">
-                    <?php foreach ($fiche['ral_swatches'] as $sw): ?>
-                        <div class="flex flex-col items-center gap-1.5">
-                            <div class="w-full h-16 sm:h-20 rounded-lg shadow-sm border border-black/10 transition-transform hover:scale-105" style="background-color: <?php echo esc_attr($sw['hex']); ?>;"></div>
-                            <div class="text-[9px] sm:text-[10px] font-bold text-gray-800 leading-tight"><?php echo esc_html($sw['name']); ?></div>
-                            <div class="text-[8px] sm:text-[9px] text-gray-500 font-mono">(<?php echo esc_html($sw['ral']); ?>)</div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-
-        <?php elseif ($product_family === 'fixation'): ?>
-            <!-- 1. ÉCLATÉ TECHNIQUE DE LA FIXATION & ÉTANCHÉITÉ -->
-            <div class="space-y-4">
-                <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
-                    1. VUE ÉCLATÉE DU SYSTÈME D'ANCRAGE &amp; BARRIÈRE ÉTANCHE
-                </h3>
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs">
-                    <svg viewBox="0 0 800 240" class="w-full h-auto">
-                        <!-- Tête de vis hexagonale avec collerette -->
-                        <rect x="360" y="20" width="80" height="35" rx="4" fill="#0f172a" />
-                        <circle cx="400" cy="37" r="10" fill="#2563eb" />
-                        <text x="460" y="42" fill="#0f172a" font-size="11" font-weight="bold">1. Tête hexagonale zinguée avec embase large</text>
-                        <!-- Rondelle vulcanisée EPDM -->
-                        <rect x="345" y="70" width="110" height="15" rx="3" fill="#64748b" />
-                        <rect x="345" y="85" width="110" height="10" rx="2" fill="#1e293b" />
-                        <text x="470" y="87" fill="#475569" font-size="11" font-weight="bold">2. Rondelle acier + Joint néoprène EPDM inaltérable</text>
-                        <!-- Cavalier alu trapézoïdal -->
-                        <path d="M 320,120 L 400,105 L 480,120 L 460,135 L 400,125 L 340,135 Z" fill="#154c9e" />
-                        <text x="500" y="125" fill="#154c9e" font-size="11" font-weight="bold">3. Cavalier d'onde en aluminium (répartition de charge)</text>
-                        <!-- Tige filetée et pointe forêt -->
-                        <rect x="393" y="135" width="14" height="70" fill="#0284c7" />
-                        <polygon points="390,205 410,205 400,230" fill="#0369a1" />
-                        <text x="430" y="180" fill="#0284c7" font-size="11" font-weight="bold">4. Filetage renforcé &amp; pointe auto-foreuse trempée</text>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- 2. ANCRAGE SUR PANNE DE CHARPENTE -->
-            <div class="space-y-4 pt-2">
-                <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
-                    2. PÉNÉTRATION &amp; COMPRESSION D'ÉTANCHÉITÉ DANS LA PANNE
-                </h3>
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-2xs text-center">
-                    <p class="text-xs text-gray-700 leading-relaxed max-w-2xl mx-auto m-0">
-                        La fixation TPM SA pénètre d'au moins <strong>40 à 50 mm</strong> dans le bois de charpente pour mobiliser la résistance au cisaillement des fibres. Le joint EPDM doit être comprimé à <strong>30% de son épaisseur initiale</strong> pour assurer l'herméticité sans dépasser le point d'écrasement.
-                    </p>
-                </div>
-            </div>
-
-        <?php elseif ($product_family === 'carrelage'): ?>
-            <!-- 1. COUPE TECHNIQUE DE POSE DU CARRELAGE -->
-            <div class="space-y-4">
-                <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
-                    1. COUPE STRUCTURELLE DE POSE COLLÉE SUR CHAPE (NORME C2TE)
-                </h3>
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs">
-                    <svg viewBox="0 0 800 240" class="w-full h-auto">
-                        <!-- Dalle béton support -->
-                        <rect x="50" y="180" width="700" height="50" fill="#94a3b8" />
-                        <text x="400" y="210" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">DALLE BÉTON STRUCTURALE ARMÉE</text>
-                        <!-- Chape ciment de nivellement -->
-                        <rect x="50" y="130" width="700" height="50" fill="#cbd5e1" stroke="#94a3b8" stroke-dasharray="3,3" />
-                        <text x="400" y="160" fill="#475569" font-size="11" font-weight="bold" text-anchor="middle">CHAPE CIMENT DE NIVELLEMENT PARFAITEMENT SÈCHE</text>
-                        <!-- Lit de mortier colle -->
-                        <rect x="50" y="100" width="700" height="30" fill="#fde68a" stroke="#d97706" />
-                        <text x="400" y="120" fill="#92400e" font-size="10" font-weight="bold" text-anchor="middle">LIT DE MORTIER-COLLE HAUTE ADHÉRENCE C2TE (5 MM)</text>
-                        <!-- Carreaux de grès cérame avec joints -->
-                        <rect x="60" y="60" width="200" height="40" fill="#1e293b" rx="2" />
-                        <rect x="270" y="60" width="200" height="40" fill="#1e293b" rx="2" />
-                        <rect x="480" y="60" width="200" height="40" fill="#1e293b" rx="2" />
-                        <!-- Joint hydrofuge -->
-                        <line x1="265" y1="60" x2="265" y2="100" stroke="#38bdf8" stroke-width="4" />
-                        <line x1="475" y1="60" x2="475" y2="100" stroke="#38bdf8" stroke-width="4" />
-                        <text x="400" y="45" fill="#0f172a" font-size="11" font-weight="black" text-anchor="middle">CARRELAGE GRÈS CÉRAME 1ER CHOIX AVEC JOINT HYDROFUGE (2 MM)</text>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- 2. NORMES & CLASSIFICATION DU GRÈS CÉRAME -->
-            <div class="space-y-4 pt-2">
-                <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
-                    2. RÉSISTANCE À L'ABRASION (PEI) &amp; POROSITÉ HYDROFUGE
-                </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 text-center">
-                        <div class="text-xl font-black text-[#154c9e]">PEI IV / V</div>
-                        <div class="text-xs font-bold text-gray-800 mt-1">Trafic Intense &amp; Résistance Rayures</div>
-                        <p class="text-[11px] text-gray-600 mt-1 m-0">Convient parfaitement aux espaces publics, commerces, séjours et terrasses.</p>
-                    </div>
-                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 text-center">
-                        <div class="text-xl font-black text-emerald-600">E &lt; 0.08%</div>
-                        <div class="text-xs font-bold text-gray-800 mt-1">Absorption d'Eau Quasi-Nulle</div>
-                        <p class="text-[11px] text-gray-600 mt-1 m-0">Matériau vitrifié non poreux : zéro moisissure, inaltérable sous climat humide.</p>
-                    </div>
-                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 text-center">
-                        <div class="text-xl font-black text-amber-600">&gt; 35 N/mm²</div>
-                        <div class="text-xs font-bold text-gray-800 mt-1">Résistance à la Flexion</div>
-                        <p class="text-[11px] text-gray-600 mt-1 m-0">Haute ténacité structurelle éliminant le risque de casse sous les charges de meubles.</p>
-                    </div>
-                </div>
-            </div>
-
-        <?php elseif ($product_family === 'douche'): ?>
-            <!-- SCHÉMA D'INSTALLATION SANITAIRE & ÉLECTRIQUE -->
-            <div class="space-y-4">
-                <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
-                    SCHÉMA DE RACCORDEMENT HYDRAULIQUE &amp; SÉCURITÉ ÉLECTRIQUE
-                </h3>
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs">
-                    <svg viewBox="0 0 800 240" class="w-full h-auto">
-                        <!-- Boîtier douche thérapeutique -->
-                        <rect x="320" y="40" width="160" height="140" rx="16" fill="#f8fafc" stroke="#0284c7" stroke-width="4" />
-                        <circle cx="400" cy="90" r="30" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" />
-                        <text x="400" y="95" fill="#0369a1" font-size="11" font-weight="900" text-anchor="middle">SÉLECTEUR</text>
-                        <!-- Buse de pulvérisation multi-jets -->
-                        <path d="M 300,180 L 500,180 L 480,210 L 320,210 Z" fill="#0284c7" />
-                        <line x1="340" y1="215" x2="330" y2="235" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2,2" />
-                        <line x1="370" y1="215" x2="365" y2="235" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2,2" />
-                        <line x1="400" y1="215" x2="400" y2="235" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2,2" />
-                        <line x1="430" y1="215" x2="435" y2="235" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2,2" />
-                        <line x1="460" y1="215" x2="470" y2="235" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2,2" />
-                        <!-- Arrivée d'eau -->
-                        <line x1="150" y1="100" x2="320" y2="100" stroke="#0284c7" stroke-width="8" />
-                        <text x="150" y="85" fill="#0284c7" font-size="11" font-weight="bold">Arrivée d'eau 1/2" mâle</text>
-                        <!-- Alimentation électrique sécurisée -->
-                        <line x1="650" y1="60" x2="480" y2="60" stroke="#ef4444" stroke-width="4" />
-                        <text x="520" y="45" fill="#ef4444" font-size="10" font-weight="bold">Phase &amp; Neutre (Câble 4-6 mm²)</text>
-                        <!-- Mise à la terre -->
-                        <line x1="650" y1="90" x2="480" y2="90" stroke="#22c55e" stroke-width="4" stroke-dasharray="4,2" />
-                        <text x="520" y="110" fill="#15803d" font-size="10" font-weight="bold">Mise à la terre obligatoire (Terre)</text>
-                    </svg>
-                </div>
-            </div>
-
-        <?php else: ?>
-            <!-- PLASTURGIE / SACS PP OU AUTRES MATÉRIAUX -->
-            <div class="space-y-4">
-                <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
-                    MATRICE DE TISSAGE CIRCULAIRE &amp; RÉSISTANCE À LA RUPTURE
-                </h3>
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs text-center space-y-4">
-                    <svg viewBox="0 0 800 180" class="w-full h-auto">
-                        <!-- Tissage croisé PP -->
-                        <?php for ($i = 50; $i <= 750; $i += 40): ?>
-                            <line x1="<?php echo $i; ?>" y1="20" x2="<?php echo $i; ?>" y2="160" stroke="#94a3b8" stroke-width="4" />
-                        <?php endfor; ?>
-                        <?php for ($j = 30; $j <= 150; $j += 30): ?>
-                            <line x1="40" y1="<?php echo $j; ?>" x2="760" y2="<?php echo $j; ?>" stroke="#154c9e" stroke-width="4" />
-                        <?php endfor; ?>
-                    </svg>
-                    <p class="text-xs text-gray-700 leading-relaxed max-w-2xl mx-auto m-0">
-                        Polypropylène pur extrudé en rubans haute ténacité et croisé sur métiers à tisser circulaires sans couture latérale. Finition avec double point de chaînette en fil polyester au fond pour prévenir toute perte de grains ou de poudre.
-                    </p>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <!-- PIED DE PAGE : PAGE 2 / 2 -->
-        <div class="pt-4 border-t border-slate-200 flex justify-between items-center text-[10px] text-gray-400 font-mono tracking-wide">
-            <span>Fiche Technique &amp; Descriptif Produit | <?php echo esc_html($title); ?></span>
-            <span>Page 2 / 2</span>
         </div>
-
-    </div>
+    <?php endif; ?>
 
 </div>
 
