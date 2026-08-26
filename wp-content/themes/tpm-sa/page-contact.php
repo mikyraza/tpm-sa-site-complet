@@ -466,16 +466,16 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
     <!-- ═══════════════════════════════════════════════════════════
          5. BOTTOM BANNER: "BESOIN D'UNE RÉPONSE IMMÉDIATE?"
          ═══════════════════════════════════════════════════════════ -->
-    <section class="bg-tpm-navy text-white py-8 border-t border-white/10">
+    <section class="bg-slate-50 py-8 border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="space-y-1 text-center md:text-left">
-                <h3 class="text-lg sm:text-xl font-bold text-white">Besoin d'une réponse immédiate?</h3>
-                <p class="text-xs text-gray-300">Nos conseillers techniques sont disponibles sur WhatsApp pour une assistance directe.</p>
+                <h3 class="text-lg sm:text-xl font-bold text-tpm-navy">Besoin d'une réponse immédiate?</h3>
+                <p class="text-xs text-gray-600 font-medium">Nos conseillers techniques sont disponibles sur WhatsApp pour une assistance directe.</p>
             </div>
             
             <a href="https://wa.me/237655705866" 
                target="_blank" 
-               class="bg-[#25D366] hover:bg-[#1ebd59] text-white font-black px-6 py-3.5 rounded-lg text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all transform hover:-translate-y-0.5 shrink-0">
+               class="bg-[#25D366] hover:bg-[#1ebd59] text-white font-black px-6 py-3.5 rounded-lg text-xs uppercase tracking-wider flex items-center gap-2 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 shrink-0">
                 <span class="material-symbols-outlined text-[18px]">chat</span>
                 <span>CONTACTER SUR WHATSAPP</span>
             </a>
