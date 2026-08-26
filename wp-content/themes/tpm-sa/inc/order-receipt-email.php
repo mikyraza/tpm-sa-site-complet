@@ -93,25 +93,36 @@ function tpm_generate_order_receipt_html( $order ) {
     <body style="margin:0; padding:20px; background-color:#f1f5f9; font-family:Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width:680px; margin:0 auto; background-color:#ffffff; border-radius:12px; overflow:hidden; border:2px solid #1C1340; box-shadow:0 10px 25px rgba(0,0,0,0.08);">
             
-            <!-- HEADER -->
+            <!-- TOP BRAND LOGO (ABOVE AT THE TOP) -->
             <tr>
-                <td style="background-color:#1C1340; padding:22px 30px; border-bottom:4px solid #D84B1F;">
+                <td align="center" style="background-color:#ffffff; padding:28px 24px 20px 24px; text-align:center; border-bottom:3px solid #D84B1F;">
+                    <a href="' . esc_url( home_url('/') ) . '" target="_blank" style="text-decoration:none; display:inline-block;">
+                        <img src="' . esc_url( $logo_url ) . '" alt="TPM SA — Groupe CAC" width="160" height="70" style="display:block; margin:0 auto; width:160px; height:auto; max-height:75px; border:0; object-fit:contain;" />
+                    </a>
+                    <div style="font-size:11px; font-weight:800; color:#1C1340; text-transform:uppercase; letter-spacing:1.5px; margin-top:10px;">
+                        TRANSFORMATION MÉTALLIQUE &amp; PLASTURGIE — DEPUIS 1976
+                    </div>
+                    <div style="font-size:10.5px; color:#64748b; margin-top:2px;">
+                        Siège &amp; Usines : Douala PK12 &amp; Bekoko (Cameroun) • Bâtiments, BTP &amp; Industrie
+                    </div>
+                </td>
+            </tr>
+
+            <!-- NAVY DOCUMENT BANNER -->
+            <tr>
+                <td style="background-color:#1C1340; padding:18px 30px; border-bottom:1px solid #332669;">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td valign="middle" style="width:95px; padding-right:16px;">
-                                <div style="background:#ffffff; border-radius:8px; padding:6px 8px; text-align:center; display:inline-block;">
-                                    <img src="' . esc_url( $logo_url ) . '" alt="Logo TPM SA" width="85" height="37" style="display:block; width:85px; height:auto; max-height:40px; border:0;" />
-                                </div>
-                            </td>
                             <td valign="middle">
-                                <h1 style="margin:0; font-size:20px; font-weight:900; color:#ffffff; letter-spacing:0.5px; text-transform:uppercase;">TPM SA (GROUPE CAC)</h1>
-                                <p style="margin:3px 0 0 0; font-size:10.5px; font-weight:bold; color:#D84B1F; text-transform:uppercase; letter-spacing:1px;">Transformation Métallique &amp; Plasturgie — Depuis 1976</p>
-                                <p style="margin:2px 0 0 0; font-size:10px; color:#cbd5e1;">Usines de Douala PK12 &amp; Bekoko • Cameroun</p>
+                                <h1 style="margin:0; font-size:18px; font-weight:900; color:#ffffff; letter-spacing:0.5px; text-transform:uppercase;">
+                                    FACTURE PRO-FORMA B2B
+                                </h1>
+                                <p style="margin:2px 0 0 0; font-size:11px; color:#cbd5e1;">Offre de prix &amp; bon de commande officiel</p>
                             </td>
                             <td valign="middle" align="right">
-                                <div style="background-color:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:8px 14px; border-radius:8px; text-align:right;">
-                                    <div style="font-size:10px; font-weight:bold; color:#D84B1F; text-transform:uppercase;">FACTURE PRO-FORMA</div>
-                                    <div style="font-size:14px; font-weight:900; color:#ffffff; font-family:monospace;">N° #' . esc_html( $order_number ) . '</div>
+                                <div style="background-color:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); padding:6px 14px; border-radius:6px; text-align:right; display:inline-block;">
+                                    <span style="font-size:10px; font-weight:bold; color:#D84B1F; text-transform:uppercase;">RÉFÉRENCE :</span>
+                                    <span style="font-size:13px; font-weight:900; color:#ffffff; font-family:monospace; margin-left:4px;">N° #' . esc_html( $order_number ) . '</span>
                                 </div>
                             </td>
                         </tr>
@@ -119,17 +130,18 @@ function tpm_generate_order_receipt_html( $order ) {
                 </td>
             </tr>
 
-            <!-- PDF ATTACHMENT NOTICE -->
+            <!-- PDF ATTACHMENT ACTION BANNER -->
             <tr>
-                <td style="background-color:#eff6ff; padding:12px 30px; border-bottom:1px solid #bfdbfe;">
+                <td style="background-color:#f0fdf4; padding:18px 30px; border-bottom:1px solid #bbf7d0; text-align:center;">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td width="30" valign="middle" style="font-size:20px;">
-                                📎
-                            </td>
-                            <td valign="middle" style="font-size:12px; color:#1e40af; line-height:1.4;">
-                                <strong>Facture Pro-Forma PDF jointe en pièce attachée :</strong><br>
-                                Le document officiel certifié <em>Proforma_Commande_' . esc_html( $order_number ) . '.pdf</em> avec cachet et décompte TVA 19.25% est attaché à ce message.
+                            <td align="center">
+                                <div style="font-size:14px; font-weight:bold; color:#166534; margin-bottom:4px;">
+                                    📄 Votre Facture Pro-Forma est émise au format PDF
+                                </div>
+                                <div style="font-size:12px; color:#15803d;">
+                                    Le document officiel certifié <strong>Proforma_Commande_' . esc_html( $order_number ) . '.pdf</strong> avec le logo officiel, décompte TVA 19.25% et cachet d\'agrément est joint en pièce attachée.
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -346,4 +358,50 @@ add_action( 'phpmailer_init', function( $phpmailer ) {
         $phpmailer->SMTPAutoTLS = false;
     }
 } );
+
+/**
+ * Attach TPM Pro-Forma PDF Invoice to ALL WooCommerce transactional emails
+ */
+add_filter( 'woocommerce_email_attachments', 'tpm_attach_proforma_pdf_to_wc_emails', 20, 3 );
+function tpm_attach_proforma_pdf_to_wc_emails( $attachments, $email_id, $order ) {
+    if ( ! $order || ! is_a( $order, 'WC_Order' ) ) {
+        return $attachments;
+    }
+    if ( function_exists( 'tpm_generate_order_proforma_pdf_file' ) ) {
+        $pdf_filepath = tpm_generate_order_proforma_pdf_file( $order );
+        if ( $pdf_filepath && file_exists( $pdf_filepath ) ) {
+            $attachments[] = $pdf_filepath;
+        }
+    }
+    return $attachments;
+}
+
+/**
+ * Add Pro-Forma PDF notification box to standard WooCommerce emails
+ */
+add_action( 'woocommerce_email_before_order_table', 'tpm_add_proforma_pdf_notice_to_wc_email', 5, 4 );
+function tpm_add_proforma_pdf_notice_to_wc_email( $order, $sent_to_admin, $plain_text, $email ) {
+    if ( $plain_text || ! $order || ! is_a( $order, 'WC_Order' ) ) return;
+    $order_number = $order->get_order_number();
+    $pdf_filename = 'Proforma_Commande_' . $order_number . '.pdf';
+    ?>
+    <div style="margin: 20px 0; padding: 14px 18px; background-color: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; text-align: center;">
+        <div style="font-size: 14px; font-weight: bold; color: #166534; margin-bottom: 4px;">
+            📄 Facture Pro-Forma Officielle (Format PDF Joint)
+        </div>
+        <div style="font-size: 12px; color: #15803d;">
+            Le document officiel réglementaire <strong><?php echo esc_html( $pdf_filename ); ?></strong> avec le logo officiel TPM SA, décompte fiscal TVA 19.25% et cachet d'agrément est joint en pièce attachée à cet e-mail.
+        </div>
+    </div>
+    <?php
+}
+
+/**
+ * Filter WooCommerce email header image to always show TPM official logo above at the top
+ */
+add_filter( 'woocommerce_email_header_image', function( $image ) {
+    $logo_url = get_template_directory_uri() . '/assets/images/logo_tpm.png';
+    return $logo_url;
+} );
+
 

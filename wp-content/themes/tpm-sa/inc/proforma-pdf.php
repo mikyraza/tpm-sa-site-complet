@@ -390,84 +390,76 @@ function tpm_handle_proforma_pdf_request() {
     $pdf = new TPM_PDF();
     $pdf->AddPage();
 
-    // TOP BANNER
-    $pdf->SetFillColor($navy_r, $navy_g, $navy_b);
-    $pdf->Rect(0, 0, 210, 42, 'F');
-    $pdf->SetFillColor($orange_r, $orange_g, $orange_b);
-    $pdf->Rect(0, 42, 210, 2.5, 'F');
-
-    // Logo / Emblem - Official TPM SA Logo Container
-    $pdf->SetFillColor(255, 255, 255);
-    $pdf->Rect(15, 8, 30, 26, 'F');
+    // TOP LETTERHEAD (Logo Above at the Top)
     $logo_path = get_template_directory() . '/assets/images/logo_tpm.jpg';
     if ( file_exists( $logo_path ) ) {
-        $pdf->Image( $logo_path, 16.5, 12, 27, 14 );
-    } else {
-        $pdf->SetFillColor($orange_r, $orange_g, $orange_b);
-        $pdf->Rect(15, 8, 24, 24, 'F');
-        $pdf->SetTextColor(255, 255, 255);
-        $pdf->SetFont('Helvetica', 'B', 15);
-        $pdf->SetXY(15, 15);
-        $pdf->Cell(24, 10, 'TPM', 0, 0, 'C');
+        $pdf->Image( $logo_path, 15, 6, 44, 20 );
     }
 
-    // Header Title
-    $pdf->SetXY(48, 8);
+    // Company Identity
+    $pdf->SetXY(63, 6.5);
     $pdf->SetFont('Helvetica', 'B', 15);
-    $pdf->SetTextColor(255, 255, 255);
-    $pdf->Cell(95, 7, 'TPM SA — GROUPE CAC', 0, 1, 'L');
+    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
+    $pdf->Cell(80, 6, 'TPM SA — GROUPE CAC', 0, 1, 'L');
 
-    $pdf->SetXY(48, 16);
-    $pdf->SetFont('Helvetica', '', 8.5);
-    $pdf->SetTextColor(220, 225, 235);
-    $pdf->Cell(95, 5, 'Transformation Métallique & Plasturgie • Douala PK12 & Bekoko (Cameroun)', 0, 1, 'L');
+    $pdf->SetXY(63, 13);
+    $pdf->SetFont('Helvetica', '', 8);
+    $pdf->SetTextColor(70, 80, 95);
+    $pdf->Cell(80, 4.5, 'Transformation Métallique & Plasturgie • Douala PK12 & Bekoko (Cameroun)', 0, 1, 'L');
 
-    $pdf->SetXY(48, 22);
+    $pdf->SetXY(63, 18);
     $pdf->SetFont('Helvetica', 'B', 7.5);
     $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
-    $pdf->Cell(95, 5, 'NIU : M052217435713Q  •  RCCM : RC/DLA/1976/B/XXXX  •  TVA : 19.25%', 0, 1, 'L');
+    $pdf->Cell(80, 4.5, 'NIU : M052217435713Q  •  RCCM : RC/DLA/1976/B/XXXX  •  TVA : 19.25%', 0, 1, 'L');
 
-    $pdf->SetXY(48, 28);
+    $pdf->SetXY(63, 23);
     $pdf->SetFont('Helvetica', '', 7.5);
-    $pdf->SetTextColor(190, 195, 210);
-    $pdf->Cell(95, 5, 'Email : CAC_VIS3@YAHOO.FR  •  WhatsApp / Tel : +237 655 70 58 66 / +237 696 34 00 08', 0, 1, 'L');
+    $pdf->SetTextColor(100, 110, 125);
+    $pdf->Cell(80, 4.5, 'Email : CAC_VIS3@YAHOO.FR  •  WhatsApp / Tel : +237 655 70 58 66', 0, 1, 'L');
 
     // Right Pro-Forma Tag Box
-    $pdf->SetFillColor(255, 255, 255);
-    $pdf->SetDrawColor(210, 215, 225);
-    $pdf->Rect(142, 8, 53, 27, 'FD');
+    $pdf->SetFillColor(248, 250, 252);
+    $pdf->SetDrawColor($navy_r, $navy_g, $navy_b);
+    $pdf->SetLineWidth(0.4);
+    $pdf->Rect(144, 6, 51, 26, 'FD');
 
-    $pdf->SetXY(142, 10);
-    $pdf->SetFont('Helvetica', 'B', 9);
-    $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
-    $pdf->Cell(53, 5, 'FACTURE PRO-FORMA B2B', 0, 1, 'C');
-
-    $pdf->SetXY(142, 16);
+    $pdf->SetXY(144, 8);
     $pdf->SetFont('Helvetica', 'B', 8.5);
-    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
-    $pdf->Cell(53, 4.5, $proforma_no, 0, 1, 'C');
+    $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
+    $pdf->Cell(51, 4.5, 'FACTURE PRO-FORMA B2B', 0, 1, 'C');
 
-    $pdf->SetXY(142, 22);
+    $pdf->SetXY(144, 13.5);
+    $pdf->SetFont('Helvetica', 'B', 8);
+    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
+    $pdf->Cell(51, 4, $proforma_no, 0, 1, 'C');
+
+    $pdf->SetXY(144, 18.5);
     $pdf->SetFont('Helvetica', '', 7.5);
     $pdf->SetTextColor(80, 90, 105);
-    $pdf->Cell(53, 4, "Date : {$emission_date}", 0, 1, 'C');
+    $pdf->Cell(51, 4, "Date : {$emission_date}", 0, 1, 'C');
 
-    $pdf->SetXY(142, 27);
+    $pdf->SetXY(144, 23);
     $pdf->SetFont('Helvetica', 'I', 7);
     $pdf->SetTextColor(120, 130, 145);
-    $pdf->Cell(53, 4, "Validité : 30 jours ({$validity_date})", 0, 1, 'C');
+    $pdf->Cell(51, 4, "Validité : 30 jours ({$validity_date})", 0, 1, 'C');
+
+    // Header Accent Divider Bars
+    $pdf->SetFillColor($navy_r, $navy_g, $navy_b);
+    $pdf->Rect(15, 34, 180, 1.8, 'F');
+    $pdf->SetFillColor($orange_r, $orange_g, $orange_b);
+    $pdf->Rect(15, 36, 180, 1.0, 'F');
 
     // Slogan Strip
-    $pdf->SetY(48);
-    $pdf->SetFont('Helvetica', 'B', 8);
+    $pdf->SetY(39);
+    $pdf->SetFont('Helvetica', 'B', 7.5);
     $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
     $pdf->Cell(180, 5, '"BÂTIMENTS SOLIDES = MATÉRIAUX SOLIDES AVEC GARANTIE DE DURABILITÉ"', 0, 1, 'C');
 
     // Client & Destination Info Box
-    $pdf->SetY(56);
+    $pdf->SetY(46);
     $pdf->SetFillColor($gray_bg_r, $gray_bg_g, $gray_bg_b);
     $pdf->SetDrawColor(220, 225, 235);
-    $pdf->Rect(15, 55, 180, 24, 'FD');
+    $pdf->Rect(15, 46, 180, 24, 'FD');
 
     $current_user = wp_get_current_user();
     $client_name = ($current_user && $current_user->exists()) ? $current_user->display_name : 'Client / Entreprise B2B';
@@ -702,77 +694,76 @@ function tpm_generate_order_proforma_pdf_file( $order ) {
     $pdf = new TPM_PDF();
     $pdf->AddPage();
 
-    // TOP BANNER
-    $pdf->SetFillColor($navy_r, $navy_g, $navy_b);
-    $pdf->Rect(0, 0, 210, 42, 'F');
-    $pdf->SetFillColor($orange_r, $orange_g, $orange_b);
-    $pdf->Rect(0, 42, 210, 2.5, 'F');
-
-    // Logo Container
-    $pdf->SetFillColor(255, 255, 255);
-    $pdf->Rect(15, 8, 30, 26, 'F');
+    // TOP LETTERHEAD (Logo Above at the Top)
     $logo_path = get_template_directory() . '/assets/images/logo_tpm.jpg';
     if ( file_exists( $logo_path ) ) {
-        $pdf->Image( $logo_path, 16.5, 12, 27, 14 );
+        $pdf->Image( $logo_path, 15, 6, 44, 20 );
     }
 
-    // Header Title
-    $pdf->SetXY(48, 8);
+    // Company Identity
+    $pdf->SetXY(63, 6.5);
     $pdf->SetFont('Helvetica', 'B', 15);
-    $pdf->SetTextColor(255, 255, 255);
-    $pdf->Cell(95, 7, 'TPM SA — GROUPE CAC', 0, 1, 'L');
+    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
+    $pdf->Cell(80, 6, 'TPM SA — GROUPE CAC', 0, 1, 'L');
 
-    $pdf->SetXY(48, 16);
-    $pdf->SetFont('Helvetica', '', 8.5);
-    $pdf->SetTextColor(220, 225, 235);
-    $pdf->Cell(95, 5, 'Transformation Métallique & Plasturgie • Douala PK12 & Bekoko (Cameroun)', 0, 1, 'L');
+    $pdf->SetXY(63, 13);
+    $pdf->SetFont('Helvetica', '', 8);
+    $pdf->SetTextColor(70, 80, 95);
+    $pdf->Cell(80, 4.5, 'Transformation Métallique & Plasturgie • Douala PK12 & Bekoko (Cameroun)', 0, 1, 'L');
 
-    $pdf->SetXY(48, 22);
+    $pdf->SetXY(63, 18);
     $pdf->SetFont('Helvetica', 'B', 7.5);
     $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
-    $pdf->Cell(95, 5, 'NIU : M052217435713Q  •  RCCM : RC/DLA/1976/B/XXXX  •  TVA : 19.25%', 0, 1, 'L');
+    $pdf->Cell(80, 4.5, 'NIU : M052217435713Q  •  RCCM : RC/DLA/1976/B/XXXX  •  TVA : 19.25%', 0, 1, 'L');
 
-    $pdf->SetXY(48, 28);
+    $pdf->SetXY(63, 23);
     $pdf->SetFont('Helvetica', '', 7.5);
-    $pdf->SetTextColor(190, 195, 210);
-    $pdf->Cell(95, 5, 'Email : CAC_VIS3@YAHOO.FR  •  WhatsApp / Tel : +237 655 70 58 66 / +237 696 34 00 08', 0, 1, 'L');
+    $pdf->SetTextColor(100, 110, 125);
+    $pdf->Cell(80, 4.5, 'Email : CAC_VIS3@YAHOO.FR  •  WhatsApp / Tel : +237 655 70 58 66', 0, 1, 'L');
 
     // Right Pro-Forma Tag Box
-    $pdf->SetFillColor(255, 255, 255);
-    $pdf->SetDrawColor(210, 215, 225);
-    $pdf->Rect(144, 8, 51, 27, 'FD');
+    $pdf->SetFillColor(248, 250, 252);
+    $pdf->SetDrawColor($navy_r, $navy_g, $navy_b);
+    $pdf->SetLineWidth(0.4);
+    $pdf->Rect(144, 6, 51, 26, 'FD');
 
-    $pdf->SetXY(144, 10);
+    $pdf->SetXY(144, 8);
     $pdf->SetFont('Helvetica', 'B', 8.5);
     $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
-    $pdf->Cell(51, 5, 'FACTURE PRO-FORMA B2B', 0, 1, 'C');
+    $pdf->Cell(51, 4.5, 'FACTURE PRO-FORMA B2B', 0, 1, 'C');
 
-    $pdf->SetXY(144, 16);
+    $pdf->SetXY(144, 13.5);
     $pdf->SetFont('Helvetica', 'B', 8);
     $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
-    $pdf->Cell(51, 4.5, $proforma_no, 0, 1, 'C');
+    $pdf->Cell(51, 4, $proforma_no, 0, 1, 'C');
 
-    $pdf->SetXY(144, 22);
+    $pdf->SetXY(144, 18.5);
     $pdf->SetFont('Helvetica', '', 7.5);
     $pdf->SetTextColor(80, 90, 105);
     $pdf->Cell(51, 4, "Date : {$emission_date}", 0, 1, 'C');
 
-    $pdf->SetXY(144, 27);
+    $pdf->SetXY(144, 23);
     $pdf->SetFont('Helvetica', 'I', 7);
     $pdf->SetTextColor(120, 130, 145);
     $pdf->Cell(51, 4, "Commande N° #{$order_number}", 0, 1, 'C');
 
+    // Header Accent Divider Bars
+    $pdf->SetFillColor($navy_r, $navy_g, $navy_b);
+    $pdf->Rect(15, 34, 180, 1.8, 'F');
+    $pdf->SetFillColor($orange_r, $orange_g, $orange_b);
+    $pdf->Rect(15, 36, 180, 1.0, 'F');
+
     // Slogan Strip
-    $pdf->SetY(48);
-    $pdf->SetFont('Helvetica', 'B', 8);
+    $pdf->SetY(39);
+    $pdf->SetFont('Helvetica', 'B', 7.5);
     $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
     $pdf->Cell(180, 5, '"BÂTIMENTS SOLIDES = MATÉRIAUX SOLIDES AVEC GARANTIE DE DURABILITÉ"', 0, 1, 'C');
 
     // Client & Destination Info Box
-    $pdf->SetY(56);
+    $pdf->SetY(46);
     $pdf->SetFillColor($gray_bg_r, $gray_bg_g, $gray_bg_b);
     $pdf->SetDrawColor(220, 225, 235);
-    $pdf->Rect(15, 55, 180, 26, 'FD');
+    $pdf->Rect(15, 46, 180, 26, 'FD');
 
     $billing_name = trim( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() ) ?: 'Client Particulier / B2B';
     $company      = $order->get_billing_company() ?: 'Entreprise B2B / Chantier';
@@ -782,28 +773,28 @@ function tpm_generate_order_proforma_pdf_file( $order ) {
     $niu          = get_post_meta( $order_id, '_billing_niu', true ) ?: 'M052217435713Q';
     $rccm         = get_post_meta( $order_id, '_billing_rccm', true ) ?: 'DLA/2026/B/1976';
 
-    $pdf->SetXY(20, 57);
+    $pdf->SetXY(20, 48);
     $pdf->SetFont('Helvetica', 'B', 8);
     $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
     $pdf->Cell(85, 4, "DESTINATAIRE / CLIENT :", 0, 0, 'L');
     $pdf->Cell(85, 4, "CONDITIONS DE LIVRAISON & ENLÈVEMENT :", 0, 1, 'L');
 
-    $pdf->SetXY(20, 62);
+    $pdf->SetXY(20, 53);
     $pdf->SetFont('Helvetica', '', 7.5);
     $pdf->SetTextColor(60, 70, 85);
     $pdf->Cell(85, 3.5, "Nom : {$billing_name} (" . substr($company, 0, 25) . ")", 0, 0, 'L');
     $pdf->Cell(85, 3.5, "Mise à disposition : Enlèvement Usine Bekoko (Ex-Works)", 0, 1, 'L');
 
-    $pdf->SetXY(20, 66);
+    $pdf->SetXY(20, 57.5);
     $pdf->Cell(85, 3.5, "Email : {$email} | Tél : {$phone}", 0, 0, 'L');
     $pdf->Cell(85, 3.5, "Délai de découpe / profilage : 24h à 48h après validation", 0, 1, 'L');
 
-    $pdf->SetXY(20, 70);
+    $pdf->SetXY(20, 62);
     $pdf->Cell(85, 3.5, "NIU : {$niu} | RCCM : {$rccm}", 0, 0, 'L');
     $pdf->Cell(85, 3.5, "Adresse : " . substr($address, 0, 45), 0, 1, 'L');
 
     // TABLE HEADER
-    $pdf->SetY(85);
+    $pdf->SetY(76);
     $pdf->SetFillColor($navy_r, $navy_g, $navy_b);
     $pdf->SetTextColor(255, 255, 255);
     $pdf->SetFont('Helvetica', 'B', 8);
