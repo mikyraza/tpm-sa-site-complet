@@ -29,8 +29,22 @@ define( 'DB_USER', 'root' );
 /** Database password */
 define( 'DB_PASSWORD', 'root' );
 
-/** Database hostname */
-define( 'DB_HOST', '127.0.0.1:10010' );
+/** Database hostname (Auto-detect active Local by Flywheel port) */
+$tpm_db_port = '10011';
+if ( function_exists( 'fsockopen' ) ) {
+    $fp = @fsockopen( '127.0.0.1', 10011, $errno, $errstr, 0.05 );
+    if ( $fp ) {
+        fclose( $fp );
+        $tpm_db_port = '10011';
+    } else {
+        $fp2 = @fsockopen( '127.0.0.1', 10010, $errno, $errstr, 0.05 );
+        if ( $fp2 ) {
+            fclose( $fp2 );
+            $tpm_db_port = '10010';
+        }
+    }
+}
+define( 'DB_HOST', '127.0.0.1:' . $tpm_db_port );
 
 define( 'WP_MEMORY_LIMIT', '512M' );
 define( 'DISABLE_WP_CRON', true );
