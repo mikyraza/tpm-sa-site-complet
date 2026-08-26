@@ -83,6 +83,9 @@ add_filter( 'woocommerce_background_image_regeneration', '__return_false' );
 
 // Désactiver les vérifications automatiques externes lentes en local
 add_filter( 'auto_update_core', '__return_false' );
+
+// Désactiver la sidebar WooCommerce parasite (search bar et widgets entre les détails et le footer)
+remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
 add_filter( 'auto_update_plugin', '__return_false' );
 add_filter( 'auto_update_theme', '__return_false' );
 remove_action( 'admin_init', '_maybe_update_core' );
