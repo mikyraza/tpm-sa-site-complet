@@ -71,7 +71,7 @@ $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
 
                 <!-- Right: Official Card -->
                 <div class="lg:col-span-5">
-                    <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 sm:p-8 space-y-5 shadow-2xl text-white">
+                    <div class="bg-tpm-navy border border-white/20 rounded-2xl p-6 sm:p-8 space-y-5 shadow-2xl text-white">
                         <div class="flex items-center gap-4 border-b border-white/15 pb-4">
                             <div class="w-14 h-14 bg-tpm-orange rounded-xl flex items-center justify-center font-black text-2xl text-white shrink-0 shadow-lg">
                                 TPM
