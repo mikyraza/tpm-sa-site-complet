@@ -696,16 +696,8 @@ $flash_groups = function_exists('tpm_get_flash_proforma_groups') ? tpm_get_flash
     <!-- ═══════════════════════════════════════════════════════════
          4. ORANGE COMMERCIAL CTA BANNER : COMMANDE VOLUMINEUSE
          ═══════════════════════════════════════════════════════════ -->
-    <section class="relative bg-tpm-orange text-white py-14 md:py-18 overflow-hidden">
-        <!-- Background Image with Real TPM Workshop Coils & Gantry Crane -->
-        <div class="absolute inset-0 z-0 pointer-events-none">
-            <img src="<?php echo esc_url($theme_img_uri . 'bg_tpm_crane_coils.jpg'); ?>" 
-                 alt="Usine TPM SA Stock de Bobines & Portique" 
-                 class="w-full h-full object-cover opacity-20 mix-blend-luminosity"/>
-            <div class="absolute inset-0 bg-gradient-to-r from-tpm-orange/95 via-tpm-orange/90 to-orange-700/90"></div>
-        </div>
-
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="bg-tpm-orange text-white py-12 md:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
                 
                 <div class="space-y-3 text-center lg:text-left max-w-3xl">
