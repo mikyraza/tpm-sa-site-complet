@@ -6,14 +6,8 @@
 ?>
 
 <!-- 1. TOP CTA BANNER (Terracotta) -->
-<div class="relative bg-tpm-orange text-white w-full overflow-hidden">
-    <div class="absolute inset-0 z-0 pointer-events-none">
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/bg_tpm_aluminum_coil.jpg'); ?>" 
-             alt="Bobine Aluminium TPM SA" 
-             class="w-full h-full object-cover opacity-15 mix-blend-luminosity"/>
-        <div class="absolute inset-0 bg-gradient-to-r from-tpm-orange/95 via-tpm-orange/90 to-orange-700/90"></div>
-    </div>
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="bg-tpm-orange text-white w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="text-center md:text-left max-w-2xl">
             <h2 class="text-xl md:text-2xl font-bold text-white leading-tight">
                 Besoin d'une Facture Pro-Forma officielle ou d'une cotation B2B ?
