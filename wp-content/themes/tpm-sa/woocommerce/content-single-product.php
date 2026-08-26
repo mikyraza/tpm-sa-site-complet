@@ -102,9 +102,11 @@ do_action( 'woocommerce_before_single_product' );
         <!-- 1. EN-TÊTE OFFICIEL DE LA FICHE TECHNIQUE -->
         <header class="border-b-4 border-tpm-orange pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div class="flex items-center gap-4">
-                <!-- Badge Logo TPM -->
-                <div class="bg-tpm-navy text-white font-black text-2xl tracking-wider px-4 py-2 rounded-lg border-b-4 border-tpm-orange shadow-sm flex items-center justify-center">
-                    TPM
+                <!-- Logo Officiel TPM SA -->
+                <div class="shrink-0 flex items-center bg-white p-1.5 rounded-lg border border-slate-200 shadow-sm">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/logo_tpm.png' ); ?>" 
+                         alt="Logo TPM SA" 
+                         class="h-12 sm:h-14 w-auto object-contain max-h-14" />
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
