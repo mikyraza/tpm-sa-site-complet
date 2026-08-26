@@ -22,9 +22,9 @@ $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
     <section class="relative bg-tpm-slate text-white py-14 lg:py-20 overflow-hidden">
         <!-- Background Image with Overlay -->
         <div class="absolute inset-0 z-0">
-            <img src="<?php echo esc_url($theme_img_uri . 'hero_bg.jpg'); ?>" 
-                 alt="TPM SA Usine de Production" 
-                 class="w-full h-full object-cover opacity-20"/>
+            <img src="<?php echo esc_url($theme_img_uri . 'bg_tpm_aluminum_coil.jpg'); ?>" 
+                 alt="TPM SA Bobine Aluminium & Usine de Production" 
+                 class="w-full h-full object-cover opacity-25"/>
             <div class="absolute inset-0 bg-gradient-to-r from-tpm-navy/95 via-tpm-navy/90 to-tpm-navy/80"></div>
         </div>
 
@@ -220,7 +220,7 @@ $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
                     <div>
                         <!-- Header with Image Banner -->
                         <div class="relative h-48 bg-tpm-navy overflow-hidden">
-                            <img src="<?php echo esc_url($theme_img_uri . 'hero_factory.jpg'); ?>" alt="Usine TPM Douala PK12" class="w-full h-full object-cover opacity-60"/>
+                            <img src="<?php echo esc_url($theme_img_uri . 'bg_tpm_corrugating_machine.jpg'); ?>" alt="Usine TPM Douala PK12 Ligne de Profilage" class="w-full h-full object-cover opacity-75"/>
                             <div class="absolute inset-0 bg-gradient-to-t from-tpm-navy via-tpm-navy/60 to-transparent"></div>
                             <div class="absolute top-4 left-4 bg-tpm-orange text-white font-black text-xs px-3 py-1 rounded shadow uppercase tracking-wider">
                                 SITE PRINCIPAL N°1
@@ -271,7 +271,7 @@ $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
                     <div>
                         <!-- Header with Image Banner -->
                         <div class="relative h-48 bg-tpm-navy overflow-hidden">
-                            <img src="<?php echo esc_url($theme_img_uri . 'project2.jpg'); ?>" alt="Complexe Industriel Bekoko" class="w-full h-full object-cover opacity-60"/>
+                            <img src="<?php echo esc_url($theme_img_uri . 'bg_tpm_facade.jpg'); ?>" alt="Complexe Industriel Bekoko Siège & Usine" class="w-full h-full object-cover opacity-80"/>
                             <div class="absolute inset-0 bg-gradient-to-t from-tpm-navy via-tpm-navy/60 to-transparent"></div>
                             <div class="absolute top-4 left-4 bg-emerald-600 text-white font-black text-xs px-3 py-1 rounded shadow uppercase tracking-wider">
                                 COMPLEXE N°2 (BEKOKO)

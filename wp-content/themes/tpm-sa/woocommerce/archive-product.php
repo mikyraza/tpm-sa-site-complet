@@ -42,8 +42,13 @@ $is_interior_group = in_array($current_slug, ['accessoires-interieurs', 'carrela
          1. TOP HUB BANNER & SEARCH BAR
          ═══════════════════════════════════════════════════════════ -->
     <section class="bg-tpm-slate text-white py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 bg-gradient-to-r from-tpm-navy via-tpm-navy/95 to-slate-900 opacity-95"></div>
+        <!-- Background Image with Real TPM Continuous Profiling Line -->
+        <div class="absolute inset-0 z-0 pointer-events-none">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/bg_tpm_corrugating_machine.jpg'); ?>" 
+                 alt="TPM SA Ligne de Profilage Continue" 
+                 class="w-full h-full object-cover opacity-20"/>
+            <div class="absolute inset-0 bg-gradient-to-r from-tpm-navy/95 via-tpm-navy/90 to-slate-900/90"></div>
+        </div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
             

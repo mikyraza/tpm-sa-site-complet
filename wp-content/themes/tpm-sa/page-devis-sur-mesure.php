@@ -103,9 +103,12 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_proforma_nonce'
          1. HERO SECTION : EN-TÊTE COMMERCIAL & COTATIONS B2B
          ═══════════════════════════════════════════════════════════ -->
     <section class="relative bg-tpm-slate text-white py-12 md:py-16 overflow-hidden border-b border-gray-800 shadow-inner">
-        <!-- Fond décoratif avec motifs subtils -->
-        <div class="absolute inset-0 z-0 opacity-15 pointer-events-none">
-            <div class="absolute inset-0 bg-[radial-gradient(#D84B1F_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <!-- Background Image with Real TPM Rolling Machine -->
+        <div class="absolute inset-0 z-0 pointer-events-none">
+            <img src="<?php echo esc_url($theme_img_uri . 'bg_tpm_corrugating_machine.jpg'); ?>" 
+                 alt="TPM SA Ligne de Profilage Continue" 
+                 class="w-full h-full object-cover opacity-25"/>
+            <div class="absolute inset-0 bg-gradient-to-r from-tpm-navy/95 via-tpm-navy/90 to-slate-900/85"></div>
         </div>
         <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-tpm-orange/10 rounded-full blur-3xl pointer-events-none"></div>
 

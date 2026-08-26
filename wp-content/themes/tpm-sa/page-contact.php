@@ -58,9 +58,9 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
     <section class="relative bg-tpm-slate text-white py-16 md:py-24 overflow-hidden border-b border-gray-800">
         <!-- Background Image with Dark Industrial Overlay -->
         <div class="absolute inset-0 z-0">
-            <img src="<?php echo esc_url( $theme_img_uri . 'factory_showcase.jpg' ); ?>" 
-                 alt="TPM SA Factory Floor" 
-                 class="w-full h-full object-cover object-center opacity-30"/>
+            <img src="<?php echo esc_url( $theme_img_uri . 'bg_tpm_facade.jpg' ); ?>" 
+                 alt="TPM SA Siège & Usine Principale" 
+                 class="w-full h-full object-cover object-center opacity-35"/>
             <div class="absolute inset-0 bg-gradient-to-t from-tpm-navy via-tpm-navy/85 to-tpm-navy/70"></div>
         </div>
 
@@ -116,8 +116,8 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
                 <!-- Card 1: Commercial & Devis -->
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
                     <div class="relative h-48 bg-slate-200 overflow-hidden">
-                        <img src="<?php echo esc_url( $theme_img_uri . 'project1.jpg' ); ?>" 
-                             alt="Commercial &amp; Devis" 
+                        <img src="<?php echo esc_url( $theme_img_uri . 'bg_tpm_corrugating_machine.jpg' ); ?>" 
+                             alt="Commercial &amp; Devis Ligne de Profilage" 
                              loading="lazy"
                              decoding="async"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
@@ -152,8 +152,8 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
                 <!-- Card 2: Bureau d'Études -->
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
                     <div class="relative h-48 bg-slate-200 overflow-hidden">
-                        <img src="<?php echo esc_url( $theme_img_uri . 'project2.jpg' ); ?>" 
-                             alt="Bureau d'Études" 
+                        <img src="<?php echo esc_url( $theme_img_uri . 'bg_tpm_crane_coils.jpg' ); ?>" 
+                             alt="Bureau d'Études Parc Bobines" 
                              loading="lazy"
                              decoding="async"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
@@ -183,8 +183,8 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
                 <!-- Card 3: Logistique & Enlèvement -->
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
                     <div class="relative h-48 bg-slate-200 overflow-hidden">
-                        <img src="<?php echo esc_url( $theme_img_uri . 'hero_factory.jpg' ); ?>" 
-                             alt="Logistique &amp; Enlèvement" 
+                        <img src="<?php echo esc_url( $theme_img_uri . 'bg_tpm_aluminum_coil.jpg' ); ?>" 
+                             alt="Logistique &amp; Enlèvement Bobine Alu" 
                              loading="lazy"
                              decoding="async"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
