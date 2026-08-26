@@ -31,12 +31,12 @@ $flash_groups = function_exists('tpm_get_flash_proforma_groups') ? tpm_get_flash
          1. HERO SECTION & FLASH PRO-FORMA EXPRESS
          ═══════════════════════════════════════════════════════════ -->
     <section class="relative bg-tpm-slate text-white py-14 lg:py-20 overflow-hidden" data-purpose="hero-section">
-        <!-- Background Image with Slightly Reduced Color Overlay Opacity -->
+        <!-- Background Image with High-Contrast Dark Blue Overlay -->
         <div class="absolute inset-0 z-0">
             <img src="<?php echo esc_url($theme_img_uri . 'green_2.jpg'); ?>" 
                  alt="TPM SA Complexe Industriel" 
-                 class="w-full h-full object-cover opacity-55"/>
-            <div class="absolute inset-0 bg-gradient-to-r from-tpm-navy/80 via-tpm-navy/70 to-tpm-navy/60"></div>
+                 class="w-full h-full object-cover opacity-30"/>
+            <div class="absolute inset-0 bg-gradient-to-r from-tpm-navy/95 via-tpm-navy/92 to-slate-950/90"></div>
         </div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
