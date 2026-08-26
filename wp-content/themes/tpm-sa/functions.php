@@ -582,6 +582,124 @@ function tpm_get_flash_proforma_groups() {
     });
 }
 
+/**
+ * Retrieve comprehensive certified catalog PDF specifications for a single product
+ */
+function tpm_get_product_pdf_catalog_details( $product ) {
+    if ( ! $product ) return [];
+
+    $id    = $product->get_id();
+    $title = $product->get_name();
+    $sku   = $product->get_sku() ?: ('TPM-' . $id);
+    $terms = wp_get_post_terms( $id, 'product_cat', ['fields' => 'slugs'] );
+    $cat   = ! empty( $terms ) ? $terms[0] : '';
+    $unit  = get_post_meta( $id, '_unit', true ) ?: 'unité';
+
+    $pole_title = 'PÔLE INDUSTRIEL TPM SA';
+    $pole_desc  = 'Matériaux certifiés fabriqués dans les usines de Douala PK12 et Bekoko selon les normes de solidité les plus strictes au Cameroun.';
+    $spec       = 'Conforme au Cahier des Charges Usine TPM SA';
+    $app        = 'Bâtiments industriels, commerciaux, chantiers BTP et résidences.';
+    $garantie   = '"BÂTIMENTS SOLIDES = MATÉRIAUX SOLIDES AVEC GARANTIE DE DURABILITÉ"';
+
+    // 1. Tôles et toiture
+    if ( $cat === 'toles-et-toiture' || preg_match( '/tôle|tole/iu', $title ) ) {
+        $pole_title = 'PÔLE 1 : TÔLES DE COUVERTURE & BACS ALUMINIUM';
+        $pole_desc  = 'Aciers prélaqués et aluminium de premier choix, épaisseurs réelles garanties (0.35mm, 0.50mm, 0.60mm). Nuancier officiel RAL disponible pour toitures résidentielles, commerciales et entrepôts industriels.';
+        if ( preg_match( '/6\/10|0[,.]60/iu', $title ) ) {
+            $spec = 'Alliage Aluminium 1er Choix — Épaisseur 0.60mm (6/10e réelle garantie anti-corrosion marine)';
+            $app  = 'Couvertures industrielles lourdes, entrepôts grande portée, zones maritimes sévères et toitures durables.';
+        } elseif ( preg_match( '/5\/10|0[,.]50/iu', $title ) ) {
+            $spec = 'Alliage Aluminium 1er Choix — Épaisseur 0.50mm (5/10e réelle garantie avec protection double face)';
+            $app  = 'Toitures résidentielles de grand standing, villas contemporaines, bâtiments commerciaux et administratifs.';
+        } elseif ( preg_match( '/tuile/iu', $title ) ) {
+            $spec = 'Tôle Tuile Nervurale D50 — Profilage ondulé haute résistance esthétique et anti-déformation';
+            $app  = 'Villas haut standing, toitures architecturales contemporaines et résidences de prestige.';
+        } elseif ( preg_match( '/d50/iu', $title ) ) {
+            $spec = 'Profilage BAC D50 Renforcé — Rigidité mécanique accrue et capacité d\'écoulement maximale';
+            $app  = 'Bâtiments industriels, hangars de stockage et charpentes métalliques espacées.';
+        } elseif ( preg_match( '/b30/iu', $title ) ) {
+            $spec = 'Tôles bacs prélaquées B30 (2ème choix contrôlé) — Rapport qualité/prix usine optimal';
+            $app  = 'Clôtures de chantier, hangars de stockage agricole et toitures secondaires.';
+        } else {
+            $spec = 'Alliage Aluminium Standard Usine — Épaisseur 0.35mm / 0.33mm (Profils 4N, 5N et Ondulé 3M)';
+            $app  = 'Couvertures résidentielles économiques, hangars, auvents et toitures polyvalentes.';
+        }
+    }
+    // 2. Accessoires toiture
+    elseif ( $cat === 'accessoires-toiture' || preg_match( '/fa[iî]ti[eè]re|bandes\s+ourl[eé]es|rives|goutti[eè]re|noues/iu', $title ) ) {
+        $pole_title = 'PÔLE 2 : ACCESSOIRES DE TOITURE & PLIAGES INDUSTRIELS';
+        $pole_desc  = 'Faîtières double pente, faîtières centrales, rives de faîtage, gouttières formées, noues et bavettes en aluminium et acier laqué garantissant l\'étanchéité absolue des arêtes et versants.';
+        if ( preg_match( '/fa[iî]ti[eè]re/iu', $title ) ) {
+            $spec = 'Pliage industriel sur-mesure — Arête faîtière étanche double pente ou centrale à recouvrement parfait';
+            $app  = 'Jonction faîtage supérieur, protection sommitale de toitures bac et tôles ondulées contre les infiltrations.';
+        } elseif ( preg_match( '/rive/iu', $title ) ) {
+            $spec = 'Rive de faîtage profilée — Protection des rives latérales et pignons contre les bourrasques et le vent';
+            $app  = 'Protection d\'extrémité contre les infiltrations d\'eau latérales et arrachements cycloniques.';
+        } elseif ( preg_match( '/goutti[eè]re/iu', $title ) ) {
+            $spec = 'Profilage alu continu — Collecte pluviale grand débit anti-rouille et anti-débordement';
+            $app  = 'Collecte et canalisation des eaux de pluie en bas de pente pour la sauvegarde des façades et fondations.';
+        } elseif ( preg_match( '/noue/iu', $title ) ) {
+            $spec = 'Noue d\'étanchéité formée en aluminium de premier choix — Résistance aux forts débits d\'orage';
+            $app  = 'Évacuation des eaux aux arêtes rentrantes et carrefours de versants de toiture.';
+        } elseif ( preg_match( '/bande/iu', $title ) ) {
+            $spec = 'Bande ourlée anti-ruissellement — Solin et finition de raccordement d\'étanchéité latérale';
+            $app  = 'Raccord contre murs verticaux, jouées de lucarnes et protections de soubassements.';
+        }
+    }
+    // 3. Fixations et étanchéité
+    elseif ( $cat === 'fixations-et-etancheite' || preg_match( '/vis|tirefond|tige|cavalier|toiturole|feutre/iu', $title ) ) {
+        $pole_title = 'PÔLE 3 : FIXATIONS ZINGUÉES & ÉTANCHÉITÉ';
+        $pole_desc  = 'Tirefonds anticorrosion zingués au pas métrique, vis auto-foreuses pour pannes métalliques/bois, cavaliers d\'onde et rouleaux bitumés Toiturole 900G pour étanchéité absolue.';
+        if ( preg_match( '/vis\s+auto/iu', $title ) ) {
+            $spec = 'Acier cémenté haute résistance zingué avec rondelle néoprène EPDM d\'étanchéité vulcanisée';
+            $app  = 'Fixation directe et rapide en sommet d\'onde sur pannes métalliques IPN/UAP ou pannes bois.';
+        } elseif ( preg_match( '/tirefond/iu', $title ) ) {
+            $spec = 'Acier zingué au pas métrique haute résistance à la traction avec plaquette et rondelle feutre';
+            $app  = 'Fixation lourde et durable sur charpentes bois traditionnelles et pannes massives.';
+        } elseif ( preg_match( '/cavalier/iu', $title ) ) {
+            $spec = 'Cavalier profilé en aluminium ou prélaqué avec garniture néoprène anti-écrasement';
+            $app  = 'Répartition optimale de la pression de serrage sur les ondes de tôles BAC 4N, 5N et Tuiles D50.';
+        } elseif ( preg_match( '/toiturole/iu', $title ) ) {
+            $spec = 'Membrane d\'étanchéité bitumée lourde 900G armée — Rouleau de 10m x 1m résistant aux UV tropicaux';
+            $app  = 'Sous-toiture, solins, chéneaux maçonnés, raccords de cheminée et étanchéité générale de toiture.';
+        } elseif ( preg_match( '/feutre|rondelle|plaquette/iu', $title ) ) {
+            $spec = 'Feutre bitumé dense imprégné — Boîte de 100 pièces imperméables anti-suintement';
+            $app  = 'Jointoiement étanche sous tête de tirefond et vis de fixation de toiture.';
+        }
+    }
+    // 4. Accessoires intérieurs
+    elseif ( $cat === 'accessoires-interieurs' || preg_match( '/carreau|[eé]ponge|douche/iu', $title ) ) {
+        $pole_title = 'PÔLE 4 : ACCESSOIRES INTÉRIEURS, CARRELAGE & PLASTURGIE';
+        $pole_desc  = 'Carreaux grès cérame italien et espagnol 1er choix certifié pour sols et murs, douches thérapeutiques haute puissance et quincaillerie.';
+        if ( preg_match( '/carreau/iu', $title ) ) {
+            $spec = 'Grès Cérame 1er Choix Certifié — Haute résistance à l\'abrasion (PEI IV/V) et absorption d\'eau minimale';
+            $app  = 'Revêtement de sols intérieurs, extérieurs, terrasses, salons, pièces d\'eau et façades murales.';
+        } elseif ( preg_match( '/douche/iu', $title ) ) {
+            $spec = 'Douche thérapeutique à résistance blindée et régulation électronique millimétrée';
+            $app  = 'Installations sanitaires résidentielles, hôtels, complexes hospitaliers et résidences de standing.';
+        } elseif ( preg_match( '/[eé]ponge/iu', $title ) ) {
+            $spec = 'Éponge métallique inox industrielle anti-oxydation pour récurage et entretien intensif';
+            $app  = 'Entretien ménager, décapage de surfaces métalliques, cuisines collectives et chantiers.';
+        }
+    }
+
+    $existing_desc = $product->get_description() ?: $product->get_short_description();
+
+    return [
+        'sku'         => $sku,
+        'pole_title'  => $pole_title,
+        'pole_desc'   => $pole_desc,
+        'spec'        => $spec,
+        'app'         => $app,
+        'garantie'    => $garantie,
+        'desc'        => $existing_desc ?: ($title . ' — Matériau industriel garanti certifié par TPM SA.'),
+        'stock'       => 'Disponible en Stock Usine (Bekoko & Douala PK12) — Enlèvement Ex-Works immédiat ou livraison chantier',
+        'pdf_url'     => content_url('/uploads/catalogue-general-tpm-sa-2026.pdf'),
+        'unit'        => $unit,
+    ];
+}
+
+
 
 
 
