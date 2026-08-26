@@ -110,17 +110,17 @@ do_action( 'woocommerce_before_single_product' );
     </div>
 
     <!-- BANDEAU DE COMMANDE & PRO-FORMA RAPIDE (SCREEN ONLY) -->
-    <div class="print:hidden bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-md grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        <!-- Photo réelle & miniatures -->
-        <div class="lg:col-span-4 flex flex-col items-center">
+    <div class="print:hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- CARD 1 : VISUEL DU PRODUIT & GALERIE -->
+        <div class="lg:col-span-4 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col items-center justify-center">
             <div class="aspect-[4/3] w-full max-w-xs bg-slate-50 border border-gray-200 rounded-xl p-3 flex items-center justify-center overflow-hidden group">
                 <img id="main-product-image" 
                      src="<?php echo esc_url($img_url); ?>" 
                      alt="<?php echo esc_attr($title); ?>" 
-                     class="max-h-44 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+                     class="max-h-48 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             </div>
             <?php if ( count( $item_images ) > 1 ) : ?>
-                <div class="flex gap-2 pt-2.5">
+                <div class="flex gap-2 pt-3">
                     <?php foreach ( $item_images as $idx => $t_url ) : ?>
                         <div class="w-12 h-12 bg-white border-2 <?php echo ($idx === 0) ? 'border-tpm-orange' : 'border-gray-200 opacity-70'; ?> rounded-lg overflow-hidden cursor-pointer transition p-0.5 product-thumb"
                              onclick="changeProductImage('<?php echo esc_url($t_url); ?>', this)">
@@ -131,30 +131,40 @@ do_action( 'woocommerce_before_single_product' );
             <?php endif; ?>
         </div>
 
-        <!-- Formulaire de chiffrage direct -->
-        <div class="lg:col-span-8 space-y-4">
-            <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-gray-100 pb-3">
+        <!-- CARD 2 : TOUT LE BLOC DE COMMANDE & TARIFS DANS LE MÊME BOX/CARD/SECTION/DIV -->
+        <div class="lg:col-span-8 bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-md flex flex-col justify-between space-y-4">
+            
+            <!-- 1. En-tête Tarif Usine & TVA -->
+            <div class="flex flex-wrap items-baseline justify-between gap-3 border-b border-gray-100 pb-3.5">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-wider text-gray-400">Tarif Usine Direct Fabricant :</span>
-                    <div class="text-2xl sm:text-3xl font-black text-tpm-orange"><?php echo $price_html; ?></div>
+                    <span class="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-0.5">
+                        Tarif Usine Direct Fabricant :
+                    </span>
+                    <div class="text-2xl sm:text-3xl font-black text-tpm-orange leading-none">
+                        <?php echo $price_html; ?>
+                    </div>
                 </div>
                 <div class="text-right">
-                    <span class="text-xs font-bold text-gray-600 uppercase">HT / <?php echo esc_html($unit); ?></span>
-                    <div class="text-[10px] text-emerald-700 font-extrabold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded mt-0.5">
+                    <span class="text-xs font-bold text-gray-600 uppercase block">
+                        HT / <?php echo esc_html($unit); ?>
+                    </span>
+                    <span class="inline-block text-[10px] text-emerald-700 font-extrabold bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded mt-1">
                         TVA 19.25% Récupérable
-                    </div>
+                    </span>
                 </div>
             </div>
 
-            <form id="fiche-add-to-cart-form" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' class="space-y-3.5">
-                <!-- Ligne 1 : Sélecteurs Format / Longueur et Couleur / Finition -->
+            <!-- 2. Formulaire avec Longueur, Couleur, Quantité & Bouton Pro-Forma -->
+            <form id="fiche-add-to-cart-form" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' class="space-y-4">
+                
+                <!-- Sélecteurs Format / Longueur & Couleur / Finition -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[10px] font-black uppercase tracking-wider text-tpm-navy mb-1.5 flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[13px] text-tpm-orange">straighten</span>
+                            <span class="material-symbols-outlined text-[14px] text-tpm-orange">straighten</span>
                             <?php echo esc_html($flash_details['length_label']); ?>
                         </label>
-                        <select name="flash_length" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-xl px-3 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer shadow-2xs">
+                        <select name="flash_length" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-xl px-3 py-2.5 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer shadow-2xs">
                             <?php foreach ($flash_details['lengths'] as $l_opt): ?>
                                 <option value="<?php echo esc_attr($l_opt); ?>"><?php echo esc_html($l_opt); ?></option>
                             <?php endforeach; ?>
@@ -163,10 +173,10 @@ do_action( 'woocommerce_before_single_product' );
 
                     <div>
                         <label class="block text-[10px] font-black uppercase tracking-wider text-tpm-navy mb-1.5 flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[13px] text-tpm-orange">palette</span>
+                            <span class="material-symbols-outlined text-[14px] text-tpm-orange">palette</span>
                             <?php echo esc_html($flash_details['color_label']); ?>
                         </label>
-                        <select name="flash_color" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-xl px-3 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer shadow-2xs">
+                        <select name="flash_color" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-xl px-3 py-2.5 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer shadow-2xs">
                             <?php foreach ($flash_details['colors'] as $c_opt): ?>
                                 <option value="<?php echo esc_attr($c_opt); ?>"><?php echo esc_html($c_opt); ?></option>
                             <?php endforeach; ?>
@@ -174,40 +184,43 @@ do_action( 'woocommerce_before_single_product' );
                     </div>
                 </div>
 
-                <!-- Ligne 2 : Sélecteur de Quantité et Bouton d'Action Pro-Forma Confortable -->
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 pt-0.5">
-                    <div class="w-full sm:w-28 shrink-0">
+                <!-- Quantité & Bouton Ajouter au Panier Pro-Forma -->
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+                    <div class="sm:col-span-4">
                         <label class="block text-[10px] font-black uppercase tracking-wider text-gray-600 mb-1.5 flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[13px] text-tpm-orange">pin</span>
+                            <span class="material-symbols-outlined text-[14px] text-tpm-orange">pin</span>
                             Quantité :
                         </label>
-                        <input type="number" name="quantity" min="1" value="1" class="w-full text-xs font-bold text-center bg-slate-50 border border-gray-300 rounded-xl py-2 px-3 text-tpm-navy outline-none focus:ring-2 focus:ring-tpm-orange shadow-2xs"/>
+                        <input type="number" name="quantity" min="1" value="1" class="w-full text-xs font-bold text-center bg-slate-50 border border-gray-300 rounded-xl py-2.5 px-3 text-tpm-navy outline-none focus:ring-2 focus:ring-tpm-orange shadow-2xs"/>
                     </div>
-                    <div class="flex-1">
-                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-black py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]">
+                    <div class="sm:col-span-8">
+                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full bg-gradient-to-r from-tpm-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-black py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]">
                             <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
                             <span>Ajouter au Panier Pro-Forma</span>
                         </button>
                     </div>
                 </div>
+
             </form>
 
-            <div class="flex items-center justify-between gap-3 pt-2 text-[11px] text-gray-500 border-t border-gray-100">
-                <div class="flex items-center gap-1.5">
+            <!-- 3. Pied du bloc : Normes, Assistance WhatsApp & Catalogue -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-3 text-[11px] text-gray-500 border-t border-gray-100">
+                <div class="flex items-center gap-1.5 font-medium">
                     <span class="material-symbols-outlined text-[16px] text-[#154c9e]">verified</span>
                     <span>Conforme Norme Camerounaise (NC) &amp; ISO 9001:2015</span>
                 </div>
-                <div class="flex items-center gap-3">
-                    <a href="<?php echo esc_url($wa_url); ?>" target="_blank" class="text-emerald-700 hover:text-emerald-800 font-bold flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[14px]">chat</span>
-                        Assistance WhatsApp
+                <div class="flex items-center gap-4 font-bold">
+                    <a href="<?php echo esc_url($wa_url); ?>" target="_blank" class="text-emerald-700 hover:text-emerald-800 flex items-center gap-1 transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">chat</span>
+                        <span>Assistance WhatsApp</span>
                     </a>
-                    <a href="javascript:void(0)" onclick="openCataloguePreview()" class="text-[#154c9e] hover:text-blue-800 font-bold flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[14px]">visibility</span>
-                        Catalogue Complet
+                    <a href="javascript:void(0)" onclick="openCataloguePreview()" class="text-[#154c9e] hover:text-blue-800 flex items-center gap-1 transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">visibility</span>
+                        <span>Catalogue Complet</span>
                     </a>
                 </div>
             </div>
+
         </div>
     </div>
 
