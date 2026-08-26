@@ -2,7 +2,7 @@
 /**
  * woocommerce/content-single-product.php
  * Fiche Technique Officielle Certifiée TPM SA (Groupe CAC)
- * Conforme au modèle de Fiche Technique Industrielle
+ * Conforme au modèle certifié de Fiche Technique & Commerciale (2 Pages)
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,42 +18,19 @@ $unit         = get_post_meta( $product_id, '_unit', true ) ?: 'unité';
 $img_url      = function_exists('tpm_get_product_image_url') ? tpm_get_product_image_url($product) : (wp_get_attachment_image_url( $product->get_image_id(), 'full' ) ?: get_template_directory_uri() . '/assets/images/prod1_tole.jpg');
 $cart_url     = function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart/');
 
-// Retrieve complete certified Fiche Technique
-$fiche = function_exists('tpm_get_product_fiche_technique') ? tpm_get_product_fiche_technique($product) : [
-    'ref'          => $sku,
-    'title'        => $title,
-    'designation'  => $title,
-    'category'     => 'Matériaux de Construction Métallurgiques',
-    'pole'         => 'Pôle Industriel TPM SA',
-    'material'     => 'Aluminium de Premier Choix / Acier Certifié',
-    'profil'       => 'Profilage Normalisé Conforme aux Normes Camerounaises',
-    'epaisseur'    => 'Épaisseur Réelle Contrôlée',
-    'finition'     => 'Finition Industrielle Protégée',
-    'longueurs'    => 'Formats standards ou profilage sur-mesure',
-    'description'  => $product->get_description() ?: $product->get_short_description(),
-    'avantages'    => [
-        "Matières premières certifiées 1er choix pour une durabilité maximale au Cameroun.",
-        "Haute résistance mécanique et protection éprouvée contre la corrosion marine et tropicale.",
-        "Précision dimensionnelle stricte garantissant une pose rapide sur chantier.",
-        "Disponibilité permanente et enlèvement immédiat aux usines de Douala PK12 et Bekoko."
-    ],
-    'applications' => "Bâtiments industriels, hangars, édifices commerciaux et résidences de standing.",
-    'pose'         => "Pose conforme aux règles de l'art BTP et aux spécifications techniques TPM SA.",
-    'unit'         => $unit,
-    'stock'        => 'Disponible en Stock Permanent (Usines Bekoko & Douala PK12)',
-    'norme'        => 'Norme Camerounaise (NC) & ISO 9001:2015 • Garantie de Durabilité'
-];
+// Retrieve complete certified Fiche Technique data
+$fiche = function_exists('tpm_get_product_fiche_technique') ? tpm_get_product_fiche_technique($product) : [];
 
 // Dynamic options for format/length and color/finish
 $flash_details = function_exists('tpm_get_product_flash_details') ? tpm_get_product_flash_details($product) : [
     'length_label' => 'LONGUEUR / FORMAT',
     'color_label'  => 'COULEUR / FINITION',
-    'lengths'      => ['Standard Usine'],
-    'colors'       => ['Standard Usine'],
+    'lengths'      => ['Standard Usine (6,00 m)', 'Sur-mesure 3,00 m', 'Sur-mesure 4,00 m', 'Sur-mesure 5,00 m'],
+    'colors'       => ['Bleu Outremer (RAL 5002)', 'Rouge Tuile / Basque (RAL 3004)', 'Vert Mousse (RAL 6005)', 'Gris Anthracite (RAL 7016)', 'Brun Chocolat (RAL 8017)', 'Alu Naturel (Brut non laqué)'],
     'unit'         => $unit
 ];
 
-// Product Gallery images: ONLY images strictly attached to this product
+// Product Gallery images
 $gallery_ids = $product->get_gallery_image_ids();
 $item_images = [$img_url];
 if ( ! empty( $gallery_ids ) ) {
@@ -65,22 +42,50 @@ if ( ! empty( $gallery_ids ) ) {
     }
 }
 
-$catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
+$phone = '237655705866';
+$msg   = rawurlencode( "Bonjour TPM SA, je souhaite commander : {$title} (Réf: {$sku})." );
+$wa_url = "https://wa.me/{$phone}?text={$msg}";
 
 do_action( 'woocommerce_before_single_product' );
 ?>
 
-<!-- FICHE TECHNIQUE CONTAINER -->
-<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'max-w-5xl mx-auto px-3 sm:px-6 py-6 font-sans text-slate-800 space-y-6', $product ); ?>>
+<style>
+@media print {
+    header, footer, nav, #wpadminbar, .print-hidden, .site-header, .site-footer {
+        display: none !important;
+    }
+    body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .sheet-page-1 {
+        page-break-after: always !important;
+        break-after: page !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+    .sheet-page-2 {
+        page-break-before: always !important;
+        break-before: page !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+}
+</style>
 
-    <!-- BREADCRUMB & FIL D'ARIANE -->
-    <div class="print:hidden bg-slate-100 border border-gray-200 px-5 py-3 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-xs">
+<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'max-w-5xl mx-auto px-3 sm:px-6 py-6 font-sans text-slate-800 space-y-8', $product ); ?>>
+
+    <!-- BREADCRUMB & FIL D'ARIANE (SCREEN ONLY) -->
+    <div class="print:hidden bg-slate-100/80 border border-gray-200 px-4 sm:px-5 py-3 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-xs">
         <nav class="text-gray-600 flex items-center gap-2 flex-wrap font-medium">
             <a href="<?php echo esc_url( home_url('/') ); ?>" class="hover:text-tpm-orange transition-colors">Accueil</a>
             <span>&gt;</span>
             <a href="<?php echo esc_url( wc_get_page_permalink('shop') ); ?>" class="hover:text-tpm-orange transition-colors">Catalogue Usine</a>
             <span>&gt;</span>
-            <span class="text-gray-400"><?php echo esc_html($fiche['pole']); ?></span>
+            <span class="text-gray-400"><?php echo esc_html($fiche['pole'] ?? 'Pôle Métallurgie'); ?></span>
             <span>&gt;</span>
             <span class="font-bold text-tpm-navy truncate max-w-xs"><?php echo esc_html($title); ?></span>
         </nav>
@@ -89,275 +94,472 @@ do_action( 'woocommerce_before_single_product' );
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 Stock Usine Certifié
             </span>
-            <button onclick="window.print()" class="bg-white hover:bg-slate-50 text-tpm-navy border border-gray-300 font-bold px-3 py-1 rounded transition flex items-center gap-1 text-[11px] shadow-sm">
-                <span class="material-symbols-outlined text-[14px]">print</span>
-                Imprimer la Fiche
+            <button onclick="window.print()" class="bg-white hover:bg-slate-50 text-[#154c9e] border border-blue-200 font-bold px-3 py-1 rounded transition flex items-center gap-1.5 text-[11px] shadow-sm cursor-pointer">
+                <span class="material-symbols-outlined text-[15px]">print</span>
+                Imprimer la Fiche Technique (PDF)
             </button>
         </div>
     </div>
 
-    <!-- DOCUMENT FICHE TECHNIQUE OFFICIELLE -->
-    <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 sm:p-8 shadow-md space-y-6 print:border-none print:shadow-none print:p-0">
-
-        <!-- 1. EN-TÊTE OFFICIEL DE LA FICHE TECHNIQUE -->
-        <header class="border-b-4 border-tpm-orange pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div class="flex items-center gap-4">
-                <!-- Logo Officiel TPM SA -->
-                <div class="shrink-0 flex items-center bg-white p-1.5 rounded-lg border border-slate-200 shadow-sm">
-                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/logo_tpm.png' ); ?>" 
-                         alt="Logo TPM SA" 
-                         class="h-12 sm:h-14 w-auto object-contain max-h-14" />
+    <!-- BANDEAU DE COMMANDE & PRO-FORMA RAPIDE (SCREEN ONLY) -->
+    <div class="print:hidden bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-md grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <!-- Photo réelle & miniatures -->
+        <div class="lg:col-span-4 flex flex-col items-center">
+            <div class="aspect-[4/3] w-full max-w-xs bg-slate-50 border border-gray-200 rounded-xl p-3 flex items-center justify-center overflow-hidden group">
+                <img id="main-product-image" 
+                     src="<?php echo esc_url($img_url); ?>" 
+                     alt="<?php echo esc_attr($title); ?>" 
+                     class="max-h-44 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+            </div>
+            <?php if ( count( $item_images ) > 1 ) : ?>
+                <div class="flex gap-2 pt-2.5">
+                    <?php foreach ( $item_images as $idx => $t_url ) : ?>
+                        <div class="w-12 h-12 bg-white border-2 <?php echo ($idx === 0) ? 'border-tpm-orange' : 'border-gray-200 opacity-70'; ?> rounded-lg overflow-hidden cursor-pointer transition p-0.5 product-thumb"
+                             onclick="changeProductImage('<?php echo esc_url($t_url); ?>', this)">
+                            <img src="<?php echo esc_url($t_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-full h-full object-cover rounded"/>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Formulaire de chiffrage direct -->
+        <div class="lg:col-span-8 space-y-4">
+            <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-gray-100 pb-3">
                 <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-xl sm:text-2xl font-black text-tpm-navy uppercase tracking-tight m-0">TPM SA</h1>
-                        <span class="bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-extrabold uppercase px-2 py-0.5 rounded">
-                            Groupe CAC
-                        </span>
+                    <span class="text-[10px] font-black uppercase tracking-wider text-gray-400">Tarif Usine Direct Fabricant :</span>
+                    <div class="text-2xl sm:text-3xl font-black text-tpm-orange"><?php echo $price_html; ?></div>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs font-bold text-gray-600 uppercase">HT / <?php echo esc_html($unit); ?></span>
+                    <div class="text-[10px] text-emerald-700 font-extrabold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded mt-0.5">
+                        TVA 19.25% Récupérable
                     </div>
-                    <p class="text-[11px] font-bold text-tpm-orange uppercase tracking-wide m-0 mt-0.5">
-                        Depuis 1976 • Fiche Technique Officielle de Produit
-                    </p>
                 </div>
             </div>
-            <div class="text-left sm:text-right text-[11px] text-gray-500 leading-snug">
-                <strong class="text-tpm-navy font-bold">Usines de Douala PK12 &amp; Bekoko</strong><br>
-                République du Cameroun • Zone CEMAC<br>
-                Commercial : <span class="font-mono text-gray-700 font-semibold">+237 655 70 58 66</span> | CAC_VIS3@YAHOO.FR<br>
-                <span class="text-[10px] text-gray-400 font-mono">NIU : M052217435713Q • RCCM : RC/DLA/1976/B/725</span>
-            </div>
-        </header>
 
-        <!-- 2. BANNIÈRE TITRE DU PRODUIT -->
-        <div class="bg-tpm-navy text-white px-5 py-3.5 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 shadow-sm">
-            <h2 class="text-base sm:text-lg font-black uppercase tracking-wide m-0 text-white">
-                <?php echo esc_html($fiche['title']); ?>
-            </h2>
-            <div class="bg-tpm-orange text-white text-xs font-black uppercase font-mono px-3 py-1 rounded-md tracking-wider shrink-0">
-                Réf: <?php echo esc_html($fiche['ref']); ?>
+            <form id="fiche-add-to-cart-form" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-tpm-navy mb-1">
+                        <?php echo esc_html($flash_details['length_label']); ?>
+                    </label>
+                    <select name="flash_length" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-lg px-2.5 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer">
+                        <?php foreach ($flash_details['lengths'] as $l_opt): ?>
+                            <option value="<?php echo esc_attr($l_opt); ?>"><?php echo esc_html($l_opt); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-tpm-navy mb-1">
+                        <?php echo esc_html($flash_details['color_label']); ?>
+                    </label>
+                    <select name="flash_color" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-lg px-2.5 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer">
+                        <?php foreach ($flash_details['colors'] as $c_opt): ?>
+                            <option value="<?php echo esc_attr($c_opt); ?>"><?php echo esc_html($c_opt); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <div class="w-20 shrink-0">
+                        <label class="block text-[10px] font-black uppercase text-gray-500 mb-1">Quantité :</label>
+                        <input type="number" name="quantity" min="1" value="1" class="w-full text-xs font-bold text-center bg-slate-50 border border-gray-300 rounded-lg py-2 text-tpm-navy outline-none focus:ring-2 focus:ring-tpm-orange"/>
+                    </div>
+                    <div class="flex-1">
+                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-black py-2.5 px-3 rounded-lg text-xs uppercase tracking-wider transition shadow flex items-center justify-center gap-1.5 cursor-pointer">
+                            <span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+                            Ajouter au Panier Pro-Forma
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="flex items-center justify-between gap-3 pt-2 text-[11px] text-gray-500 border-t border-gray-100">
+                <div class="flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-[16px] text-[#154c9e]">verified</span>
+                    <span>Conforme Norme Camerounaise (NC) &amp; ISO 9001:2015</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="<?php echo esc_url($wa_url); ?>" target="_blank" class="text-emerald-700 hover:text-emerald-800 font-bold flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">chat</span>
+                        Assistance WhatsApp
+                    </a>
+                    <a href="javascript:void(0)" onclick="openCataloguePreview()" class="text-[#154c9e] hover:text-blue-800 font-bold flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">visibility</span>
+                        Catalogue Complet
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- PAGE 1 : FICHE DESCRIPTIVE TECHNIQUE & COMMERCIALE                 -->
+    <!-- =================================================================== -->
+    <div class="sheet-page-1 bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-xl space-y-6">
+
+        <!-- EN-TÊTE BLEU INDUSTRIEL -->
+        <div class="bg-[#154c9e] text-white p-6 sm:p-8 rounded-xl shadow-sm text-left">
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-tight leading-tight m-0 text-white">
+                <?php echo esc_html($fiche['header_title'] ?? $title); ?>
+            </h1>
+            <p class="text-xs sm:text-sm text-blue-100 font-medium mt-1.5 m-0 tracking-wide">
+                <?php echo esc_html($fiche['header_subtitle'] ?? 'Fiche Descriptive Technique & Commerciale pour Couverture et Bardage Esthétique'); ?>
+            </p>
+        </div>
+
+        <!-- DESCRIPTIF COMMERCIAL & BADGES -->
+        <div class="space-y-3.5 pt-1">
+            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed text-justify m-0">
+                <strong class="text-gray-900 font-extrabold">Descriptif commercial :</strong>
+                <?php echo esc_html($fiche['commercial_desc'] ?? $fiche['description']); ?>
+            </p>
+
+            <!-- Badges Caractéristiques Clés -->
+            <div class="flex flex-wrap items-center gap-2 pt-1.5">
+                <?php if ( ! empty($fiche['pills']) ) : ?>
+                    <?php foreach ($fiche['pills'] as $pill): ?>
+                        <span class="bg-blue-100 text-[#154c9e] font-black text-[10px] sm:text-[11px] uppercase tracking-wider px-3 py-1 rounded shadow-2xs">
+                            <?php echo esc_html($pill); ?>
+                        </span>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
 
-        <!-- 3. GRILLE PRINCIPALE (PHOTO RÉELLE & SPÉCIFICATIONS TECHNIQUES) -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- POINTS FORTS & AVANTAGES CLÉS -->
+        <div class="space-y-3 pt-4">
+            <h2 class="text-sm sm:text-base font-black text-[#154c9e] uppercase tracking-wider border-b-2 border-[#154c9e] pb-1 m-0">
+                POINTS FORTS &amp; AVANTAGES CLÉS
+            </h2>
 
-            <!-- Colonne Gauche : Photo Réelle & Actions (5 colonnes) -->
-            <div class="lg:col-span-5 flex flex-col gap-4">
-                
-                <!-- Cadre Photo Réelle : Uniquement l'image de l'article -->
-                <div class="bg-slate-50 border border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-inner relative group">
-                    <div class="aspect-[4/3] w-full flex items-center justify-center bg-white rounded-lg border border-gray-100 p-2 overflow-hidden">
-                        <img id="main-product-image" 
-                             src="<?php echo esc_url($img_url); ?>" 
-                             alt="<?php echo esc_attr($title); ?>" 
-                             class="max-h-60 w-full object-contain transition-transform duration-300 group-hover:scale-105"/>
-                    </div>
-                    <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mt-2.5 flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[14px] text-tpm-orange">verified</span>
-                        Photo Réelle Inventaire TPM SA
-                    </div>
-
-                    <?php if ( count( $item_images ) > 1 ) : ?>
-                        <!-- Thumbnails de l'article (si plusieurs photos réelles existent) -->
-                        <div class="grid grid-cols-4 gap-2 pt-3 w-full">
-                            <?php foreach ( $item_images as $idx => $t_url ) : ?>
-                                <div class="aspect-square bg-white border-2 <?php echo ($idx === 0) ? 'border-tpm-orange' : 'border-gray-200 opacity-70 hover:opacity-100'; ?> rounded-lg overflow-hidden cursor-pointer transition-all p-0.5 product-thumb"
-                                     onclick="changeProductImage('<?php echo esc_url($t_url); ?>', this)">
-                                    <img src="<?php echo esc_url($t_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-full h-full object-cover rounded"/>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-
-                <!-- Boîte de Commande & Facture Pro-Forma (masquée à l'impression) -->
-                <div class="print:hidden bg-slate-50 border border-gray-200 rounded-xl p-4 space-y-4 shadow-sm">
-                    <!-- Prix HT & Unité -->
-                    <div class="flex items-baseline justify-between bg-white border border-gray-200 p-3 rounded-lg">
-                        <div>
-                            <div class="text-[10px] font-extrabold uppercase text-gray-400">Prix Unitaire Usine :</div>
-                            <div class="text-2xl font-black text-tpm-orange"><?php echo $price_html; ?></div>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-xs font-bold text-gray-600 uppercase">HT / <?php echo esc_html($unit); ?></span>
-                            <div class="text-[10px] text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded mt-0.5">+ TVA 19.25%</div>
-                        </div>
-                    </div>
-
-                    <!-- Formulaire Pro-Forma direct -->
-                    <form id="fiche-add-to-cart-form" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' class="space-y-3">
-                        
-                        <!-- List Box Format / Longueur -->
-                        <div>
-                            <label class="block text-[10px] font-extrabold uppercase text-tpm-navy mb-1">
-                                <?php echo esc_html($flash_details['length_label']); ?>
-                            </label>
-                            <select name="flash_length" class="w-full text-xs font-bold bg-white border border-gray-300 rounded-lg px-2.5 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer">
-                                <?php foreach ($flash_details['lengths'] as $l_opt): ?>
-                                    <option value="<?php echo esc_attr($l_opt); ?>"><?php echo esc_html($l_opt); ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
-                        <!-- List Box Finition / Couleur -->
-                        <div>
-                            <label class="block text-[10px] font-extrabold uppercase text-tpm-navy mb-1">
-                                <?php echo esc_html($flash_details['color_label']); ?>
-                            </label>
-                            <select name="flash_color" class="w-full text-xs font-bold bg-white border border-gray-300 rounded-lg px-2.5 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer">
-                                <?php foreach ($flash_details['colors'] as $c_opt): ?>
-                                    <option value="<?php echo esc_attr($c_opt); ?>"><?php echo esc_html($c_opt); ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
-                        <!-- Quantité & Ajout -->
-                        <div class="flex items-center gap-3 pt-1">
-                            <div class="w-24 shrink-0">
-                                <label class="block text-[10px] font-extrabold uppercase text-gray-500 mb-1">Quantité :</label>
-                                <input type="number" name="quantity" min="1" value="1" class="w-full text-xs font-bold text-center bg-white border border-gray-300 rounded-lg py-2 text-tpm-navy outline-none focus:ring-2 focus:ring-tpm-orange"/>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                <?php if ( ! empty($fiche['points_forts']) ) : ?>
+                    <?php foreach ($fiche['points_forts'] as $pf): ?>
+                        <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-2xs flex flex-col justify-start">
+                            <div class="font-extrabold text-xs sm:text-sm text-[#154c9e] flex items-center gap-2">
+                                <?php 
+                                    $icon = $pf['icon'] ?? 'palette';
+                                    if ($icon === 'palette') echo '🎨';
+                                    elseif ($icon === 'shield') echo '🛡️';
+                                    elseif ($icon === 'architecture') echo '🏗️';
+                                    elseif ($icon === 'feather') echo '🪶';
+                                    elseif ($icon === 'verified') echo '✅';
+                                    elseif ($icon === 'bolt') echo '⚡';
+                                    else echo '🔹';
+                                ?>
+                                <span><?php echo esc_html($pf['title']); ?></span>
                             </div>
-                            <div class="flex-1 pt-4">
-                                <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-extrabold py-2.5 px-3 rounded-lg text-xs uppercase tracking-wider transition shadow flex items-center justify-center gap-1.5">
-                                    <span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
-                                    Ajouter à la Pro-Forma
-                                </button>
-                            </div>
+                            <p class="text-[11px] sm:text-xs text-gray-600 mt-1.5 leading-relaxed m-0">
+                                <?php echo esc_html($pf['desc']); ?>
+                            </p>
                         </div>
-                    </form>
-
-                    <!-- WhatsApp & Catalogue PDF -->
-                    <?php
-                    $phone = '237696340008';
-                    $msg   = rawurlencode( "Bonjour TPM SA, je souhaite commander : {$title} (Réf: {$fiche['ref']})." );
-                    $wa_url = "https://wa.me/{$phone}?text={$msg}";
-                    ?>
-                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-gray-200">
-                        <a href="<?php echo esc_url($wa_url); ?>" target="_blank" class="bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-2 px-2 rounded-lg text-[11px] uppercase tracking-wider text-center flex items-center justify-center gap-1 transition">
-                            <span class="material-symbols-outlined text-[14px]">chat</span>
-                            WhatsApp
-                        </a>
-                        <a href="javascript:void(0)" onclick="openCataloguePreview()" class="bg-white hover:bg-slate-100 text-tpm-navy border border-gray-300 font-bold py-2 px-2 rounded-lg text-[11px] uppercase tracking-wider text-center flex items-center justify-center gap-1 transition shadow-sm cursor-pointer">
-                            <span class="material-symbols-outlined text-[14px] text-tpm-orange">visibility</span>
-                            Catalogue PDF
-                        </a>
-                    </div>
-                </div>
-
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
+        </div>
 
-            <!-- Colonne Droite : Spécifications & Caractéristiques Industrielles (7 colonnes) -->
-            <div class="lg:col-span-7 flex flex-col justify-start">
-                
-                <h3 class="text-xs font-black uppercase tracking-wider text-tpm-navy mb-2 flex items-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-sm bg-tpm-orange"></span>
-                    Identification &amp; Spécifications Industrielles
-                </h3>
+        <!-- SPÉCIFICATIONS & CARACTÉRISTIQUES TECHNIQUES -->
+        <div class="space-y-3 pt-4">
+            <h2 class="text-sm sm:text-base font-black text-[#154c9e] uppercase tracking-wider border-b-2 border-[#154c9e] pb-1 m-0">
+                SPÉCIFICATIONS &amp; CARACTÉRISTIQUES TECHNIQUES
+            </h2>
 
-                <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                    <table class="w-full text-left border-collapse text-xs">
-                        <tbody>
-                            <tr class="border-b border-gray-200 bg-slate-50">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy w-5/12">Désignation Produit</th>
-                                <td class="py-2.5 px-4 font-extrabold text-gray-900"><?php echo esc_html($fiche['designation']); ?></td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy">Référence Catalogue (SKU)</th>
-                                <td class="py-2.5 px-4 font-mono font-bold text-tpm-orange"><?php echo esc_html($fiche['ref']); ?></td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-slate-50">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy">Catégorie / Pôle</th>
-                                <td class="py-2.5 px-4 text-gray-800 font-semibold"><?php echo esc_html($fiche['category']); ?></td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy">Matière Première</th>
-                                <td class="py-2.5 px-4 text-gray-800"><?php echo esc_html($fiche['material']); ?></td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-slate-50">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy">Profil / Format / Développé</th>
-                                <td class="py-2.5 px-4 text-gray-800 font-medium"><?php echo esc_html($fiche['profil']); ?></td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy">Épaisseur Nominale Réelle</th>
-                                <td class="py-2.5 px-4 text-tpm-navy font-bold"><?php echo esc_html($fiche['epaisseur']); ?></td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-slate-50">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy">Finition de Surface &amp; Teinte</th>
-                                <td class="py-2.5 px-4 text-gray-800"><?php echo esc_html($fiche['finition']); ?></td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy">Longueurs / Formats Usine</th>
-                                <td class="py-2.5 px-4 text-gray-800"><?php echo esc_html($fiche['longueurs']); ?></td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-slate-50">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy">Unité &amp; Conditionnement</th>
-                                <td class="py-2.5 px-4 text-gray-800 capitalize"><?php echo esc_html($unit); ?> (Vente en gros &amp; détails)</td>
-                            </tr>
-                            <tr class="bg-white">
-                                <th class="py-2.5 px-4 font-bold text-tpm-navy">Disponibilité Quai Usine</th>
-                                <td class="py-2.5 px-4 text-emerald-700 font-bold flex items-center gap-1">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                                    <?php echo esc_html($fiche['stock']); ?>
+            <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <table class="w-full text-left border-collapse text-[11px] sm:text-xs">
+                    <thead>
+                        <tr class="bg-[#0B192C] text-white">
+                            <?php foreach ($fiche['specs_table']['headers'] as $idx => $th): ?>
+                                <th class="py-2.5 px-4 font-black uppercase text-[10px] sm:text-[11px] tracking-wider <?php echo ($idx === 0) ? 'w-4/12' : 'w-4/12'; ?>">
+                                    <?php echo esc_html($th); ?>
+                                </th>
+                            <?php endforeach; ?>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <?php foreach ($fiche['specs_table']['rows'] as $r_idx => $row): ?>
+                            <tr class="<?php echo ($r_idx % 2 === 0) ? 'bg-slate-50/70' : 'bg-white'; ?>">
+                                <td class="py-2.5 px-4 font-extrabold text-gray-900 border-r border-slate-200">
+                                    <?php echo esc_html($row['label']); ?>
+                                </td>
+                                <td class="py-2.5 px-4 text-gray-700 font-medium border-r border-slate-200">
+                                    <?php echo esc_html($row['bac']); ?>
+                                </td>
+                                <td class="py-2.5 px-4 text-gray-700 font-medium">
+                                    <?php echo esc_html($row['ondu']); ?>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- GUIDE DE MONTAGE & RECOMMANDATIONS DE POSE -->
+        <div class="space-y-3 pt-4">
+            <h2 class="text-sm sm:text-base font-black text-[#154c9e] uppercase tracking-wider border-b-2 border-[#154c9e] pb-1 m-0">
+                GUIDE DE MONTAGE &amp; RECOMMANDATIONS DE POSE
+            </h2>
+
+            <div class="border border-slate-200 rounded-xl p-5 bg-white space-y-2.5 shadow-2xs text-[11px] sm:text-xs text-gray-700 leading-relaxed">
+                <?php foreach ($fiche['guide_pose'] as $g_item): ?>
+                    <p class="m-0 flex items-start gap-2">
+                        <span class="font-black text-[#154c9e] shrink-0 mt-0.5">•</span>
+                        <span>
+                            <strong class="font-extrabold text-gray-900"><?php echo esc_html($g_item['label']); ?> :</strong>
+                            <?php echo esc_html($g_item['text']); ?>
+                        </span>
+                    </p>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- PIED DE PAGE : PAGE 1 / 2 -->
+        <div class="pt-4 border-t border-slate-200 flex justify-between items-center text-[10px] text-gray-400 font-mono tracking-wide">
+            <span>Fiche Technique &amp; Descriptif Produit | <?php echo esc_html($title); ?></span>
+            <span>Page 1 / 2</span>
+        </div>
+
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- PAGE 2 : CROQUIS TECHNIQUES & DÉTAILS DE FIXATION                   -->
+    <!-- =================================================================== -->
+    <div class="sheet-page-2 bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-xl space-y-8">
+
+        <!-- TITRE CROQUIS TECHNIQUES -->
+        <div>
+            <h2 class="text-base sm:text-lg font-black text-[#154c9e] uppercase tracking-wider border-b-2 border-[#154c9e] pb-1 m-0">
+                CROQUIS TECHNIQUES &amp; DÉTAILS DE FIXATION
+            </h2>
+        </div>
+
+        <!-- 1. PROFILS EN COUPE & STRUCTURE MULTICOUCHE PRÉLAQUÉE -->
+        <div class="space-y-4">
+            <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
+                1. PROFILS EN COUPE &amp; STRUCTURE MULTICOUCHE PRÉLAQUÉE (<?php echo esc_html($fiche['epaisseur_val'] ?? '0,35 mm'); ?>)
+            </h3>
+
+            <!-- Conteneur Schémas Vectoriels A & Multicouche & B -->
+            <div class="relative bg-slate-50/50 border border-slate-200 rounded-2xl p-4 sm:p-6 space-y-6">
+
+                <!-- Boîte Callout Légende Multicouche (flottante en haut à droite) -->
+                <div class="sm:absolute top-4 right-4 z-10 bg-blue-50/95 border border-blue-200 rounded-lg p-3 text-[10px] sm:text-[11px] text-blue-900 shadow-sm sm:max-w-xs space-y-1">
+                    <div class="font-extrabold uppercase text-[#154c9e] border-b border-blue-200 pb-1">
+                        STRUCTURE MULTICOUCHE PRÉLAQUÉE :
+                    </div>
+                    <ul class="list-none p-0 m-0 space-y-0.5 text-gray-700">
+                        <li>▫ Couche de finition Polyester / PVDF (20-25 µm)</li>
+                        <li>▫ Primaire d'accrochage anticorrosion (5 µm)</li>
+                        <li>▫ Âme en Aluminium Haute Résistance (<?php echo esc_html($fiche['epaisseur_val'] ?? '0,35 mm'); ?>)</li>
+                        <li>▫ Revêtement protecteur verso / Backer (5-7 µm)</li>
+                    </ul>
+                </div>
+
+                <!-- A. PROFIL BAC TRAPÉZOÏDAL PRÉLAQUÉ -->
+                <div class="space-y-2">
+                    <div class="text-xs font-extrabold text-[#154c9e] uppercase">
+                        A. PROFIL BAC TRAPÉZOÏDAL PRÉLAQUÉ <span class="text-gray-500 font-medium">(Largeur utile ~850-920 mm | H=28 mm)</span>
+                    </div>
+                    
+                    <!-- SVG Profil Bac Trapézoïdal -->
+                    <div class="w-full overflow-x-auto bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+                        <svg viewBox="0 0 800 120" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Ligne de profil trapézoïdal 4N/5N -->
+                            <path d="M 20,80 L 70,80 L 95,20 L 155,20 L 180,80 L 250,80 L 275,20 L 335,20 L 360,80 L 430,80 L 455,20 L 515,20 L 540,80 L 610,80 L 635,20 L 695,20 L 720,80 L 780,80" />
+                            <!-- Cotes de dimension -->
+                            <line x1="165" y1="20" x2="165" y2="80" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3" />
+                            <line x1="95" y1="15" x2="155" y2="15" stroke="#3b82f6" stroke-width="1.5" />
+                            <text x="125" y="10" fill="#3b82f6" font-size="10" font-weight="bold" text-anchor="middle">Sommet onde</text>
+                            <line x1="20" y1="105" x2="780" y2="105" stroke="#64748b" stroke-width="1.5" />
+                            <text x="400" y="100" fill="#64748b" font-size="11" font-weight="bold" text-anchor="middle">Largeur totale : ~950 à 1050 mm (Utile : ~850 à 920 mm)</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- B. PROFIL ONDULÉ SINUSOÏDAL PRÉLAQUÉ -->
+                <div class="space-y-2 pt-2">
+                    <div class="text-xs font-extrabold text-[#154c9e] uppercase">
+                        B. PROFIL ONDULÉ SINUSOÏDAL PRÉLAQUÉ <span class="text-gray-500 font-medium">(Pas = 76 mm | Hauteur onde = 18 mm)</span>
+                    </div>
+
+                    <!-- SVG Profil Ondulé Sinusoïdal -->
+                    <div class="w-full overflow-x-auto bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+                        <svg viewBox="0 0 800 90" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M 20,50 
+                                     Q 40,15 65,50 T 110,50 
+                                     Q 130,15 155,50 T 200,50 
+                                     Q 220,15 245,50 T 290,50 
+                                     Q 310,15 335,50 T 380,50 
+                                     Q 400,15 425,50 T 470,50 
+                                     Q 490,15 515,50 T 560,50 
+                                     Q 580,15 605,50 T 650,50 
+                                     Q 670,15 695,50 T 740,50 
+                                     L 780,50" />
+                            <line x1="200" y1="65" x2="290" y2="65" stroke="#3b82f6" stroke-width="1.5" />
+                            <text x="245" y="80" fill="#3b82f6" font-size="10" font-weight="bold" text-anchor="middle">Pas standard = 76 mm</text>
+                            <line x1="605" y1="20" x2="605" y2="50" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="2,2" />
+                            <text x="635" y="35" fill="#64748b" font-size="10" font-weight="bold">H = 18 mm</text>
+                        </svg>
+                    </div>
                 </div>
 
             </div>
         </div>
 
-        <!-- 4. DESCRIPTION & RÔLE TECHNIQUE DANS LA COUVERTURE / BÂTIMENT -->
-        <div class="bg-white border border-gray-200 border-l-4 border-l-tpm-orange rounded-xl p-5 shadow-sm space-y-2">
-            <h3 class="text-sm font-black uppercase tracking-wider text-tpm-navy flex items-center gap-2 m-0">
-                <span class="material-symbols-outlined text-[18px] text-tpm-orange">description</span>
-                Description &amp; Rôle Technique dans la Construction
+        <!-- 2. SCHÉMA DE FIXATION ÉTANCHE TEINTÉE -->
+        <div class="space-y-4 pt-2">
+            <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
+                2. SCHÉMA DE FIXATION ÉTANCHE TEINTÉE (Pose en Sommet d'Onde / Nervure)
             </h3>
-            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed text-justify m-0">
-                <?php echo esc_html($fiche['description']); ?>
-            </p>
-        </div>
 
-        <!-- 5. AVANTAGES & POINTS FORTS INDUSTRIELS -->
-        <div class="bg-white border border-gray-200 border-l-4 border-l-tpm-orange rounded-xl p-5 shadow-sm space-y-3">
-            <h3 class="text-sm font-black uppercase tracking-wider text-tpm-navy flex items-center gap-2 m-0">
-                <span class="material-symbols-outlined text-[18px] text-tpm-orange">verified</span>
-                Avantages &amp; Points Forts Industriels
-            </h3>
-            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 m-0 p-0 list-none text-xs sm:text-sm text-gray-700">
-                <?php foreach ($fiche['avantages'] as $av): ?>
-                    <li class="flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200/60">
-                        <span class="material-symbols-outlined text-[16px] text-emerald-600 shrink-0 mt-0.5">check_circle</span>
-                        <span><?php echo esc_html($av); ?></span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+            <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-2xs">
+                <div class="w-full overflow-x-auto">
+                    <svg viewBox="0 0 850 320" class="w-full h-auto min-w-[650px]">
+                        <defs>
+                            <pattern id="wood-hatch" width="20" height="20" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+                                <line x1="0" y1="0" x2="0" y2="20" stroke="#d97706" stroke-width="2" opacity="0.4" />
+                            </pattern>
+                        </defs>
 
-        <!-- 6. DOMAINES D'APPLICATION & GUIDE DE POSE -->
-        <div class="bg-white border border-gray-200 border-l-4 border-l-tpm-navy rounded-xl p-5 shadow-sm space-y-2">
-            <h3 class="text-sm font-black uppercase tracking-wider text-tpm-navy flex items-center gap-2 m-0">
-                <span class="material-symbols-outlined text-[18px] text-tpm-navy">engineering</span>
-                Domaines d'Application &amp; Guide de Pose
-            </h3>
-            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed m-0">
-                <strong>Applications recommandées :</strong> <?php echo esc_html($fiche['applications']); ?>
-            </p>
-            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed m-0 pt-1 border-t border-gray-100">
-                <strong>Conseils de pose &amp; fixations :</strong> <?php echo esc_html($fiche['pose']); ?>
-            </p>
-        </div>
+                        <!-- Panne de Charpente (Bois ou Métallique) -->
+                        <rect x="50" y="190" width="750" height="60" fill="#fef3c7" stroke="#d97706" stroke-width="2.5" rx="4" />
+                        <rect x="50" y="190" width="750" height="60" fill="url(#wood-hatch)" rx="4" />
+                        <text x="425" y="226" fill="#92400e" font-size="12" font-weight="900" letter-spacing="1" text-anchor="middle">
+                            PANNE DE CHARPENTE (BOIS OU MÉTALLIQUE)
+                        </text>
 
-        <!-- 7. PIED DE PAGE TECHNIQUE OFFICIEL -->
-        <footer class="pt-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-gray-500">
-            <div>
-                © 1976-2026 <strong>TPM SA</strong> (Groupe CAC) — Leader de la Métallurgie et des Matériaux de Construction au Cameroun.
+                        <!-- Profil tôle ondulant au-dessus de la panne -->
+                        <path d="M 30,190 L 80,190 L 105,120 L 165,120 L 190,190 L 260,190 L 285,120 L 345,120 L 370,190 L 440,190 L 465,120 L 525,120 L 550,190 L 620,190 L 645,120 L 705,120 L 730,190 L 790,190" 
+                              fill="none" stroke="#154c9e" stroke-width="4" stroke-linecap="round" />
+
+                        <!-- Vis & Cavaliers de fixation en sommet d'onde -->
+                        <g>
+                            <!-- Onde 1 : x=135 -->
+                            <path d="M 120,118 L 135,108 L 150,118 Z" fill="#1e3a8a" stroke="#1e3a8a" stroke-width="1.5" />
+                            <rect x="130" y="94" width="10" height="14" fill="#0f172a" rx="1.5" />
+                            <circle cx="135" cy="101" r="3" fill="#3b82f6" />
+                            <line x1="135" y1="120" x2="135" y2="230" stroke="#0284c7" stroke-width="3" stroke-linecap="round" />
+
+                            <!-- Onde 2 : x=315 -->
+                            <path d="M 300,118 L 315,108 L 330,118 Z" fill="#1e3a8a" stroke="#1e3a8a" stroke-width="1.5" />
+                            <rect x="310" y="94" width="10" height="14" fill="#0f172a" rx="1.5" />
+                            <circle cx="315" cy="101" r="3" fill="#3b82f6" />
+                            <line x1="315" y1="120" x2="315" y2="230" stroke="#0284c7" stroke-width="3" stroke-linecap="round" />
+
+                            <!-- Onde 3 : x=495 -->
+                            <path d="M 480,118 L 495,108 L 510,118 Z" fill="#1e3a8a" stroke="#1e3a8a" stroke-width="1.5" />
+                            <rect x="490" y="94" width="10" height="14" fill="#0f172a" rx="1.5" />
+                            <circle cx="495" cy="101" r="3" fill="#3b82f6" />
+                            <line x1="495" y1="120" x2="495" y2="230" stroke="#0284c7" stroke-width="3" stroke-linecap="round" />
+
+                            <!-- Onde 4 : x=675 -->
+                            <path d="M 660,118 L 675,108 L 690,118 Z" fill="#1e3a8a" stroke="#1e3a8a" stroke-width="1.5" />
+                            <rect x="670" y="94" width="10" height="14" fill="#0f172a" rx="1.5" />
+                            <circle cx="675" cy="101" r="3" fill="#3b82f6" />
+                            <line x1="675" y1="120" x2="675" y2="230" stroke="#0284c7" stroke-width="3" stroke-linecap="round" />
+                        </g>
+
+                        <!-- Bulle / Boîte Callout d'explication de la fixation -->
+                        <g>
+                            <rect x="180" y="20" width="220" height="55" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" />
+                            <text x="190" y="38" fill="#b91c1c" font-size="10" font-weight="bold">Vis autoperceuse laquée tête couleur</text>
+                            <text x="190" y="52" fill="#b91c1c" font-size="10" font-weight="bold">+ Cavalier prélaqué assorti + Joint EPDM</text>
+                            <text x="190" y="65" fill="#dc2626" font-size="9" font-style="italic">(Fixation impérative en sommet d'onde)</text>
+                            <line x1="220" y1="75" x2="140" y2="105" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,3" />
+                            <circle cx="140" cy="105" r="3" fill="#ef4444" />
+                        </g>
+
+                        <!-- Flèche Entraxe Pannes -->
+                        <line x1="100" y1="275" x2="750" y2="275" stroke="#64748b" stroke-width="1.5" />
+                        <line x1="100" y1="270" x2="100" y2="280" stroke="#64748b" stroke-width="1.5" />
+                        <line x1="750" y1="270" x2="750" y2="280" stroke="#64748b" stroke-width="1.5" />
+                        <rect x="250" y="263" width="350" height="24" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+                        <text x="425" y="279" fill="#475569" font-size="10" font-weight="bold" text-anchor="middle">
+                            ↔ Entraxe régulier des pannes : 60 cm à 90 cm max selon la pente et la charge
+                        </text>
+                    </svg>
+                </div>
             </div>
-            <div class="bg-slate-100 border border-slate-300 text-tpm-navy px-3 py-1 rounded-md font-bold text-[11px] flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-[14px] text-tpm-orange">shield</span>
-                <?php echo esc_html($fiche['norme']); ?>
+        </div>
+
+        <!-- 3. PRINCIPE D'EMBOÎTEMENT & NUANCIER COULEURS DISPONIBLES (RAL) -->
+        <div class="space-y-4 pt-2">
+            <h3 class="text-xs sm:text-sm font-black text-gray-800 text-center uppercase tracking-wider m-0">
+                3. PRINCIPE D'EMBOÎTEMENT &amp; NUANCIER COULEURS DISPONIBLES (RAL)
+            </h3>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center bg-slate-50/50 border border-slate-200 rounded-2xl p-5 sm:p-7">
+                
+                <!-- Gauche : Projection 3D Isométrique / Pente de la tôle -->
+                <div class="lg:col-span-6 flex flex-col items-center">
+                    <div class="w-full max-w-sm">
+                        <svg viewBox="0 0 360 220" class="w-full h-auto">
+                            <!-- Surface de tôle inclinée -->
+                            <polygon points="40,160 160,30 340,30 220,160" fill="#2563eb" stroke="#1d4ed8" stroke-width="2" opacity="0.9" />
+                            <!-- Face avant de profil de coupe -->
+                            <polygon points="40,160 220,160 215,168 35,168" fill="#1e40af" stroke="#1d4ed8" stroke-width="1.5" />
+                            <!-- Rainures d'ondes en perspective -->
+                            <line x1="85" y1="160" x2="205" y2="30" stroke="#60a5fa" stroke-width="2" opacity="0.6" />
+                            <line x1="130" y1="160" x2="250" y2="30" stroke="#60a5fa" stroke-width="2" opacity="0.6" />
+                            <line x1="175" y1="160" x2="295" y2="30" stroke="#60a5fa" stroke-width="2" opacity="0.6" />
+
+                            <!-- Flèche pente / longueur commerciale -->
+                            <line x1="25" y1="180" x2="145" y2="45" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" />
+                            <polygon points="145,45 135,53 148,56" fill="#ef4444" />
+                            <polygon points="25,180 35,172 22,169" fill="#ef4444" />
+                            
+                            <text x="75" y="105" transform="rotate(-47 75 105)" fill="#b91c1c" font-size="10" font-weight="900">
+                                Longueur commerciale (2 m à 6 m+)
+                            </text>
+
+                            <text x="175" y="110" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">
+                                Tôle Alu Prélaquée (Longueur 2 m à 6 m+)
+                            </text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Droite : Nuancier standard disponible (Nuancier RAL) -->
+                <div class="lg:col-span-6 space-y-3">
+                    <div class="text-xs font-black uppercase tracking-wider text-[#154c9e] text-center lg:text-left border-b border-slate-200 pb-1.5">
+                        NUANCIER STANDARD DISPONIBLE :
+                    </div>
+
+                    <!-- Nuances en rectangles avec libellés RAL -->
+                    <div class="grid grid-cols-5 gap-2 pt-1 text-center">
+                        <?php 
+                        $swatches = $fiche['ral_swatches'] ?? [
+                            ['name' => 'Bleu Outremer', 'ral' => 'RAL 5002', 'hex' => '#1D4ED8'],
+                            ['name' => 'Rouge Tuile', 'ral' => 'RAL 3004/3011', 'hex' => '#881337'],
+                            ['name' => 'Vert Mousse', 'ral' => 'RAL 6005', 'hex' => '#14532D'],
+                            ['name' => 'Gris Anthracite', 'ral' => 'RAL 7016', 'hex' => '#334155'],
+                            ['name' => 'Brun Chocolat', 'ral' => 'RAL 8017', 'hex' => '#451A03']
+                        ];
+                        foreach ($swatches as $sw): 
+                        ?>
+                            <div class="flex flex-col items-center gap-1.5">
+                                <div class="w-full h-16 sm:h-20 rounded-lg shadow-sm border border-black/10 transition-transform hover:scale-105" style="background-color: <?php echo esc_attr($sw['hex']); ?>;"></div>
+                                <div class="text-[9px] sm:text-[10px] font-bold text-gray-800 leading-tight">
+                                    <?php echo esc_html($sw['name']); ?>
+                                </div>
+                                <div class="text-[8px] sm:text-[9px] text-gray-500 font-mono">
+                                    (<?php echo esc_html($sw['ral']); ?>)
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
             </div>
-        </footer>
+        </div>
+
+        <!-- PIED DE PAGE : PAGE 2 / 2 -->
+        <div class="pt-4 border-t border-slate-200 flex justify-between items-center text-[10px] text-gray-400 font-mono tracking-wide">
+            <span>Fiche Technique &amp; Descriptif Produit | <?php echo esc_html($title); ?></span>
+            <span>Page 2 / 2</span>
+        </div>
 
     </div>
 
@@ -368,7 +570,7 @@ do_action( 'woocommerce_before_single_product' );
 function changeProductImage(src, thumb) {
     const mainImg = document.getElementById('main-product-image');
     if (mainImg) {
-        mainImg.style.opacity = '0.4';
+        mainImg.style.opacity = '0.3';
         setTimeout(() => {
             mainImg.src = src;
             mainImg.style.opacity = '1';

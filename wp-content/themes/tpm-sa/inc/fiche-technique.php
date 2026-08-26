@@ -411,23 +411,230 @@ function tpm_get_product_fiche_technique( $product ) {
         }
     }
 
+    // Determine if product is a roofing sheet (Tôle)
+    $is_tole = ( $cat_slug === 'toles-et-toiture' || preg_match( '/tôle|tole/iu', $title ) );
+    
+    // Extract nominal thickness
+    $epaisseur_val = '0,35 mm';
+    if ( preg_match( '/6\/10|0[,.]60/iu', $title ) ) {
+        $epaisseur_val = '0,60 mm';
+    } elseif ( preg_match( '/5\/10|0[,.]50/iu', $title ) ) {
+        $epaisseur_val = '0,50 mm';
+    } elseif ( preg_match( '/0[,.]40/iu', $title ) ) {
+        $epaisseur_val = '0,40 mm';
+    } elseif ( preg_match( '/0[,.]35|0[.,]30/iu', $title ) ) {
+        $epaisseur_val = '0,35 mm';
+    }
+
+    $ral_swatches = [
+        ['name' => 'Bleu Outremer', 'ral' => 'RAL 5002', 'hex' => '#1D4ED8'],
+        ['name' => 'Rouge Tuile / Basque', 'ral' => 'RAL 3004/3011', 'hex' => '#881337'],
+        ['name' => 'Vert Mousse', 'ral' => 'RAL 6005', 'hex' => '#14532D'],
+        ['name' => 'Gris Anthracite', 'ral' => 'RAL 7016', 'hex' => '#334155'],
+        ['name' => 'Brun Chocolat', 'ral' => 'RAL 8017', 'hex' => '#451A03'],
+    ];
+
+    if ( $is_tole ) {
+        $header_title = "TÔLES BACS & ONDULÉES ALUMINIUM PRÉLAQUÉES " . strtoupper($epaisseur_val);
+        $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Couverture et Bardage Esthétique";
+        $commercial_desc = "Les Tôles Bacs et Ondulées en Aluminium Prélaquées d'épaisseur {$epaisseur_val} associent la durabilité absolue de l'aluminium pur à l'élégance contemporaine d'un laquage multicouche au four (Polyester / PVDF). Conçues pour valoriser l'architecture de vos toitures résidentielles, commerciales et industrielles, elles offrent une garantie anticorrosion totale (zéro rouille) et une haute tenue des teintes contre les rayons UV sous tous les climats (côtiers, tropicaux, équatoriaux).";
+
+        $pills = [
+            "FINITION PRÉLAQUÉE AU FOUR",
+            "PROFIL BAC OU ONDULÉ",
+            "ÉPAISSEUR " . strtoupper($epaisseur_val),
+            "100% INOXYDABLE",
+            "COULEURS RAL VARIÉES"
+        ];
+
+        $points_forts = [
+            [
+                'icon'  => 'palette',
+                'title' => 'Esthétique Haut de Gamme & Teintes UV',
+                'desc'  => 'Laquage polyester thermodurci (25 µm) assurant un rendu brillant ou mat uniforme, résistant à la décoloration sous fort ensoleillement.'
+            ],
+            [
+                'icon'  => 'shield',
+                'title' => 'Zéro Rouille / Double Protection',
+                'desc'  => 'Barrière anticorrosion double : laque protectrice extérieure + couche naturelle d\'alumine. Aucune oxydation en milieu marin ou humide.'
+            ],
+            [
+                'icon'  => 'architecture',
+                'title' => 'Choix de Forme : Bac ou Ondulé',
+                'desc'  => 'Bac : Lignes trapézoïdales modernes et rigidité renforcée. Ondulé : Ondes sinusoïdales traditionnelles et écoulement fluide.'
+            ],
+            [
+                'icon'  => 'feather',
+                'title' => 'Légèreté & Économie de Charpente',
+                'desc'  => 'Poids plume facilitant la manutention et réduisant considérablement la charge sur les pannes bois ou métalliques.'
+            ]
+        ];
+
+        $specs_table = [
+            'headers' => [
+                'Paramètre Technique',
+                'Tôle Bac Alu Prélaquée (4N / 5N)',
+                'Tôle Ondulée Alu Prélaquée'
+            ],
+            'rows' => [
+                [
+                    'label' => 'Matériau de base',
+                    'bac'   => 'Alliage Aluminium de Première Fusion (Haute Résistance)',
+                    'ondu'  => 'Alliage Aluminium de Première Fusion (Haute Résistance)'
+                ],
+                [
+                    'label' => 'Revêtement de surface',
+                    'bac'   => 'Prélaquage au four Polyester / PVDF (20-25 µm face avant, 5-7 µm face arrière)',
+                    'ondu'  => 'Prélaquage au four Polyester / PVDF (20-25 µm face avant, 5-7 µm face arrière)'
+                ],
+                [
+                    'label' => 'Épaisseur nominale',
+                    'bac'   => $epaisseur_val,
+                    'ondu'  => $epaisseur_val
+                ],
+                [
+                    'label' => 'Type de profilage',
+                    'bac'   => 'Nervures trapézoïdales (4N ou 5N) avec raidisseurs',
+                    'ondu'  => 'Ondes sinusoïdales classiques (Pas 76 mm / H 18 mm)'
+                ],
+                [
+                    'label' => 'Largeur totale / utile',
+                    'bac'   => 'Totale : ~950 à 1050 mm | Utile : ~850 à 950 mm',
+                    'ondu'  => 'Totale : ~900 à 1000 mm | Utile : ~800 à 850 mm'
+                ],
+                [
+                    'label' => 'Coloris disponibles',
+                    'bac'   => 'Bleu Outremer, Rouge Tuile / Basque, Vert Mousse, Gris Anthracite, Brun Chocolat',
+                    'ondu'  => 'Bleu Outremer, Rouge Tuile / Basque, Vert Mousse, Gris Anthracite, Brun Chocolat'
+                ],
+                [
+                    'label' => 'Longueurs disponibles',
+                    'bac'   => 'Standards (2m, 3m, 4m, 5m, 6m) ou Découpe sur-mesure',
+                    'ondu'  => 'Standards (2m, 3m, 4m, 5m, 6m) ou Découpe sur-mesure'
+                ],
+                [
+                    'label' => 'Pente minimale conseillée',
+                    'bac'   => '≥ 7% à 10%',
+                    'ondu'  => '≥ 10% (environ 6°)'
+                ],
+                [
+                    'label' => 'Entraxe recommandé pannes',
+                    'bac'   => '70 cm à 90 cm maximum',
+                    'ondu'  => '60 cm à 80 cm maximum'
+                ]
+            ]
+        ];
+
+        $guide_pose = [
+            [
+                'label' => 'Sens de pose',
+                'text'  => 'Montage du bas vers le haut (égout vers faîtage), à l\'opposé des vents pluvieux dominants.'
+            ],
+            [
+                'label' => 'Recouvrement',
+                'text'  => '1 nervure trapézoïdale complète (profil Bac) ou 1,5 à 2 ondes (profil Ondulé). Raccord longitudinal : 15 à 20 cm.'
+            ],
+            [
+                'label' => 'Fixation étanche laquée',
+                'text'  => 'Fixer impérativement au sommet de nervure / onde avec vis autoperceuses laquées à la teinte de la tôle, pontets/cavaliers prélaqués et joints d\'étanchéité EPDM.'
+            ],
+            [
+                'label' => 'Accessoires assortis',
+                'text'  => 'Faîtières laquées crantées, rives d\'extrémité, bandes d\'égout et vis laquées couleur RAL coordonnée.'
+            ]
+        ];
+    } else {
+        // Generic / Adapted for Accessories, Fixations, Plasturgy or Tiles
+        $header_title = strtoupper($title);
+        $header_subtitle = "Fiche Descriptive Technique & Commerciale • Matériaux Industriels TPM SA";
+        $commercial_desc = $description;
+
+        $pills = [
+            "QUALITÉ CERTIFIÉE USINE",
+            strtoupper($material),
+            strtoupper($epaisseur),
+            "100% INOXYDABLE / DURABLE",
+            "GARANTIE DE DURABILITÉ"
+        ];
+
+        $points_forts = [
+            [
+                'icon'  => 'verified',
+                'title' => 'Qualité Industrielle Certifiée',
+                'desc'  => $avantages[0] ?? 'Matières premières sélectionnées pour leur résistance et leur conformité stricte aux normes BTP.'
+            ],
+            [
+                'icon'  => 'shield',
+                'title' => 'Résistance Climatique & Mécanique',
+                'desc'  => $avantages[1] ?? 'Tenue exceptionnelle face aux sollicitations d\'humidité, de chaleur tropicale et d\'usure.'
+            ],
+            [
+                'icon'  => 'architecture',
+                'title' => 'Précision & Finition Régulière',
+                'desc'  => $avantages[2] ?? 'Façonnage automatisé garantissant un emboîtement parfait et un rendu esthétique soigné.'
+            ],
+            [
+                'icon'  => 'local_shipping',
+                'title' => 'Disponibilité & Enlèvement Quai',
+                'desc'  => $avantages[3] ?? 'Approvisionnement immédiat et sécurisé depuis nos usines de Douala PK12 et Bekoko.'
+            ]
+        ];
+
+        $specs_table = [
+            'headers' => [
+                'Paramètre Technique',
+                'Spécification Usine TPM SA',
+                'Tolérance / Norme'
+            ],
+            'rows' => [
+                ['label' => 'Désignation Produit', 'bac' => $designation, 'ondu' => 'Conforme Réf. ' . $ref],
+                ['label' => 'Matériau de base', 'bac' => $material, 'ondu' => 'Première fusion contrôlée'],
+                ['label' => 'Profil / Format', 'bac' => $profil, 'ondu' => 'Norme Camerounaise (NC)'],
+                ['label' => 'Épaisseur / Densité', 'bac' => $epaisseur, 'ondu' => 'Contrôle micrométrique'],
+                ['label' => 'Finition & Traitement', 'bac' => $finition, 'ondu' => 'Protection longue durée'],
+                ['label' => 'Longueurs / Conditionnement', 'bac' => $longueurs, 'ondu' => $unit . ' (Gros & Détail)']
+            ]
+        ];
+
+        $guide_pose = [
+            [
+                'label' => 'Domaines d\'application',
+                'text'  => $applications
+            ],
+            [
+                'label' => 'Conseils de pose & fixations',
+                'text'  => $pose
+            ]
+        ];
+    }
+
     return [
-        'ref'          => $ref,
-        'title'        => $title,
-        'designation'  => $designation,
-        'category'     => $category,
-        'pole'         => $pole,
-        'material'     => $material,
-        'profil'       => $profil,
-        'epaisseur'    => $epaisseur,
-        'finition'     => $finition,
-        'longueurs'    => $longueurs,
-        'description'  => $description,
-        'avantages'    => $avantages,
-        'applications' => $applications,
-        'pose'         => $pose,
-        'unit'         => $unit,
-        'stock'        => 'Disponible en Stock Permanent (Usines Bekoko & Douala PK12)',
-        'norme'        => 'Norme Camerounaise (NC) & ISO 9001:2015 • Garantie de Durabilité'
+        'ref'              => $ref,
+        'title'            => $title,
+        'designation'      => $designation,
+        'category'         => $category,
+        'pole'             => $pole,
+        'material'         => $material,
+        'profil'           => $profil,
+        'epaisseur'        => $epaisseur,
+        'epaisseur_val'    => $epaisseur_val,
+        'finition'         => $finition,
+        'longueurs'        => $longueurs,
+        'description'      => $description,
+        'commercial_desc'  => $commercial_desc,
+        'avantages'        => $avantages,
+        'applications'     => $applications,
+        'pose'             => $pose,
+        'unit'             => $unit,
+        'stock'            => 'Disponible en Stock Permanent (Usines Bekoko & Douala PK12)',
+        'norme'            => 'Norme Camerounaise (NC) & ISO 9001:2015 • Garantie de Durabilité',
+        'is_tole'          => $is_tole,
+        'header_title'     => $header_title,
+        'header_subtitle'  => $header_subtitle,
+        'pills'            => $pills,
+        'points_forts'     => $points_forts,
+        'specs_table'      => $specs_table,
+        'guide_pose'       => $guide_pose,
+        'ral_swatches'     => $ral_swatches
     ];
 }
