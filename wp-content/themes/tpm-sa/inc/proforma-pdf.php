@@ -28,12 +28,41 @@ if ( ! class_exists( 'TPM_PDF' ) ) {
         protected $fontStyle = '';
         protected $currentFont = 'F1';
         protected $state = 0;
+        protected $images = [];
 
         public function __construct() {
             $this->k = 72.0 / 25.4;
             $this->fontSizePt = 10;
             $this->fontSize = $this->fontSizePt / $this->k;
         }
+
+        public function Image($file, $x, $y, $w = 0, $h = 0) {
+            if (!isset($this->images[$file])) {
+                $info = getimagesize($file);
+                if (!$info) return;
+                $data = file_get_contents($file);
+                $this->images[$file] = [
+                    'idx'  => count($this->images) + 1,
+                    'w'    => $info[0],
+                    'h'    => $info[1],
+                    'data' => $data,
+                    'n'    => 0
+                ];
+            }
+            $info = $this->images[$file];
+            if ($w == 0 && $h == 0) {
+                $w = $info['w'] / $this->k;
+                $h = $info['h'] / $this->k;
+            } elseif ($w == 0) {
+                $w = $h * $info['w'] / $info['h'];
+            } elseif ($h == 0) {
+                $h = $w * $info['h'] / $info['w'];
+            }
+
+            $this->_out(sprintf('q %.2F 0 0 %.2F %.2F %.2F cm /I%d Do Q',
+                $w * $this->k, $h * $this->k, $x * $this->k, ($this->h - ($y + $h)) * $this->k, $info['idx']));
+        }
+
 
         public function AddPage() {
             $this->page++;
@@ -208,6 +237,7 @@ if ( ! class_exists( 'TPM_PDF' ) ) {
             $this->buffer = '';
             
             $this->_putheader();
+            $this->_putimages();
             $this->_putpages();
             $this->_putresources();
             $this->_putinfo();
@@ -216,6 +246,8 @@ if ( ! class_exists( 'TPM_PDF' ) ) {
             if ($dest === 'F') {
                 file_put_contents($name, $this->buffer);
                 return true;
+            } elseif ($dest === 'S') {
+                return $this->buffer;
             } elseif ($dest === 'D') {
                 header('Content-Type: application/pdf');
                 header('Content-Disposition: attachment; filename="' . $name . '"');
@@ -245,8 +277,19 @@ if ( ! class_exists( 'TPM_PDF' ) ) {
             $this->_out('%PDF-1.4');
         }
 
+        protected function _putimages() {
+            foreach ($this->images as $file => &$info) {
+                $this->_newobj();
+                $info['n'] = $this->n;
+                $this->_out('<</Type /XObject /Subtype /Image /Width ' . $info['w'] . ' /Height ' . $info['h'] . ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' . strlen($info['data']) . '>>');
+                $this->_out("stream\n" . $info['data'] . "\nendstream");
+                $this->_out('endobj');
+            }
+        }
+
         protected function _putpages() {
             $nb = $this->page;
+            $page_obj_start = $this->n + 1;
             for ($n = 1; $n <= $nb; $n++) {
                 $this->_newobj();
                 $this->_out('<</Type /Page');
@@ -267,7 +310,7 @@ if ( ! class_exists( 'TPM_PDF' ) ) {
             $this->_out('<</Type /Pages');
             $kids = '/Kids [';
             for ($i = 0; $i < $nb; $i++) {
-                $kids .= (3 + 2 * $i) . ' 0 R ';
+                $kids .= ($page_obj_start + 2 * $i) . ' 0 R ';
             }
             $this->_out($kids . ']');
             $this->_out('/Count ' . $nb);
@@ -285,7 +328,15 @@ if ( ! class_exists( 'TPM_PDF' ) ) {
             $this->_out('/F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
             $this->_out('/F3 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
             $this->_out('/F4 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-BoldOblique /Encoding /WinAnsiEncoding >>');
-            $this->_out('>> >>');
+            $this->_out('>>');
+            if (!empty($this->images)) {
+                $this->_out('/XObject <<');
+                foreach ($this->images as $file => $info) {
+                    $this->_out('/I' . $info['idx'] . ' ' . $info['n'] . ' 0 R');
+                }
+                $this->_out('>>');
+            }
+            $this->_out('>>');
             $this->_out('endobj');
         }
 
@@ -345,34 +396,41 @@ function tpm_handle_proforma_pdf_request() {
     $pdf->SetFillColor($orange_r, $orange_g, $orange_b);
     $pdf->Rect(0, 42, 210, 2.5, 'F');
 
-    // Logo / Emblem
-    $pdf->SetFillColor($orange_r, $orange_g, $orange_b);
-    $pdf->Rect(15, 8, 24, 24, 'F');
-    $pdf->SetTextColor(255, 255, 255);
-    $pdf->SetFont('Helvetica', 'B', 15);
-    $pdf->SetXY(15, 15);
-    $pdf->Cell(24, 10, 'TPM', 0, 0, 'C');
+    // Logo / Emblem - Official TPM SA Logo Container
+    $pdf->SetFillColor(255, 255, 255);
+    $pdf->Rect(15, 8, 30, 26, 'F');
+    $logo_path = get_template_directory() . '/assets/images/logo_tpm.jpg';
+    if ( file_exists( $logo_path ) ) {
+        $pdf->Image( $logo_path, 16.5, 12, 27, 14 );
+    } else {
+        $pdf->SetFillColor($orange_r, $orange_g, $orange_b);
+        $pdf->Rect(15, 8, 24, 24, 'F');
+        $pdf->SetTextColor(255, 255, 255);
+        $pdf->SetFont('Helvetica', 'B', 15);
+        $pdf->SetXY(15, 15);
+        $pdf->Cell(24, 10, 'TPM', 0, 0, 'C');
+    }
 
     // Header Title
-    $pdf->SetXY(43, 8);
-    $pdf->SetFont('Helvetica', 'B', 16);
+    $pdf->SetXY(48, 8);
+    $pdf->SetFont('Helvetica', 'B', 15);
     $pdf->SetTextColor(255, 255, 255);
-    $pdf->Cell(100, 7, 'TPM SA — GROUPE CAC', 0, 1, 'L');
+    $pdf->Cell(95, 7, 'TPM SA — GROUPE CAC', 0, 1, 'L');
 
-    $pdf->SetXY(43, 16);
+    $pdf->SetXY(48, 16);
     $pdf->SetFont('Helvetica', '', 8.5);
     $pdf->SetTextColor(220, 225, 235);
-    $pdf->Cell(100, 5, 'Transformation Métallique & Plastique • Douala PK12 & Bekoko (Cameroun)', 0, 1, 'L');
+    $pdf->Cell(95, 5, 'Transformation Métallique & Plasturgie • Douala PK12 & Bekoko (Cameroun)', 0, 1, 'L');
 
-    $pdf->SetXY(43, 22);
+    $pdf->SetXY(48, 22);
     $pdf->SetFont('Helvetica', 'B', 7.5);
     $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
-    $pdf->Cell(100, 5, 'NIU : M052217435713Q  •  RCCM : RC/DLA/1976/B/XXXX  •  TVA : 19.25%', 0, 1, 'L');
+    $pdf->Cell(95, 5, 'NIU : M052217435713Q  •  RCCM : RC/DLA/1976/B/XXXX  •  TVA : 19.25%', 0, 1, 'L');
 
-    $pdf->SetXY(43, 28);
+    $pdf->SetXY(48, 28);
     $pdf->SetFont('Helvetica', '', 7.5);
     $pdf->SetTextColor(190, 195, 210);
-    $pdf->Cell(100, 5, 'Email : CAC_VIS3@YAHOO.FR  •  WhatsApp / Tel : +237 655 70 58 66 / +237 696 34 00 08', 0, 1, 'L');
+    $pdf->Cell(95, 5, 'Email : CAC_VIS3@YAHOO.FR  •  WhatsApp / Tel : +237 655 70 58 66 / +237 696 34 00 08', 0, 1, 'L');
 
     // Right Pro-Forma Tag Box
     $pdf->SetFillColor(255, 255, 255);
@@ -607,3 +665,304 @@ function tpm_handle_proforma_pdf_request() {
     exit;
 }
 add_action( 'template_redirect', 'tpm_handle_proforma_pdf_request', 10 );
+
+/**
+ * Generate Pro-Forma PDF File for a WooCommerce Order
+ * 
+ * @param WC_Order|int $order
+ * @return string|false Absolute path to generated PDF file
+ */
+function tpm_generate_order_proforma_pdf_file( $order ) {
+    if ( is_numeric( $order ) ) {
+        $order = wc_get_order( $order );
+    }
+    if ( ! $order || ! is_a( $order, 'WC_Order' ) ) {
+        return false;
+    }
+
+    $upload_dir = wp_upload_dir();
+    $pdf_dir = $upload_dir['basedir'] . '/proformas';
+    if ( ! file_exists( $pdf_dir ) ) {
+        wp_mkdir_p( $pdf_dir );
+    }
+
+    $order_id      = $order->get_id();
+    $order_number  = $order->get_order_number();
+    $filename      = 'Proforma_Commande_' . $order_number . '.pdf';
+    $filepath      = $pdf_dir . '/' . $filename;
+
+    $proforma_no   = 'TPM-PRO-' . date('Y') . '-' . str_pad( $order_number, 5, '0', STR_PAD_LEFT );
+    $emission_date = $order->get_date_created() ? $order->get_date_created()->date_i18n( 'd/m/Y' ) : date('d/m/Y');
+    $validity_date = date('d/m/Y', strtotime('+30 days'));
+
+    $navy_r = 28; $navy_g = 19; $navy_b = 64;       // #1C1340
+    $orange_r = 216; $orange_g = 75; $orange_b = 31; // #D84B1F
+    $gray_bg_r = 245; $gray_bg_g = 247; $gray_bg_b = 250;
+
+    $pdf = new TPM_PDF();
+    $pdf->AddPage();
+
+    // TOP BANNER
+    $pdf->SetFillColor($navy_r, $navy_g, $navy_b);
+    $pdf->Rect(0, 0, 210, 42, 'F');
+    $pdf->SetFillColor($orange_r, $orange_g, $orange_b);
+    $pdf->Rect(0, 42, 210, 2.5, 'F');
+
+    // Logo Container
+    $pdf->SetFillColor(255, 255, 255);
+    $pdf->Rect(15, 8, 30, 26, 'F');
+    $logo_path = get_template_directory() . '/assets/images/logo_tpm.jpg';
+    if ( file_exists( $logo_path ) ) {
+        $pdf->Image( $logo_path, 16.5, 12, 27, 14 );
+    }
+
+    // Header Title
+    $pdf->SetXY(48, 8);
+    $pdf->SetFont('Helvetica', 'B', 15);
+    $pdf->SetTextColor(255, 255, 255);
+    $pdf->Cell(95, 7, 'TPM SA — GROUPE CAC', 0, 1, 'L');
+
+    $pdf->SetXY(48, 16);
+    $pdf->SetFont('Helvetica', '', 8.5);
+    $pdf->SetTextColor(220, 225, 235);
+    $pdf->Cell(95, 5, 'Transformation Métallique & Plasturgie • Douala PK12 & Bekoko (Cameroun)', 0, 1, 'L');
+
+    $pdf->SetXY(48, 22);
+    $pdf->SetFont('Helvetica', 'B', 7.5);
+    $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
+    $pdf->Cell(95, 5, 'NIU : M052217435713Q  •  RCCM : RC/DLA/1976/B/XXXX  •  TVA : 19.25%', 0, 1, 'L');
+
+    $pdf->SetXY(48, 28);
+    $pdf->SetFont('Helvetica', '', 7.5);
+    $pdf->SetTextColor(190, 195, 210);
+    $pdf->Cell(95, 5, 'Email : CAC_VIS3@YAHOO.FR  •  WhatsApp / Tel : +237 655 70 58 66 / +237 696 34 00 08', 0, 1, 'L');
+
+    // Right Pro-Forma Tag Box
+    $pdf->SetFillColor(255, 255, 255);
+    $pdf->SetDrawColor(210, 215, 225);
+    $pdf->Rect(144, 8, 51, 27, 'FD');
+
+    $pdf->SetXY(144, 10);
+    $pdf->SetFont('Helvetica', 'B', 8.5);
+    $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
+    $pdf->Cell(51, 5, 'FACTURE PRO-FORMA B2B', 0, 1, 'C');
+
+    $pdf->SetXY(144, 16);
+    $pdf->SetFont('Helvetica', 'B', 8);
+    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
+    $pdf->Cell(51, 4.5, $proforma_no, 0, 1, 'C');
+
+    $pdf->SetXY(144, 22);
+    $pdf->SetFont('Helvetica', '', 7.5);
+    $pdf->SetTextColor(80, 90, 105);
+    $pdf->Cell(51, 4, "Date : {$emission_date}", 0, 1, 'C');
+
+    $pdf->SetXY(144, 27);
+    $pdf->SetFont('Helvetica', 'I', 7);
+    $pdf->SetTextColor(120, 130, 145);
+    $pdf->Cell(51, 4, "Commande N° #{$order_number}", 0, 1, 'C');
+
+    // Slogan Strip
+    $pdf->SetY(48);
+    $pdf->SetFont('Helvetica', 'B', 8);
+    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
+    $pdf->Cell(180, 5, '"BÂTIMENTS SOLIDES = MATÉRIAUX SOLIDES AVEC GARANTIE DE DURABILITÉ"', 0, 1, 'C');
+
+    // Client & Destination Info Box
+    $pdf->SetY(56);
+    $pdf->SetFillColor($gray_bg_r, $gray_bg_g, $gray_bg_b);
+    $pdf->SetDrawColor(220, 225, 235);
+    $pdf->Rect(15, 55, 180, 26, 'FD');
+
+    $billing_name = trim( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() ) ?: 'Client Particulier / B2B';
+    $company      = $order->get_billing_company() ?: 'Entreprise B2B / Chantier';
+    $email        = $order->get_billing_email() ?: 'cac_vis3@yahoo.fr';
+    $phone        = $order->get_billing_phone() ?: '+237';
+    $address      = wp_strip_all_tags( $order->get_formatted_billing_address() );
+    $niu          = get_post_meta( $order_id, '_billing_niu', true ) ?: 'M052217435713Q';
+    $rccm         = get_post_meta( $order_id, '_billing_rccm', true ) ?: 'DLA/2026/B/1976';
+
+    $pdf->SetXY(20, 57);
+    $pdf->SetFont('Helvetica', 'B', 8);
+    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
+    $pdf->Cell(85, 4, "DESTINATAIRE / CLIENT :", 0, 0, 'L');
+    $pdf->Cell(85, 4, "CONDITIONS DE LIVRAISON & ENLÈVEMENT :", 0, 1, 'L');
+
+    $pdf->SetXY(20, 62);
+    $pdf->SetFont('Helvetica', '', 7.5);
+    $pdf->SetTextColor(60, 70, 85);
+    $pdf->Cell(85, 3.5, "Nom : {$billing_name} (" . substr($company, 0, 25) . ")", 0, 0, 'L');
+    $pdf->Cell(85, 3.5, "Mise à disposition : Enlèvement Usine Bekoko (Ex-Works)", 0, 1, 'L');
+
+    $pdf->SetXY(20, 66);
+    $pdf->Cell(85, 3.5, "Email : {$email} | Tél : {$phone}", 0, 0, 'L');
+    $pdf->Cell(85, 3.5, "Délai de découpe / profilage : 24h à 48h après validation", 0, 1, 'L');
+
+    $pdf->SetXY(20, 70);
+    $pdf->Cell(85, 3.5, "NIU : {$niu} | RCCM : {$rccm}", 0, 0, 'L');
+    $pdf->Cell(85, 3.5, "Adresse : " . substr($address, 0, 45), 0, 1, 'L');
+
+    // TABLE HEADER
+    $pdf->SetY(85);
+    $pdf->SetFillColor($navy_r, $navy_g, $navy_b);
+    $pdf->SetTextColor(255, 255, 255);
+    $pdf->SetFont('Helvetica', 'B', 8);
+
+    $pdf->Cell(18, 7, "RÉF", 1, 0, 'C', true);
+    $pdf->Cell(78, 7, "DÉSIGNATION & CARACTÉRISTIQUES", 1, 0, 'L', true);
+    $pdf->Cell(20, 7, "UNITÉ", 1, 0, 'C', true);
+    $pdf->Cell(16, 7, "QTÉ", 1, 0, 'C', true);
+    $pdf->Cell(24, 7, "P.U. HT", 1, 0, 'R', true);
+    $pdf->Cell(24, 7, "TOTAL HT", 1, 1, 'R', true);
+
+    $row_idx = 0;
+    foreach ( $order->get_items() as $item_id => $item ) {
+        $product = $item->get_product();
+        $name    = $item->get_name();
+        $qty     = $item->get_quantity();
+        $sku     = $product ? $product->get_sku() : 'TPM-REF';
+        $unit    = $product ? ( get_post_meta( $product->get_id(), '_unit', true ) ?: 'Unité' ) : 'Unité';
+        $price   = $product ? floatval( $product->get_price() ) : ( $qty > 0 ? floatval($item->get_subtotal() / $qty) : 0 );
+        $line_total = floatval( $item->get_subtotal() );
+
+        $meta_parts = [];
+        $meta_data = $item->get_formatted_meta_data();
+        if ( ! empty( $meta_data ) ) {
+            foreach ( $meta_data as $m ) {
+                $meta_parts[] = esc_html( $m->display_key ) . ': ' . wp_strip_all_tags( $m->display_value );
+            }
+        }
+        $opt_str = ! empty( $meta_parts ) ? ' (' . implode( ', ', $meta_parts ) . ')' : '';
+
+        $fill = ($row_idx % 2 == 1);
+        $pdf->SetFillColor(248, 250, 252);
+        $pdf->SetDrawColor(220, 225, 235);
+        $pdf->SetTextColor(30, 40, 55);
+        $pdf->SetFont('Helvetica', '', 7.5);
+
+        $pdf->Cell(18, 6.5, $sku, 1, 0, 'C', $fill);
+        $pdf->Cell(78, 6.5, substr($name . $opt_str, 0, 48), 1, 0, 'L', $fill);
+        $pdf->Cell(20, 6.5, substr($unit, 0, 12), 1, 0, 'C', $fill);
+        $pdf->Cell(16, 6.5, strval($qty), 1, 0, 'C', $fill);
+        $pdf->Cell(24, 6.5, number_format($price, 0, ',', ' ') . ' F', 1, 0, 'R', $fill);
+        $pdf->Cell(24, 6.5, number_format($line_total, 0, ',', ' ') . ' F', 1, 1, 'R', $fill);
+
+        $row_idx++;
+    }
+
+    $subtotal_ht = floatval( $order->get_subtotal() );
+    $total_tax   = floatval( $order->get_total_tax() );
+    $total_ttc   = floatval( $order->get_total() );
+
+    // TOTALS BOX
+    $pdf->SetY($pdf->GetY() + 4);
+    $totals_y = $pdf->GetY();
+
+    // Left Notes Box
+    $pdf->SetFillColor(255, 255, 255);
+    $pdf->SetDrawColor(220, 225, 235);
+    $pdf->Rect(15, $totals_y, 100, 36, 'FD');
+
+    $pdf->SetXY(18, $totals_y + 3);
+    $pdf->SetFont('Helvetica', 'B', 7.5);
+    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
+    $pdf->Cell(94, 4, "CONDITIONS DE RÈGLEMENT & INFORMATIONS BANCAIRES :", 0, 1, 'L');
+
+    $pdf->SetXY(18, $totals_y + 8);
+    $pdf->SetFont('Helvetica', '', 7);
+    $pdf->SetTextColor(80, 90, 105);
+    $pdf->Cell(94, 3.5, "• Modes acceptés : Virement bancaire, Chèque certifié, Espèces caisse usine.", 0, 1, 'L');
+    $pdf->SetXY(18, $totals_y + 12);
+    $pdf->Cell(94, 3.5, "• Paiement Mobile : Orange Money & MTN Mobile Money disponibles.", 0, 1, 'L');
+    $pdf->SetXY(18, $totals_y + 16);
+    $pdf->Cell(94, 3.5, "• Acompte de 70% à la commande pour tôles profilées sur mesure.", 0, 1, 'L');
+    $pdf->SetXY(18, $totals_y + 20);
+    $pdf->Cell(94, 3.5, "• Solde de 30% exigible avant enlèvement ou expédition sur chantier.", 0, 1, 'L');
+    $pdf->SetXY(18, $totals_y + 25);
+    $pdf->SetFont('Helvetica', 'B', 7);
+    $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
+    $pdf->Cell(94, 3.5, "Validation WhatsApp : +237 655 70 58 66 (Service Commercial TPM SA)", 0, 1, 'L');
+
+    // Right Totals Table
+    $pdf->SetXY(120, $totals_y);
+    $pdf->SetDrawColor(220, 225, 235);
+    $pdf->SetFillColor(248, 250, 252);
+    $pdf->SetFont('Helvetica', 'B', 8);
+    $pdf->SetTextColor(60, 70, 85);
+
+    $pdf->Cell(40, 7, "TOTAL GÉNÉRAL HT :", 1, 0, 'L', true);
+    $pdf->Cell(35, 7, number_format($subtotal_ht, 0, ',', ' ') . ' FCFA', 1, 1, 'R', true);
+
+    $pdf->SetX(120);
+    $pdf->Cell(40, 7, "TVA CAMEROUN (19.25%) :", 1, 0, 'L', true);
+    $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
+    $pdf->Cell(35, 7, number_format($total_tax, 0, ',', ' ') . ' FCFA', 1, 1, 'R', true);
+
+    $pdf->SetX(120);
+    $pdf->SetTextColor(16, 140, 90);
+    $pdf->Cell(40, 6, "Manutention Usine :", 1, 0, 'L', true);
+    $pdf->Cell(35, 6, "Inclus Usine", 1, 1, 'R', true);
+
+    // Total TTC Highlight
+    $pdf->SetX(120);
+    $pdf->SetFillColor($navy_r, $navy_g, $navy_b);
+    $pdf->SetTextColor(255, 255, 255);
+    $pdf->SetFont('Helvetica', 'B', 9);
+    $pdf->Cell(40, 9, "TOTAL GÉNÉRAL TTC :", 1, 0, 'L', true);
+    $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
+    $pdf->Cell(35, 9, number_format($total_ttc, 0, ',', ' ') . ' FCFA', 1, 1, 'R', true);
+
+    // SIGNATURE & CACHET BOX
+    $pdf->SetY($totals_y + 42);
+    $sig_y = $pdf->GetY();
+
+    $pdf->SetFillColor(255, 255, 255);
+    $pdf->SetDrawColor(210, 215, 225);
+    $pdf->Rect(15, $sig_y, 88, 30, 'FD');
+    $pdf->Rect(107, $sig_y, 88, 30, 'FD');
+
+    $pdf->SetXY(18, $sig_y + 3);
+    $pdf->SetFont('Helvetica', 'B', 7.5);
+    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
+    $pdf->Cell(82, 4, "BON POUR ACCORD DU CLIENT (Cachet & Signature) :", 0, 1, 'L');
+    $pdf->SetXY(18, $sig_y + 8);
+    $pdf->SetFont('Helvetica', 'I', 7);
+    $pdf->SetTextColor(130, 140, 155);
+    $pdf->Cell(82, 4, "Mention manuscrite 'Bon pour commande' + Date :", 0, 1, 'L');
+
+    $pdf->SetXY(110, $sig_y + 3);
+    $pdf->SetFont('Helvetica', 'B', 7.5);
+    $pdf->SetTextColor($navy_r, $navy_g, $navy_b);
+    $pdf->Cell(82, 4, "DIRECTION COMMERCIALE TPM SA (Groupe CAC) :", 0, 1, 'L');
+    $pdf->SetXY(110, $sig_y + 8);
+    $pdf->SetFont('Helvetica', '', 7);
+    $pdf->SetTextColor(80, 90, 105);
+    $pdf->Cell(82, 4, "Validé par le Service des Ventes & Expéditions Usine", 0, 1, 'L');
+    $pdf->SetXY(110, $sig_y + 20);
+    $pdf->SetFont('Helvetica', 'B', 7.5);
+    $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
+    $pdf->Cell(82, 4, "[ CACHET ÉLECTRONIQUE TPM SA ]", 0, 1, 'C');
+
+    // FOOTER LEGAL
+    $pdf->SetFillColor($navy_r, $navy_g, $navy_b);
+    $pdf->Rect(0, 275, 210, 22, 'F');
+
+    $pdf->SetXY(15, 277);
+    $pdf->SetFont('Helvetica', 'B', 7.5);
+    $pdf->SetTextColor($orange_r, $orange_g, $orange_b);
+    $pdf->Cell(180, 4, "TPM SA (GROUPE CAC) — USINES DE DOUALA PK12 & BEKOKO (CAMEROUN)", 0, 1, 'C');
+
+    $pdf->SetXY(15, 282);
+    $pdf->SetFont('Helvetica', '', 7);
+    $pdf->SetTextColor(220, 225, 235);
+    $pdf->Cell(180, 3.5, "Siège Douala PK12 : B.P. 12530 Douala | Usine Bekoko : Axe lourd Douala - Bafoussam | Email : CAC_VIS3@YAHOO.FR", 0, 1, 'C');
+
+    $pdf->SetXY(15, 286.5);
+    $pdf->SetFont('Helvetica', 'I', 6.5);
+    $pdf->SetTextColor(180, 190, 205);
+    $pdf->Cell(180, 3.5, "Ce document constitue une offre de prix pro-forma officielle. Tarifs garantis pendant la durée de validité mentionnée.", 0, 1, 'C');
+
+    $pdf->Output('F', $filepath);
+    return $filepath;
+}
+

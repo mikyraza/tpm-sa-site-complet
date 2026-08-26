@@ -95,19 +95,41 @@ function tpm_generate_order_receipt_html( $order ) {
             
             <!-- HEADER -->
             <tr>
-                <td style="background-color:#1C1340; padding:24px 30px; border-bottom:4px solid #D84B1F;">
+                <td style="background-color:#1C1340; padding:22px 30px; border-bottom:4px solid #D84B1F;">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                         <tr>
+                            <td valign="middle" style="width:95px; padding-right:16px;">
+                                <div style="background:#ffffff; border-radius:8px; padding:6px 8px; text-align:center; display:inline-block;">
+                                    <img src="' . esc_url( $logo_url ) . '" alt="Logo TPM SA" width="85" height="37" style="display:block; width:85px; height:auto; max-height:40px; border:0;" />
+                                </div>
+                            </td>
                             <td valign="middle">
-                                <h1 style="margin:0; font-size:22px; font-weight:900; color:#ffffff; letter-spacing:0.5px; text-transform:uppercase;">TPM SA (GROUPE CAC)</h1>
-                                <p style="margin:4px 0 0 0; font-size:11px; font-weight:bold; color:#D84B1F; text-transform:uppercase; letter-spacing:1px;">Transformation Métallique &amp; Plasturgie — Depuis 1976</p>
+                                <h1 style="margin:0; font-size:20px; font-weight:900; color:#ffffff; letter-spacing:0.5px; text-transform:uppercase;">TPM SA (GROUPE CAC)</h1>
+                                <p style="margin:3px 0 0 0; font-size:10.5px; font-weight:bold; color:#D84B1F; text-transform:uppercase; letter-spacing:1px;">Transformation Métallique &amp; Plasturgie — Depuis 1976</p>
                                 <p style="margin:2px 0 0 0; font-size:10px; color:#cbd5e1;">Usines de Douala PK12 &amp; Bekoko • Cameroun</p>
                             </td>
                             <td valign="middle" align="right">
                                 <div style="background-color:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:8px 14px; border-radius:8px; text-align:right;">
-                                    <div style="font-size:10px; font-weight:bold; color:#D84B1F; text-transform:uppercase;">REÇU / PRO-FORMA</div>
+                                    <div style="font-size:10px; font-weight:bold; color:#D84B1F; text-transform:uppercase;">FACTURE PRO-FORMA</div>
                                     <div style="font-size:14px; font-weight:900; color:#ffffff; font-family:monospace;">N° #' . esc_html( $order_number ) . '</div>
                                 </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- PDF ATTACHMENT NOTICE -->
+            <tr>
+                <td style="background-color:#eff6ff; padding:12px 30px; border-bottom:1px solid #bfdbfe;">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="30" valign="middle" style="font-size:20px;">
+                                📎
+                            </td>
+                            <td valign="middle" style="font-size:12px; color:#1e40af; line-height:1.4;">
+                                <strong>Facture Pro-Forma PDF jointe en pièce attachée :</strong><br>
+                                Le document officiel certifié <em>Proforma_Commande_' . esc_html( $order_number ) . '.pdf</em> avec cachet et décompte TVA 19.25% est attaché à ce message.
                             </td>
                         </tr>
                     </table>
@@ -287,9 +309,18 @@ function tpm_send_dual_order_receipt( $order_id ) {
         'Reply-To: cac_vis3@yahoo.fr'
     ];
 
+    // Generate official Pro-Forma PDF attachment
+    $attachments = [];
+    if ( function_exists( 'tpm_generate_order_proforma_pdf_file' ) ) {
+        $pdf_filepath = tpm_generate_order_proforma_pdf_file( $order );
+        if ( $pdf_filepath && file_exists( $pdf_filepath ) ) {
+            $attachments[] = $pdf_filepath;
+        }
+    }
+
     // Dispatch to Customer + Admin recipients
     foreach ( $recipients as $to ) {
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail( $to, $subject, $message, $headers, $attachments );
     }
 
     update_post_meta( $order_id, '_tpm_receipt_sent', current_time( 'mysql' ) );
@@ -301,3 +332,18 @@ add_action( 'woocommerce_new_order', 'tpm_send_dual_order_receipt', 20, 1 );
 add_action( 'woocommerce_thankyou', 'tpm_send_dual_order_receipt', 20, 1 );
 add_action( 'woocommerce_order_status_completed', 'tpm_send_dual_order_receipt', 20, 1 );
 add_action( 'woocommerce_order_status_processing', 'tpm_send_dual_order_receipt', 20, 1 );
+
+/**
+ * Route development emails to Mailpit SMTP (port 10001) in local environment
+ */
+add_action( 'phpmailer_init', function( $phpmailer ) {
+    if ( strpos( home_url(), '.local' ) !== false || strpos( home_url(), 'localhost' ) !== false ) {
+        $phpmailer->isSMTP();
+        $phpmailer->Host = '127.0.0.1';
+        $phpmailer->Port = 10001;
+        $phpmailer->SMTPAuth = false;
+        $phpmailer->SMTPSecure = false;
+        $phpmailer->SMTPAutoTLS = false;
+    }
+} );
+
