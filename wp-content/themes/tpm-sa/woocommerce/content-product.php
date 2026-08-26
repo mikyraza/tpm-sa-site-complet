@@ -96,17 +96,17 @@ if ( str_contains( $name_lower, 'faîtière' ) || str_contains( $name_lower, 'vi
     </div>
 
     <!-- Price & Action Row -->
-    <div class="p-5 pt-0 border-t border-gray-100 flex items-center justify-between mt-2 pt-3">
-        <div>
-            <div class="text-base sm:text-lg font-black text-tpm-orange">
+    <div class="p-4 sm:p-5 pt-0 border-t border-gray-100 flex items-center justify-between gap-2 mt-2 pt-3">
+        <div class="min-w-0 flex-1 whitespace-nowrap">
+            <div class="text-sm sm:text-base md:text-lg font-black text-tpm-orange whitespace-nowrap overflow-hidden text-ellipsis leading-tight tracking-tight">
                 <?php echo $price_html; ?>
             </div>
-            <span class="text-[9px] text-gray-400 block font-medium">+ TVA 19.25%</span>
+            <span class="text-[9px] text-gray-400 block font-medium uppercase tracking-wider mt-0.5 whitespace-nowrap">+ TVA 19.25%</span>
         </div>
         
         <a href="?add-to-cart=<?php echo esc_attr($product_id); ?>" 
-           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors uppercase tracking-wider shrink-0">
-            <span class="material-symbols-outlined text-[15px]">add</span>
+           class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs flex items-center gap-1 shadow transition-colors uppercase tracking-wider shrink-0 whitespace-nowrap">
+            <span class="material-symbols-outlined text-[14px]">add</span>
             <span>+ Pro-Forma</span>
         </a>
     </div>

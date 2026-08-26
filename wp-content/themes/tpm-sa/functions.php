@@ -352,6 +352,18 @@ function tpm_ajax_add_to_cart_handler() {
 add_action( 'wp_ajax_tpm_ajax_add_to_cart', 'tpm_ajax_add_to_cart_handler' );
 add_action( 'wp_ajax_nopriv_tpm_ajax_add_to_cart', 'tpm_ajax_add_to_cart_handler' );
 
+/**
+ * Ensure price numbers and currency always stay on a single line with non-breaking spaces
+ */
+add_filter( 'woocommerce_price_format', function( $format, $currency_pos ) {
+    return '%1$s&nbsp;%2$s';
+}, 20, 2 );
+
+add_filter( 'formatted_woocommerce_price', function( $formatted_price ) {
+    return str_replace( ' ', '&nbsp;', $formatted_price );
+}, 20, 1 );
+
+
 
 
 

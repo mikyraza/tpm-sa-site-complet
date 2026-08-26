@@ -24,3 +24,22 @@ header#main-header img {
     display: inline-block !important;
 }
 
+/* Ensure all WooCommerce prices stay strictly on one line across all devices */
+.woocommerce-Price-amount,
+.woocommerce-Price-amount bdi,
+.price,
+.price .amount,
+.price ins,
+.price del {
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    display: inline-block !important;
+}
+
+.woocommerce-Price-currencySymbol {
+    margin-left: 2px !important;
+    white-space: nowrap !important;
+    display: inline !important;
+}
+
+
