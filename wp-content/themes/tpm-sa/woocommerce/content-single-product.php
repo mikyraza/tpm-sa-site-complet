@@ -146,38 +146,47 @@ do_action( 'woocommerce_before_single_product' );
                 </div>
             </div>
 
-            <form id="fiche-add-to-cart-form" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-tpm-navy mb-1">
-                        <?php echo esc_html($flash_details['length_label']); ?>
-                    </label>
-                    <select name="flash_length" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-lg px-2.5 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer">
-                        <?php foreach ($flash_details['lengths'] as $l_opt): ?>
-                            <option value="<?php echo esc_attr($l_opt); ?>"><?php echo esc_html($l_opt); ?></option>
-                        <?php endforeach; ?>
-                    </select>
+            <form id="fiche-add-to-cart-form" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' class="space-y-3.5">
+                <!-- Ligne 1 : Sélecteurs Format / Longueur et Couleur / Finition -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-wider text-tpm-navy mb-1.5 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[13px] text-tpm-orange">straighten</span>
+                            <?php echo esc_html($flash_details['length_label']); ?>
+                        </label>
+                        <select name="flash_length" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-xl px-3 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer shadow-2xs">
+                            <?php foreach ($flash_details['lengths'] as $l_opt): ?>
+                                <option value="<?php echo esc_attr($l_opt); ?>"><?php echo esc_html($l_opt); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-wider text-tpm-navy mb-1.5 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[13px] text-tpm-orange">palette</span>
+                            <?php echo esc_html($flash_details['color_label']); ?>
+                        </label>
+                        <select name="flash_color" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-xl px-3 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer shadow-2xs">
+                            <?php foreach ($flash_details['colors'] as $c_opt): ?>
+                                <option value="<?php echo esc_attr($c_opt); ?>"><?php echo esc_html($c_opt); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-tpm-navy mb-1">
-                        <?php echo esc_html($flash_details['color_label']); ?>
-                    </label>
-                    <select name="flash_color" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-lg px-2.5 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer">
-                        <?php foreach ($flash_details['colors'] as $c_opt): ?>
-                            <option value="<?php echo esc_attr($c_opt); ?>"><?php echo esc_html($c_opt); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <div class="w-20 shrink-0">
-                        <label class="block text-[10px] font-black uppercase text-gray-500 mb-1">Quantité :</label>
-                        <input type="number" name="quantity" min="1" value="1" class="w-full text-xs font-bold text-center bg-slate-50 border border-gray-300 rounded-lg py-2 text-tpm-navy outline-none focus:ring-2 focus:ring-tpm-orange"/>
+                <!-- Ligne 2 : Sélecteur de Quantité et Bouton d'Action Pro-Forma Confortable -->
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 pt-0.5">
+                    <div class="w-full sm:w-28 shrink-0">
+                        <label class="block text-[10px] font-black uppercase tracking-wider text-gray-600 mb-1.5 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[13px] text-tpm-orange">pin</span>
+                            Quantité :
+                        </label>
+                        <input type="number" name="quantity" min="1" value="1" class="w-full text-xs font-bold text-center bg-slate-50 border border-gray-300 rounded-xl py-2 px-3 text-tpm-navy outline-none focus:ring-2 focus:ring-tpm-orange shadow-2xs"/>
                     </div>
                     <div class="flex-1">
-                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-black py-2.5 px-3 rounded-lg text-xs uppercase tracking-wider transition shadow flex items-center justify-center gap-1.5 cursor-pointer">
-                            <span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
-                            Ajouter au Panier Pro-Forma
+                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-black py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]">
+                            <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                            <span>Ajouter au Panier Pro-Forma</span>
                         </button>
                     </div>
                 </div>
