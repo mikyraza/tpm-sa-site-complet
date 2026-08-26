@@ -20,12 +20,12 @@ $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
          1. HERO HEADER: L'ENTREPRISE TPM SA (GROUPE CAC)
          ═════════════════════════════════════════════════════════════ -->
     <section class="relative bg-tpm-slate text-white py-14 lg:py-20 overflow-hidden">
-        <!-- Background Image with Overlay -->
+        <!-- Background Image with Overlay (Same as Home Page Upper Section) -->
         <div class="absolute inset-0 z-0">
-            <img src="<?php echo esc_url($theme_img_uri . 'bg_tpm_aluminum_coil.jpg'); ?>" 
-                 alt="TPM SA Bobine Aluminium & Usine de Production" 
-                 class="w-full h-full object-cover opacity-25"/>
-            <div class="absolute inset-0 bg-gradient-to-r from-tpm-navy/95 via-tpm-navy/90 to-tpm-navy/80"></div>
+            <img src="<?php echo esc_url($theme_img_uri . 'green_2.jpg'); ?>" 
+                 alt="TPM SA Complexe Industriel" 
+                 class="w-full h-full object-cover opacity-55"/>
+            <div class="absolute inset-0 bg-gradient-to-r from-tpm-navy/80 via-tpm-navy/70 to-tpm-navy/60"></div>
         </div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
