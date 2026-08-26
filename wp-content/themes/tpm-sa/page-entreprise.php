@@ -128,13 +128,13 @@ $catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
                 <!-- Left: Factory Image with Badge -->
                 <div class="lg:col-span-5 relative">
                     <div class="relative rounded-2xl overflow-hidden shadow-xl border border-gray-200 aspect-[4/3]">
-                        <img src="<?php echo esc_url($theme_img_uri . 'factory_showcase.jpg'); ?>" 
-                             alt="Lignes de production TPM SA" 
+                        <img src="<?php echo esc_url($theme_img_uri . 'main_building.jpg'); ?>" 
+                             alt="Bâtiment Principal &amp; Siège TPM SA" 
                              class="w-full h-full object-cover"/>
                         <div class="absolute inset-0 bg-gradient-to-t from-tpm-navy/80 via-transparent to-transparent"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-tpm-orange block mb-1">UNITÉ DE PROFILAGE DE PRÉCISION</span>
-                            <p class="text-xs font-semibold text-gray-200">Usine de laminage de tôles d'aluminium et de bobines galvanisées</p>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-tpm-orange block mb-1">SIÈGE &amp; BÂTIMENT PRINCIPAL</span>
+                            <p class="text-xs font-semibold text-gray-200">Complexe industriel et direction générale TPM SA</p>
                         </div>
                     </div>
                     <!-- Floating Quote Box -->
