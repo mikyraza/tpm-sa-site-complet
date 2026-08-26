@@ -293,9 +293,16 @@ function tpm_send_dual_order_receipt( $order_id ) {
     // Lock immediately to prevent concurrent triggers
     update_post_meta( $order_id, '_tpm_receipt_sent', current_time( 'mysql' ) );
 
-    $order_number   = $order->get_order_number();
+    $order_number = $order->get_order_number();
+
+    // Customer email: The exact email address entered in the proforma checkout form
     $customer_email = trim( (string) $order->get_billing_email() );
-    $admin_email    = trim( (string) get_option( 'admin_email' ) );
+    if ( empty( $customer_email ) ) {
+        $customer_email = trim( (string) get_post_meta( $order_id, '_billing_email', true ) );
+    }
+
+    // Admin email
+    $admin_email = trim( (string) get_option( 'admin_email' ) );
     if ( empty( $admin_email ) || ! is_email( $admin_email ) ) {
         $admin_email = 'cac_vis3@yahoo.fr';
     }
@@ -322,14 +329,14 @@ function tpm_send_dual_order_receipt( $order_id ) {
         }
     }
 
-    // 1. Send ONE styled email to Customer (User)
+    // 1. Send ONE styled email to the Customer (using the email entered in the proforma)
     if ( ! empty( $customer_email ) && is_email( $customer_email ) ) {
         $customer_subject = sprintf( 'TPM SA — Confirmation de Commande & Facture Pro-Forma #%s', $order_number );
         wp_mail( $customer_email, $customer_subject, $message, $headers, $attachments );
     }
 
-    // 2. Send ONE styled email to Admin (avoiding sending twice if customer_email == admin_email)
-    if ( ! empty( $admin_email ) && is_email( $admin_email ) && strtolower( $admin_email ) !== strtolower( $customer_email ) ) {
+    // 2. Send ONE styled email to the Admin
+    if ( ! empty( $admin_email ) && is_email( $admin_email ) ) {
         $admin_subject = sprintf( '[Nouvelle Commande] TPM SA — Facture Pro-Forma #%s — %s', $order_number, $client_name );
         wp_mail( $admin_email, $admin_subject, $message, $headers, $attachments );
     }
