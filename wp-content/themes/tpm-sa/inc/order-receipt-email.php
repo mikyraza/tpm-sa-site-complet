@@ -277,7 +277,7 @@ function tpm_generate_order_receipt_html( $order ) {
 }
 
 /**
- * Send Dual Receipt Automatically on Order Creation & Status Changes
+ * Send Exactly One Styled Pro-Forma Email to Customer and One to Admin
  */
 function tpm_send_dual_order_receipt( $order_id ) {
     if ( ! $order_id ) return;
@@ -285,35 +285,27 @@ function tpm_send_dual_order_receipt( $order_id ) {
     $order = wc_get_order( $order_id );
     if ( ! $order ) return;
 
-    // Prevent duplicate sending during the same request
+    // Prevent duplicate sending for this order
     $already_sent = get_post_meta( $order_id, '_tpm_receipt_sent', true );
     if ( $already_sent ) {
         return;
     }
+    // Lock immediately to prevent concurrent triggers
+    update_post_meta( $order_id, '_tpm_receipt_sent', current_time( 'mysql' ) );
 
-    $customer_email = $order->get_billing_email();
-    $admin_email    = get_option( 'admin_email' );
-    $tpm_commercial = 'cac_vis3@yahoo.fr';
-
-    $recipients = [];
-    if ( ! empty( $customer_email ) && is_email( $customer_email ) ) {
-        $recipients[] = $customer_email;
-    }
-    if ( ! empty( $admin_email ) && is_email( $admin_email ) ) {
-        $recipients[] = $admin_email;
-    }
-    if ( ! empty( $tpm_commercial ) && is_email( $tpm_commercial ) ) {
-        $recipients[] = $tpm_commercial;
+    $order_number   = $order->get_order_number();
+    $customer_email = trim( (string) $order->get_billing_email() );
+    $admin_email    = trim( (string) get_option( 'admin_email' ) );
+    if ( empty( $admin_email ) || ! is_email( $admin_email ) ) {
+        $admin_email = 'cac_vis3@yahoo.fr';
     }
 
-    $recipients = array_unique( $recipients );
-    if ( empty( $recipients ) ) {
-        return;
+    $client_name = trim( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() );
+    if ( empty( $client_name ) ) {
+        $client_name = 'Client';
     }
 
-    $order_number = $order->get_order_number();
-    $subject      = sprintf( 'TPM SA — Reçu de Commande & Pro-Forma Officielle #%s', $order_number );
-    $message      = tpm_generate_order_receipt_html( $order );
+    $message = tpm_generate_order_receipt_html( $order );
 
     $headers = [
         'Content-Type: text/html; charset=UTF-8',
@@ -330,20 +322,30 @@ function tpm_send_dual_order_receipt( $order_id ) {
         }
     }
 
-    // Dispatch to Customer + Admin recipients
-    foreach ( $recipients as $to ) {
-        wp_mail( $to, $subject, $message, $headers, $attachments );
+    // 1. Send ONE styled email to Customer (User)
+    if ( ! empty( $customer_email ) && is_email( $customer_email ) ) {
+        $customer_subject = sprintf( 'TPM SA — Confirmation de Commande & Facture Pro-Forma #%s', $order_number );
+        wp_mail( $customer_email, $customer_subject, $message, $headers, $attachments );
     }
 
-    update_post_meta( $order_id, '_tpm_receipt_sent', current_time( 'mysql' ) );
+    // 2. Send ONE styled email to Admin (avoiding sending twice if customer_email == admin_email)
+    if ( ! empty( $admin_email ) && is_email( $admin_email ) && strtolower( $admin_email ) !== strtolower( $customer_email ) ) {
+        $admin_subject = sprintf( '[Nouvelle Commande] TPM SA — Facture Pro-Forma #%s — %s', $order_number, $client_name );
+        wp_mail( $admin_email, $admin_subject, $message, $headers, $attachments );
+    }
 }
 
-// Hook into Order Creation & Checkout Processed
+// Hook only into Checkout Order Processed (fires once when customer completes order)
 add_action( 'woocommerce_checkout_order_processed', 'tpm_send_dual_order_receipt', 20, 1 );
-add_action( 'woocommerce_new_order', 'tpm_send_dual_order_receipt', 20, 1 );
-add_action( 'woocommerce_thankyou', 'tpm_send_dual_order_receipt', 20, 1 );
-add_action( 'woocommerce_order_status_completed', 'tpm_send_dual_order_receipt', 20, 1 );
-add_action( 'woocommerce_order_status_processing', 'tpm_send_dual_order_receipt', 20, 1 );
+
+/**
+ * Disable duplicate standard WooCommerce emails.
+ * Only our single styled Pro-Forma email is sent to the user and admin.
+ */
+add_filter( 'woocommerce_email_enabled_new_order', '__return_false' );
+add_filter( 'woocommerce_email_enabled_customer_processing_order', '__return_false' );
+add_filter( 'woocommerce_email_enabled_customer_on_hold_order', '__return_false' );
+add_filter( 'woocommerce_email_enabled_customer_completed_order', '__return_false' );
 
 /**
  * Route development emails to Mailpit SMTP (port 10001) in local environment
