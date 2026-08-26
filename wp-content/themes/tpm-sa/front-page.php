@@ -33,9 +33,9 @@ $flash_groups = function_exists('tpm_get_flash_proforma_groups') ? tpm_get_flash
     <section class="relative bg-tpm-slate text-white py-14 lg:py-20 overflow-hidden" data-purpose="hero-section">
         <!-- Background Image with High-Tech Dark Overlay -->
         <div class="absolute inset-0 z-0">
-            <img src="<?php echo esc_url($theme_img_uri . 'bg_tpm_facade.jpg'); ?>" 
-                 alt="TPM SA Usine de Production & Siège" 
-                 class="w-full h-full object-cover opacity-30"/>
+            <img src="<?php echo esc_url($theme_img_uri . 'green_2.jpg'); ?>" 
+                 alt="TPM SA Complexe Industriel" 
+                 class="w-full h-full object-cover opacity-35"/>
             <div class="absolute inset-0 bg-gradient-to-r from-tpm-navy/95 via-tpm-navy/90 to-tpm-navy/80"></div>
         </div>
 
