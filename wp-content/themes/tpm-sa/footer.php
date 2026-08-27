@@ -79,7 +79,7 @@
                 <li><a href="<?php echo esc_url($cat_toles_url); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-tpm-orange">chevron_right</span> Tôles BAC &amp; Ondulées</a></li>
                 <li><a href="<?php echo esc_url($cat_accessoires_url); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-tpm-orange">chevron_right</span> Faîtières, Rives &amp; Gouttières</a></li>
                 <li><a href="<?php echo esc_url($cat_fixations_url); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-tpm-orange">chevron_right</span> Fixations Complètes &amp; Pointes</a></li>
-                <li><a href="<?php echo esc_url($cat_interieurs_url); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-tpm-orange">chevron_right</span> Sacs PP Blancs 50kg / 100kg</a></li>
+                <li><a href="<?php echo esc_url($cat_interieurs_url); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-tpm-orange">chevron_right</span> Carreaux de Sol 60x60 &amp; Parquet</a></li>
                 <li><a href="<?php echo esc_url($cat_interieurs_url); ?>" class="hover:text-tpm-orange transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-tpm-orange">chevron_right</span> Carreaux &amp; Sanitaires</a></li>
             </ul>
         </div>

@@ -638,17 +638,17 @@ $flash_groups = function_exists('tpm_get_flash_proforma_groups') ? tpm_get_flash
                     </div>
                 </div>
 
-                <!-- Product 6: Sacs PP Blancs Tissés 50kg -->
+                <!-- Product 6: Cartons carreaux sol 60x60 Italien -->
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
                     <div>
                         <div class="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                            <img src="<?php echo esc_url($theme_img_uri . 'accueil_prod_sacs.jfif'); ?>" 
-                                 alt="Sacs PP Blancs Tissés 50kg" 
+                            <img src="<?php echo esc_url( content_url('/uploads/2026/08/tile-int-010-Carreau-Marbre-Pietra-Grey-60x60.jpg') ); ?>" 
+                                 alt="Cartons carreaux sol 60x60 Italien" 
                                  loading="lazy" 
                                  decoding="async" 
                                  class="w-full h-full object-cover"/>
                             <span class="absolute top-2.5 left-2.5 bg-tpm-navy text-white text-[9px] font-bold px-2 py-0.5 rounded shadow">
-                                Fabrique de Sacs
+                                Carrelage &amp; Sols
                             </span>
                             <span class="absolute top-2.5 right-2.5 bg-emerald-50 text-emerald-800 border border-emerald-200 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -658,30 +658,30 @@ $flash_groups = function_exists('tpm_get_flash_proforma_groups') ? tpm_get_flash
 
                         <div class="p-5 space-y-3">
                             <div class="font-mono text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                                REF: TPM-INT-SAC-PP50
+                                REF: INT-010
                             </div>
                             <h3 class="text-sm sm:text-base font-black text-tpm-navy leading-snug">
                                 <a href="<?php echo esc_url( home_url('/product/cartons-carreaux-sol-60x60-italien/') ); ?>" class="hover:text-tpm-orange transition-colors">
-                                    Sacs PP Blancs Tissés 50kg (Lot de 500 Sacs Usine Bekoko)
+                                    Cartons carreaux sol 60x60 Italien
                                 </a>
                             </h3>
                             <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-                                Sacs en Polypropylène (PP) tissé ultra-résistants pour emballage de ciment, sable, gravier, produits agricoles et agro-industriels 50kg.
+                                Grès cérame grand format 60x60cm origine Italie, finition rectifiée haut de gamme pour intérieur prestigieux.
                             </p>
 
                             <div class="bg-slate-50 p-2.5 rounded-lg border border-gray-100 flex justify-between text-[11px] font-semibold text-gray-600">
-                                <span>Dispo : <strong>Usine Bekoko</strong></span>
-                                <span class="text-tpm-orange">Tarif HT / Lot 500 pcs</span>
+                                <span>Dispo : <strong>Usine Douala</strong></span>
+                                <span class="text-tpm-orange">Tarif HT / Carton 1.44 m²</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-5 pt-0 border-t border-gray-100 flex items-center justify-between mt-2 pt-3">
                         <div class="whitespace-nowrap">
-                            <span class="text-base sm:text-lg font-black text-tpm-orange whitespace-nowrap">62&nbsp;500&nbsp;XAF</span>
+                            <span class="text-base sm:text-lg font-black text-tpm-orange whitespace-nowrap">20&nbsp;880&nbsp;XAF</span>
                             <span class="text-[9px] text-gray-400 block font-medium uppercase mt-0.5">+ TVA 19.25%</span>
                         </div>
-                        <a href="?add-to-cart=<?php echo esc_attr($woo_products[5]->ID ?? 23); ?>" 
+                        <a href="?add-to-cart=62" 
                            class="bg-tpm-orange hover:bg-orange-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1 shadow transition-colors whitespace-nowrap shrink-0">
                             <span class="material-symbols-outlined text-[15px]">add</span>
                             <span>+ Pro-Forma</span>
