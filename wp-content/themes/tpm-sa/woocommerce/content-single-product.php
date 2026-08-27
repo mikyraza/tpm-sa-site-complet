@@ -22,6 +22,9 @@ $price_html = $product->get_price_html();
 $price_raw  = $product->get_price();
 $unit       = get_post_meta( $product_id, '_unit', true ) ?: 'unité';
 
+$terms      = wp_get_post_terms( $product_id, 'product_cat', ['fields' => 'names'] );
+$cat_name   = ! empty( $terms ) ? $terms[0] : 'Catalogue TPM SA';
+
 $img_id     = $product->get_image_id();
 $img_url    = $img_id ? wp_get_attachment_image_url( $img_id, 'large' ) : wc_placeholder_img_src('large');
 $gallery    = $product->get_gallery_image_ids();
@@ -41,31 +44,31 @@ $flash_details = [
 
 if ( preg_match( '/ondule/iu', $title ) ) {
     $flash_details['length_label'] = 'FORMAT STANDARD';
-    $flash_details['color_label']  = 'FINITION';
+    $flash_details['color_label']  = 'FINITION ALU';
     $flash_details['lengths']      = ['Format 3.00m (Standard)', 'Format 2.00m', 'Format 2.50m', 'Format 4.00m', 'Sur-mesure'];
     $flash_details['colors']       = ['Alu Naturel Brillant', 'Alu Satiné'];
 } elseif ( preg_match( '/nature/iu', $title ) && ! preg_match( '/pr[eé]laqu/iu', $title ) ) {
     $flash_details['colors'] = ['Alu Naturel Brillant', 'Alu Naturel Traité'];
 } elseif ( preg_match( '/vis|tirefond|cavalier|toiturole|rondelle|plaquette|tige/iu', $title ) ) {
     $flash_details['length_label'] = 'CONDITIONNEMENT';
-    $flash_details['color_label']  = 'FINITION ACIER / ALU';
+    $flash_details['color_label']  = 'FINITION & TRAITEMENT';
     $flash_details['lengths']      = ['Boîte de 100 pcs', 'Paquet de 72 pcs', 'Carton Pro 500 pcs', 'À l\'unité'];
     $flash_details['colors']       = ['Acier Zingué Inox', 'Alu Brut', 'Tête Prélaquée Assortie'];
 } elseif ( preg_match( '/carreau|faience|sol|mur/iu', $title ) ) {
-    $flash_details['length_label'] = 'CALIBRE / SURFACE';
-    $flash_details['color_label']  = 'FINITION / EFFET';
-    $flash_details['lengths']      = ['Carton Standard 1.44 m²', 'Carton 1.50 m²', 'Palette Complète (~40-60 m²)'];
-    $flash_details['colors']       = ['Finition Polie Brillante', 'Finition Satinée Mat', 'Bords Rectifiés'];
+    $flash_details['length_label'] = 'FORMAT / CALIBRE';
+    $flash_details['color_label']  = 'FINITION DE SURFACE';
+    $flash_details['lengths']      = ['Carton Standard (1.44 à 1.50 m²)', 'Palette Complète (~40-60 m²)'];
+    $flash_details['colors']       = ['Finition Polie Brillante', 'Finition Satinée Mat', 'Bords Rectifiés 90°'];
 } elseif ( preg_match( '/douche/iu', $title ) ) {
-    $flash_details['length_label'] = 'TENSION / PUISSANCE';
+    $flash_details['length_label'] = 'TENSION & PUISSANCE';
     $flash_details['color_label']  = 'FINITION DU CORPS';
     $flash_details['lengths']      = ['220V - 6000W / 7500W Standard', '220V - 5500W Éco'];
     $flash_details['colors']       = ['Blanc Sanitaire & Chrome', 'Gris Platine'];
 } elseif ( preg_match( '/[eé]ponge/iu', $title ) ) {
     $flash_details['length_label'] = 'CONDITIONNEMENT';
-    $flash_details['color_label']  = 'GRADE MÉTAL';
+    $flash_details['color_label']  = 'STRUCTURE FIL';
     $flash_details['lengths']      = ['Sachet de 20 pièces', 'Sachet de 25 pièces', 'Carton Gros 200 pcs'];
-    $flash_details['colors']       = ['Inox AISI 430 Pur', 'Double Couche Mousse'];
+    $flash_details['colors']       = ['Inox AISI 430 Pur', 'Double Couche Mousse Polyuréthane'];
 }
 
 $wa_message = urlencode("Bonjour TPM SA, je souhaite commander : " . $title . " (Réf: " . $sku . ").");
@@ -75,52 +78,83 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
 <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'max-w-5xl mx-auto space-y-6', $product ); ?>>
 
     <!-- BARRE D'ACTIONS RAPIDES : RETOUR & IMPRESSION PDF (SCREEN ONLY) -->
-    <div class="print:hidden flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-xl border border-gray-200 shadow-2xs">
-        <a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="inline-flex items-center gap-1.5 text-xs font-bold text-tpm-navy hover:text-tpm-orange transition">
+    <div class="print:hidden flex flex-wrap items-center justify-between gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-xs">
+        <a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-tpm-navy hover:text-tpm-orange transition">
             <span class="material-symbols-outlined text-[18px]">arrow_back</span>
             <span>Retour au Catalogue Général</span>
         </a>
-        <div class="flex items-center gap-3">
-            <button onclick="window.print()" class="inline-flex items-center gap-1.5 bg-[#154c9e] hover:bg-blue-900 text-white text-xs font-black px-4 py-2 rounded-lg shadow transition cursor-pointer">
+        <div class="flex items-center gap-2.5">
+            <button onclick="window.print()" class="inline-flex items-center gap-2 bg-[#154c9e] hover:bg-blue-900 text-white text-xs sm:text-sm font-black px-4 py-2.5 rounded-xl shadow-xs transition cursor-pointer">
                 <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
-                <span>Télécharger la Fiche Technique PDF</span>
+                <span>Télécharger la Fiche PDF</span>
             </button>
-            <a href="<?php echo esc_url($wa_url); ?>" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-4 py-2 rounded-lg shadow transition">
+            <a href="<?php echo esc_url($wa_url); ?>" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black px-4 py-2.5 rounded-xl shadow-xs transition">
                 <span class="material-symbols-outlined text-[18px]">chat</span>
-                <span>Assistance WhatsApp</span>
+                <span>WhatsApp Direct</span>
             </a>
         </div>
     </div>
 
     <!-- BANDEAU DE COMMANDE & PRO-FORMA RAPIDE (SCREEN ONLY) -->
     <div class="print:hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
         <!-- CARD 1 : VISUEL DU PRODUIT & GALERIE -->
-        <div class="lg:col-span-4 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col items-center justify-center">
-            <div class="aspect-[4/3] w-full max-w-xs bg-slate-50 border border-gray-200 rounded-xl p-3 flex items-center justify-center overflow-hidden group">
+        <div class="lg:col-span-4 bg-white border border-slate-200 rounded-3xl p-5 shadow-sm flex flex-col justify-between items-center text-center">
+            <div class="w-full flex justify-between items-center pb-3">
+                <span class="bg-amber-100 text-amber-900 text-[10px] font-black uppercase px-2.5 py-1 rounded-full">
+                    Direct Usine TPM
+                </span>
+                <span class="text-[10px] font-mono font-bold text-gray-500 bg-slate-100 px-2 py-0.5 rounded">
+                    <?php echo esc_html($sku); ?>
+                </span>
+            </div>
+
+            <div class="aspect-[4/3] w-full max-w-xs bg-slate-50 border border-slate-100 rounded-2xl p-4 flex items-center justify-center overflow-hidden group my-auto">
                 <img id="main-product-image" 
                      src="<?php echo esc_url($img_url); ?>" 
                      alt="<?php echo esc_attr($title); ?>" 
-                     class="max-h-48 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+                     class="max-h-52 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             </div>
+
             <?php if ( count( $item_images ) > 1 ) : ?>
-                <div class="flex gap-2 pt-3">
+                <div class="flex gap-2 pt-3 w-full justify-center">
                     <?php foreach ( $item_images as $idx => $t_url ) : ?>
-                        <div class="w-12 h-12 bg-white border-2 <?php echo ($idx === 0) ? 'border-tpm-orange' : 'border-gray-200 opacity-70'; ?> rounded-lg overflow-hidden cursor-pointer transition p-0.5 product-thumb"
+                        <div class="w-12 h-12 bg-white border-2 <?php echo ($idx === 0) ? 'border-tpm-orange shadow-xs' : 'border-gray-200 opacity-70 hover:opacity-100'; ?> rounded-xl overflow-hidden cursor-pointer transition p-0.5 product-thumb"
                              onclick="changeProductImage('<?php echo esc_url($t_url); ?>', this)">
-                            <img src="<?php echo esc_url($t_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-full h-full object-cover rounded"/>
+                            <img src="<?php echo esc_url($t_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-full h-full object-cover rounded-lg"/>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+
+            <div class="w-full pt-3 mt-2 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[11px] font-bold text-emerald-700">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>En Stock Permanent (Douala &amp; Yaoundé)</span>
+            </div>
         </div>
 
-        <!-- CARD 2 : TOUT LE BLOC DE COMMANDE & TARIFS DANS LE MÊME BOX/CARD/SECTION/DIV -->
-        <div class="lg:col-span-8 bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-md flex flex-col justify-between space-y-4">
+        <!-- CARD 2 : TOUT LE BLOC DE COMMANDE, PRIX, SÉLECTION & AJOUT AU PANIER PRO-FORMA -->
+        <div class="lg:col-span-8 bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col justify-between space-y-5">
             
-            <!-- 1. En-tête Tarif Usine & TVA -->
-            <div class="flex flex-wrap items-baseline justify-between gap-3 border-b border-gray-100 pb-3.5">
+            <!-- 1. En-tête : Catégorie & Titre du Produit -->
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-black uppercase text-[#154c9e] tracking-wider bg-blue-50 px-3 py-1 rounded-md">
+                        <?php echo esc_html($cat_name); ?>
+                    </span>
+                    <span class="text-xs font-semibold text-gray-500">
+                        • Réf: <strong class="font-mono text-gray-800"><?php echo esc_html($sku); ?></strong>
+                    </span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-black text-gray-900 tracking-tight leading-tight m-0">
+                    <?php echo esc_html($title); ?>
+                </h1>
+            </div>
+
+            <!-- 2. Bloc Tarif Usine & TVA Récupérable -->
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50/70 border border-amber-200/90 rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 shadow-2xs">
                 <div>
-                    <span class="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-0.5">
+                    <span class="text-[11px] font-black uppercase tracking-wider text-amber-900 block mb-0.5">
                         Tarif Usine Direct Fabricant :
                     </span>
                     <div class="text-2xl sm:text-3xl font-black text-tpm-orange leading-none">
@@ -128,38 +162,39 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                     </div>
                 </div>
                 <div class="text-right">
-                    <span class="text-xs font-bold text-gray-600 uppercase block">
+                    <span class="text-xs font-bold text-gray-700 uppercase block">
                         HT / <?php echo esc_html($unit); ?>
                     </span>
-                    <span class="inline-block text-[10px] text-emerald-700 font-extrabold bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded mt-1">
-                        TVA 19.25% Récupérable
+                    <span class="inline-flex items-center gap-1.5 text-[11px] text-emerald-800 font-extrabold bg-emerald-100/90 border border-emerald-300 px-3 py-1 rounded-lg mt-1.5 shadow-2xs">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                        <span>TVA 19.25% Récupérable</span>
                     </span>
                 </div>
             </div>
 
-            <!-- 2. Formulaire avec Longueur, Couleur, Quantité & Bouton Pro-Forma -->
+            <!-- 3. Formulaire de Personnalisation & Ajout au Panier Pro-Forma -->
             <form id="fiche-add-to-cart-form" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' class="space-y-4">
                 
                 <!-- Sélecteurs Format / Longueur & Couleur / Finition -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-[10px] font-black uppercase tracking-wider text-tpm-navy mb-1.5 flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[14px] text-tpm-orange">straighten</span>
-                            <?php echo esc_html($flash_details['length_label']); ?>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div class="space-y-1.5">
+                        <label class="block text-[11px] font-black uppercase tracking-wider text-tpm-navy flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px] text-tpm-orange">straighten</span>
+                            <span><?php echo esc_html($flash_details['length_label']); ?></span>
                         </label>
-                        <select name="flash_length" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-xl px-3 py-2.5 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer shadow-2xs">
+                        <select name="flash_length" class="w-full text-xs sm:text-sm font-bold bg-slate-50 border-2 border-slate-200 hover:border-tpm-orange focus:border-tpm-orange rounded-xl px-3.5 py-3 text-gray-800 outline-none transition cursor-pointer shadow-2xs">
                             <?php foreach ($flash_details['lengths'] as $l_opt): ?>
                                 <option value="<?php echo esc_attr($l_opt); ?>"><?php echo esc_html($l_opt); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
 
-                    <div>
-                        <label class="block text-[10px] font-black uppercase tracking-wider text-tpm-navy mb-1.5 flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[14px] text-tpm-orange">palette</span>
-                            <?php echo esc_html($flash_details['color_label']); ?>
+                    <div class="space-y-1.5">
+                        <label class="block text-[11px] font-black uppercase tracking-wider text-tpm-navy flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px] text-tpm-orange">palette</span>
+                            <span><?php echo esc_html($flash_details['color_label']); ?></span>
                         </label>
-                        <select name="flash_color" class="w-full text-xs font-bold bg-slate-50 border border-gray-300 rounded-xl px-3 py-2.5 text-gray-800 outline-none focus:ring-2 focus:ring-tpm-orange transition cursor-pointer shadow-2xs">
+                        <select name="flash_color" class="w-full text-xs sm:text-sm font-bold bg-slate-50 border-2 border-slate-200 hover:border-tpm-orange focus:border-tpm-orange rounded-xl px-3.5 py-3 text-gray-800 outline-none transition cursor-pointer shadow-2xs">
                             <?php foreach ($flash_details['colors'] as $c_opt): ?>
                                 <option value="<?php echo esc_attr($c_opt); ?>"><?php echo esc_html($c_opt); ?></option>
                             <?php endforeach; ?>
@@ -167,39 +202,40 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                     </div>
                 </div>
 
-                <!-- Quantité & Bouton Ajouter au Panier Pro-Forma -->
-                <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-                    <div class="sm:col-span-4">
-                        <label class="block text-[10px] font-black uppercase tracking-wider text-gray-600 mb-1.5 flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[14px] text-tpm-orange">pin</span>
-                            Quantité :
+                <!-- Ligne Quantité & Bouton Pro-Forma XXL -->
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 pt-1">
+                    
+                    <!-- Champ Quantité -->
+                    <div class="sm:w-36 space-y-1.5">
+                        <label class="block text-[11px] font-black uppercase tracking-wider text-gray-700 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px] text-tpm-orange">pin</span>
+                            <span>Quantité :</span>
                         </label>
-                        <input type="number" name="quantity" min="1" value="1" class="w-full text-xs font-bold text-center bg-slate-50 border border-gray-300 rounded-xl py-2.5 px-3 text-tpm-navy outline-none focus:ring-2 focus:ring-tpm-orange shadow-2xs"/>
+                        <input type="number" name="quantity" min="1" value="1" class="w-full h-12 text-center text-base font-black bg-slate-50 border-2 border-slate-200 hover:border-tpm-orange focus:border-tpm-orange rounded-xl px-3 text-tpm-navy outline-none shadow-2xs transition" />
                     </div>
-                    <div class="sm:col-span-8">
-                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full bg-gradient-to-r from-tpm-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-black py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]">
-                            <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+
+                    <!-- Bouton Ajouter au Panier Pro-Forma Ultra-Visible -->
+                    <div class="flex-1">
+                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full h-12 bg-gradient-to-r from-tpm-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                            <span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
                             <span>Ajouter au Panier Pro-Forma</span>
                         </button>
                     </div>
+
                 </div>
 
             </form>
 
-            <!-- 3. Pied du bloc : Normes, Assistance WhatsApp & Catalogue -->
-            <div class="flex flex-wrap items-center justify-between gap-3 pt-3 text-[11px] text-gray-500 border-t border-gray-100">
-                <div class="flex items-center gap-1.5 font-medium">
-                    <span class="material-symbols-outlined text-[16px] text-[#154c9e]">verified</span>
+            <!-- 4. Pied du bloc : Normes & Assistance WhatsApp -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-3 text-xs text-gray-600 border-t border-slate-100">
+                <div class="flex items-center gap-1.5 font-semibold text-gray-700">
+                    <span class="material-symbols-outlined text-[18px] text-[#154c9e]">verified</span>
                     <span>Conforme Norme Camerounaise (NC) &amp; ISO 9001:2015</span>
                 </div>
                 <div class="flex items-center gap-4 font-bold">
-                    <a href="<?php echo esc_url($wa_url); ?>" target="_blank" class="text-emerald-700 hover:text-emerald-800 flex items-center gap-1 transition-colors">
-                        <span class="material-symbols-outlined text-[15px]">chat</span>
+                    <a href="<?php echo esc_url($wa_url); ?>" target="_blank" class="text-emerald-700 hover:text-emerald-800 flex items-center gap-1.5 transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">chat</span>
                         <span>Assistance WhatsApp</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="openCataloguePreview()" class="text-[#154c9e] hover:text-blue-800 flex items-center gap-1 transition-colors">
-                        <span class="material-symbols-outlined text-[15px]">visibility</span>
-                        <span>Catalogue Complet</span>
                     </a>
                 </div>
             </div>
@@ -211,10 +247,10 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
     <!-- FICHE DESCRIPTIVE TECHNIQUE & COMMERCIALE                          -->
     <!-- PAGE 1 : DESCRIPTIF, POINTS FORTS, SPÉCIFICATIONS, GUIDE DE POSE   -->
     <!-- =================================================================== -->
-    <div class="bg-white border border-slate-200 rounded-2xl shadow-md overflow-hidden text-gray-900 fiche-technique-page p-6 sm:p-8 space-y-6">
+    <div class="bg-white border border-slate-200 rounded-3xl shadow-md overflow-hidden text-gray-900 fiche-technique-page p-6 sm:p-8 space-y-6">
 
         <!-- 1. EN-TÊTE BLEU INDUSTRIEL AVEC LOGO & TITRE DE LA FICHE -->
-        <div class="bg-gradient-to-r from-[#154c9e] to-[#0f3775] text-white p-5 sm:p-6 rounded-xl shadow-sm">
+        <div class="bg-gradient-to-r from-[#154c9e] to-[#0f3775] text-white p-5 sm:p-6 rounded-2xl shadow-sm">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/20 pb-4 mb-4">
                 <div>
                     <span class="text-xs font-black uppercase tracking-widest text-amber-300 block mb-0.5">
@@ -227,7 +263,7 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                         <?php echo esc_html($fiche['header_subtitle']); ?>
                     </p>
                 </div>
-                <div class="text-right shrink-0 bg-white/10 px-3.5 py-2 rounded-lg border border-white/20">
+                <div class="text-right shrink-0 bg-white/10 px-3.5 py-2 rounded-xl border border-white/20">
                     <span class="text-[10px] uppercase font-bold text-blue-200 block">RÉFÉRENCE USINE</span>
                     <span class="text-sm font-black text-amber-300 font-mono"><?php echo esc_html($fiche['ref']); ?></span>
                 </div>
@@ -235,7 +271,7 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
             <!-- BADGES / PILLS TECHNIQUES -->
             <div class="flex flex-wrap gap-2 pt-1">
                 <?php foreach ($fiche['pills'] as $pill): ?>
-                    <span class="bg-white/15 border border-white/25 text-white text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md">
+                    <span class="bg-white/15 border border-white/25 text-white text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg">
                         <?php echo esc_html($pill); ?>
                     </span>
                 <?php endforeach; ?>
@@ -243,7 +279,7 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
         </div>
 
         <!-- 2. DESCRIPTIF COMMERCIAL & TECHNIQUE -->
-        <div class="bg-slate-50 border-l-4 border-tpm-orange p-4 sm:p-5 rounded-r-xl space-y-2">
+        <div class="bg-slate-50 border-l-4 border-tpm-orange p-4 sm:p-5 rounded-r-2xl space-y-2">
             <div class="text-xs font-black text-tpm-navy uppercase tracking-wider flex items-center gap-1.5">
                 <span class="material-symbols-outlined text-[18px] text-tpm-orange">description</span>
                 <span>Présentation &amp; Descriptif Industriel du Produit</span>
@@ -261,7 +297,7 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 <?php foreach ($fiche['points_forts'] as $pf): ?>
-                    <div class="bg-white border border-slate-200 rounded-xl p-3.5 sm:p-4 shadow-2xs hover:border-[#154c9e]/40 transition flex items-start gap-3">
+                    <div class="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-2xs hover:border-[#154c9e]/40 transition flex items-start gap-3">
                         <span class="material-symbols-outlined text-[24px] text-tpm-orange shrink-0 mt-0.5"><?php echo esc_attr($pf['icon']); ?></span>
                         <div class="space-y-0.5">
                             <h4 class="text-xs font-black text-tpm-navy m-0"><?php echo esc_html($pf['title']); ?></h4>
@@ -278,21 +314,21 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                 <span class="material-symbols-outlined text-[18px] text-tpm-orange">tune</span>
                 <span>Spécifications &amp; Caractéristiques Techniques Certifiées</span>
             </div>
-            <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-2xs">
+            <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-2xs">
                 <table class="w-full text-left text-xs border-collapse">
                     <thead>
                         <tr class="bg-slate-100 text-tpm-navy font-black border-b border-slate-200">
                             <?php foreach ($fiche['specs_table']['headers'] as $th): ?>
-                                <th class="p-3 uppercase text-[11px] tracking-wider"><?php echo esc_html($th); ?></th>
+                                <th class="p-3.5 uppercase text-[11px] tracking-wider"><?php echo esc_html($th); ?></th>
                             <?php endforeach; ?>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 font-medium text-gray-700">
                         <?php foreach ($fiche['specs_table']['rows'] as $rIdx => $row): ?>
                             <tr class="<?php echo ($rIdx % 2 === 0) ? 'bg-white' : 'bg-slate-50/50'; ?>">
-                                <td class="p-3 font-bold text-gray-900"><?php echo esc_html($row['label']); ?></td>
-                                <td class="p-3 font-semibold text-tpm-navy"><?php echo esc_html($row['bac']); ?></td>
-                                <td class="p-3 text-gray-600"><?php echo esc_html($row['ondu']); ?></td>
+                                <td class="p-3.5 font-bold text-gray-900"><?php echo esc_html($row['label']); ?></td>
+                                <td class="p-3.5 font-semibold text-tpm-navy"><?php echo esc_html($row['bac']); ?></td>
+                                <td class="p-3.5 text-gray-600"><?php echo esc_html($row['ondu']); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -308,7 +344,7 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <?php foreach ($fiche['guide_pose'] as $gpIdx => $gp): ?>
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1">
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-1">
                         <div class="text-xs font-black text-tpm-navy flex items-center gap-1.5">
                             <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-black flex items-center justify-center shrink-0">
                                 <?php echo ($gpIdx + 1); ?>
@@ -330,15 +366,15 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                 <span>Logistique, Stockage Chantier &amp; Garantie Usine</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1">
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-1">
                     <span class="font-extrabold text-tpm-navy text-[11px] uppercase block">Conditions de Stockage :</span>
                     <p class="text-gray-600 m-0 leading-relaxed text-[11px]"><?php echo esc_html($fiche['stockage_info']['stockage']); ?></p>
                 </div>
-                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1">
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-1">
                     <span class="font-extrabold text-tpm-navy text-[11px] uppercase block">Manutention &amp; Transport :</span>
                     <p class="text-gray-600 m-0 leading-relaxed text-[11px]"><?php echo esc_html($fiche['stockage_info']['manutention']); ?></p>
                 </div>
-                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1">
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-1">
                     <span class="font-extrabold text-tpm-navy text-[11px] uppercase block">Garantie &amp; Conformité :</span>
                     <p class="text-gray-600 m-0 leading-relaxed text-[11px]"><?php echo esc_html($fiche['stockage_info']['garantie']); ?></p>
                 </div>
@@ -356,15 +392,15 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
     <!-- =================================================================== -->
     <!-- PAGE 2 : CROQUIS TECHNIQUES COTÉS & PLANS DE DÉTAILS DÉDIÉS         -->
     <!-- =================================================================== -->
-    <div class="bg-white border border-slate-200 rounded-2xl shadow-md overflow-hidden text-gray-900 fiche-technique-page p-6 sm:p-8 space-y-6">
+    <div class="bg-white border border-slate-200 rounded-3xl shadow-md overflow-hidden text-gray-900 fiche-technique-page p-6 sm:p-8 space-y-6">
 
         <!-- 1. EN-TÊTE BLEU DE LA PAGE 2 -->
-        <div class="bg-[#154c9e] text-white p-4 sm:p-5 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div class="bg-[#154c9e] text-white p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
                 <span class="text-[10px] font-black uppercase tracking-widest text-amber-300 block">DESSINS INDUSTRIELS &amp; COTATIONS NORMALISÉES</span>
                 <h2 class="text-lg sm:text-xl font-black m-0 text-white"><?php echo esc_html($fiche['diagram_title']); ?></h2>
             </div>
-            <div class="bg-white/10 px-3 py-1.5 rounded-lg border border-white/20 text-right">
+            <div class="bg-white/10 px-3 py-1.5 rounded-xl border border-white/20 text-right">
                 <span class="text-[9px] uppercase text-blue-200 block">DOCUMENTATION OFFICIELLE</span>
                 <span class="text-xs font-bold text-amber-300 font-mono">Conforme Norme NC / ISO</span>
             </div>
@@ -771,8 +807,8 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-1 text-center">
                     <?php foreach ($fiche['ral_swatches'] as $sw): ?>
-                        <div class="flex flex-col items-center gap-1 bg-white p-2 rounded-xl border border-slate-200 shadow-2xs">
-                            <div class="w-full h-12 sm:h-14 rounded-lg shadow-2xs border border-black/10 transition-transform hover:scale-105" style="background-color: <?php echo esc_attr($sw['hex']); ?>;"></div>
+                        <div class="flex flex-col items-center gap-1 bg-white p-2 rounded-2xl border border-slate-200 shadow-2xs">
+                            <div class="w-full h-12 sm:h-14 rounded-xl shadow-2xs border border-black/10 transition-transform hover:scale-105" style="background-color: <?php echo esc_attr($sw['hex']); ?>;"></div>
                             <div class="text-[10px] font-bold text-gray-800 leading-tight"><?php echo esc_html($sw['name']); ?></div>
                             <div class="text-[9px] text-gray-500 font-mono">(<?php echo esc_html($sw['ral']); ?>)</div>
                         </div>
@@ -804,12 +840,12 @@ function changeProductImage(src, thumb) {
         }, 150);
     }
     document.querySelectorAll('.product-thumb').forEach(el => {
-        el.classList.remove('border-tpm-orange');
+        el.classList.remove('border-tpm-orange', 'shadow-xs');
         el.classList.add('border-gray-200', 'opacity-70');
     });
     if (thumb) {
         thumb.classList.remove('border-gray-200', 'opacity-70');
-        thumb.classList.add('border-tpm-orange');
+        thumb.classList.add('border-tpm-orange', 'shadow-xs');
     }
 }
 </script>
