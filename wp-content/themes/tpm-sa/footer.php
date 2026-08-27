@@ -139,12 +139,12 @@
     </div>
 </footer>
 
-<!-- MODAL APERÇU INTERACTIF DU CATALOGUE GÉNÉRAL 2026 AVANT TÉLÉCHARGEMENT (GRAND FORMAT) -->
-<div id="catalogue-preview-modal" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/85 backdrop-blur-md p-1 sm:p-2 md:p-3 transition-all duration-300" onclick="if(event.target === this) closeCataloguePreview()">
-    <div class="bg-white w-[98vw] max-w-[1540px] h-[96vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-300 transform transition-all" onclick="event.stopPropagation()">
+<!-- MODAL APERÇU INTERACTIF DU CATALOGUE GÉNÉRAL 2026 AVANT TÉLÉCHARGEMENT (GRAND FORMAT MAXIMAL) -->
+<div id="catalogue-preview-modal" class="fixed inset-0 z-[99999] hidden flex items-center justify-center transition-all duration-300" style="position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important; background-color: rgba(0, 0, 0, 0.88) !important; backdrop-filter: blur(8px) !important; padding: 10px !important; z-index: 999999 !important; box-sizing: border-box !important;" onclick="if(event.target === this) closeCataloguePreview()">
+    <div class="bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-400 transform transition-all" style="width: calc(100vw - 20px) !important; height: calc(100vh - 20px) !important; max-width: 1800px !important; max-height: calc(100vh - 20px) !important; display: flex !important; flex-direction: column !important; box-sizing: border-box !important;" onclick="event.stopPropagation()">
         
         <!-- En-tête du Modal -->
-        <div class="bg-tpm-navy text-white px-4 sm:px-6 py-2.5 flex items-center justify-between border-b-2 border-tpm-orange shrink-0">
+        <div class="bg-tpm-navy text-white px-4 sm:px-6 py-2.5 flex items-center justify-between border-b-2 border-tpm-orange shrink-0" style="background-color: #1C1340 !important; min-height: 52px !important; flex-shrink: 0 !important;">
             <div class="flex items-center gap-3">
                 <div class="bg-white p-1 rounded-md shrink-0 flex items-center justify-center shadow-sm">
                     <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/logo_tpm.png' ); ?>" alt="TPM SA" class="h-6 sm:h-7 w-auto object-contain" />
@@ -152,47 +152,49 @@
                 <div>
                     <h3 class="text-xs sm:text-sm font-black uppercase text-white m-0 tracking-wide flex items-center gap-2">
                         Aperçu du Catalogue Général 2026
-                        <span class="bg-tpm-orange text-[9px] font-bold px-2 py-0.5 rounded text-white font-mono uppercase">12 Pages Complètes</span>
+                        <span class="bg-tpm-orange text-[9px] font-bold px-2 py-0.5 rounded text-white font-mono uppercase" style="background-color: #D84B1F !important;">12 Pages Complètes</span>
                     </h3>
                     <p class="text-[10px] text-gray-300 m-0">TPM SA • Groupe CAC — Solutions Métallurgiques &amp; Matériaux de Construction</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <a href="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>" target="_blank" class="hidden sm:flex items-center gap-1.5 text-xs text-gray-200 hover:text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition font-bold">
+                <a href="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>" target="_blank" class="hidden sm:flex items-center gap-1.5 text-xs text-white px-3 py-1.5 rounded-lg transition font-bold" style="background-color: rgba(255,255,255,0.15) !important;">
                     <span class="material-symbols-outlined text-[16px]">open_in_new</span>
                     <span>Plein écran</span>
                 </a>
-                <button type="button" onclick="closeCataloguePreview()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-red-600 text-white flex items-center justify-center transition" title="Fermer (Échap)">
-                    <span class="material-symbols-outlined text-[18px]">close</span>
+                <button type="button" onclick="closeCataloguePreview()" class="w-9 h-9 rounded-lg text-white flex items-center justify-center transition cursor-pointer" style="background-color: rgba(255,255,255,0.15) !important;" onmouseover="this.style.backgroundColor='#dc2626'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.15)'" title="Fermer (Échap)">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
                 </button>
             </div>
         </div>
 
-        <!-- Zone d'Aperçu PDF (Grand Écran iframe) -->
-        <div class="flex-1 w-full h-full bg-slate-200 relative min-h-0">
+        <!-- Zone d'Aperçu PDF (Grand Écran iframe 100% Hauteur) -->
+        <div class="flex-1 w-full bg-slate-200 relative" style="flex: 1 1 0% !important; width: 100% !important; height: calc(100% - 110px) !important; min-height: 0 !important; background-color: #e2e8f0 !important;">
             <iframe id="catalogue-preview-iframe" 
                     src="" 
-                    data-src="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>#toolbar=1&navpanes=1" 
+                    data-src="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>#toolbar=1&navpanes=0&view=FitH" 
                     class="w-full h-full border-0" 
+                    style="width: 100% !important; height: 100% !important; min-height: 100% !important; border: none !important; display: block !important;"
                     title="Aperçu du Catalogue Général TPM SA 2026">
             </iframe>
         </div>
 
         <!-- Pied de page du Modal : Confirmation de Téléchargement -->
-        <div class="bg-slate-50 border-t border-gray-200 px-4 sm:px-6 py-2.5 flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
+        <div class="bg-slate-50 border-t border-gray-200 px-4 sm:px-6 py-2.5 flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0" style="background-color: #f8fafc !important; min-height: 52px !important; flex-shrink: 0 !important;">
             <div class="text-[11px] text-gray-600 flex items-center gap-1.5 text-center sm:text-left">
                 <span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
                 <span>Document officiel certifié • <strong>12 pages</strong> • Taille : <strong>5,18 Mo</strong></span>
             </div>
             <div class="flex items-center gap-2.5 w-full sm:w-auto">
-                <button type="button" onclick="closeCataloguePreview()" class="w-1/2 sm:w-auto px-4 py-2 text-xs font-bold text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg transition text-center">
+                <button type="button" onclick="closeCataloguePreview()" class="w-1/2 sm:w-auto px-5 py-2 text-xs font-bold text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg transition text-center cursor-pointer">
                     Fermer
                 </button>
                 <a href="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>" 
                    download="Catalogue_General_TPM_SA_2026.pdf" 
-                   class="w-1/2 sm:w-auto px-5 py-2 text-xs font-black text-white bg-tpm-orange hover:bg-orange-700 rounded-lg shadow-md hover:shadow-lg transition flex items-center justify-center gap-1.5 uppercase tracking-wider">
-                    <span class="material-symbols-outlined text-[16px]">download</span>
-                    <span>Confirmer le Téléchargement</span>
+                   class="w-1/2 sm:w-auto px-6 py-2.5 text-xs font-black text-white rounded-lg shadow-md hover:shadow-lg transition flex items-center justify-center gap-1.5 uppercase tracking-wider cursor-pointer"
+                   style="background-color: #D84B1F !important; color: #FFFFFF !important;">
+                    <span class="material-symbols-outlined text-[16px]" style="color: #FFFFFF !important;">download</span>
+                    <span style="color: #FFFFFF !important; font-weight: 900 !important;">Confirmer le Téléchargement</span>
                 </a>
             </div>
         </div>
