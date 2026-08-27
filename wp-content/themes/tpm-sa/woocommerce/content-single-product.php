@@ -203,22 +203,22 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                 </div>
 
                 <!-- Ligne Quantité & Bouton Pro-Forma XXL -->
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 pt-1">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4 sm:gap-5 pt-1.5">
                     
                     <!-- Champ Quantité -->
-                    <div class="sm:w-36 space-y-1.5">
-                        <label class="block text-[11px] font-black uppercase tracking-wider text-gray-700 flex items-center gap-1">
+                    <div class="sm:w-36 space-y-1.5 shrink-0">
+                        <label class="block text-[11px] font-black uppercase tracking-wider text-gray-700 flex items-center gap-1.5">
                             <span class="material-symbols-outlined text-[16px] text-tpm-orange">pin</span>
                             <span>Quantité :</span>
                         </label>
-                        <input type="number" name="quantity" min="1" value="1" class="w-full h-12 text-center text-base font-black bg-slate-50 border-2 border-slate-200 hover:border-tpm-orange focus:border-tpm-orange rounded-xl px-3 text-tpm-navy outline-none shadow-2xs transition" />
+                        <input type="number" name="quantity" min="1" value="1" class="w-full h-12 text-center text-base font-black bg-slate-50 border-2 border-slate-200 hover:border-tpm-orange focus:border-tpm-orange rounded-xl px-4 text-tpm-navy outline-none shadow-2xs transition" />
                     </div>
 
-                    <!-- Bouton Ajouter à la Pro-Forma Ultra-Visible -->
+                    <!-- Bouton Ajouter à la Pro-Forma Ultra-Visible avec Espacement Renforcé -->
                     <div class="flex-1">
-                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full h-12 bg-tpm-orange hover:bg-opacity-95 text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer" style="background-color: #D84B1F !important; color: #FFFFFF !important;">
-                            <span class="material-symbols-outlined text-[20px]" style="color: #FFFFFF !important; font-size: 20px !important;">add_shopping_cart</span>
-                            <span style="color: #FFFFFF !important; font-weight: 900 !important; display: inline-block !important;">Ajouter à la Pro-Forma</span>
+                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full h-12 bg-tpm-orange hover:bg-opacity-95 text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-3 px-6 sm:px-8 cursor-pointer" style="background-color: #D84B1F !important; color: #FFFFFF !important; padding-left: 1.75rem !important; padding-right: 1.75rem !important;">
+                            <span class="material-symbols-outlined text-[20px]" style="color: #FFFFFF !important; font-size: 20px !important; margin-right: 2px;">add_shopping_cart</span>
+                            <span style="color: #FFFFFF !important; font-weight: 900 !important; display: inline-block !important; padding-left: 4px; padding-right: 4px; letter-spacing: 0.03em;">Ajouter à la Pro-Forma</span>
                         </button>
                     </div>
 
