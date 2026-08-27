@@ -732,3 +732,58 @@ function tpm_handle_catalog_download() {
         }
     }
 }
+
+/**
+ * Export complete SQL database dump
+ */
+add_action('init', 'tpm_handle_database_export');
+function tpm_handle_database_export() {
+    if ( isset($_GET['tpm_export_db']) && $_GET['tpm_export_db'] === '1' && current_user_can('manage_options') ) {
+        global $wpdb;
+        $tables = $wpdb->get_col("SHOW TABLES");
+        $sql_file = ABSPATH . 'database_backup_mpcac.sql';
+        $fp = fopen($sql_file, 'w');
+
+        fwrite($fp, "-- TPM SA WordPress Complete Database Dump\n");
+        fwrite($fp, "-- Generated: " . date('Y-m-d H:i:s') . "\n");
+        fwrite($fp, "SET NAMES utf8mb4;\n");
+        fwrite($fp, "SET FOREIGN_KEY_CHECKS = 0;\n\n");
+
+        foreach ($tables as $table) {
+            fwrite($fp, "-- Table structure for `$table`\n");
+            fwrite($fp, "DROP TABLE IF EXISTS `$table`;\n");
+            $create = $wpdb->get_row("SHOW CREATE TABLE `$table`", ARRAY_N);
+            fwrite($fp, $create[1] . ";\n\n");
+
+            $rows = $wpdb->get_results("SELECT * FROM `$table`", ARRAY_A);
+            if (!empty($rows)) {
+                fwrite($fp, "-- Dumping data for `$table`\n");
+                foreach ($rows as $row) {
+                    $fields = array_map(function($val) use ($wpdb) {
+                        if ($val === null) return "NULL";
+                        return "'" . esc_sql($val) . "'";
+                    }, array_values($row));
+                    fwrite($fp, "INSERT INTO `$table` VALUES (" . implode(", ", $fields) . ");\n");
+                }
+                fwrite($fp, "\n");
+            }
+        }
+
+        fwrite($fp, "SET FOREIGN_KEY_CHECKS = 1;\n");
+        fclose($fp);
+
+        if ( isset($_GET['download']) && $_GET['download'] === '1' ) {
+            while ( ob_get_level() ) { ob_end_clean(); }
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/sql');
+            header('Content-Disposition: attachment; filename="database_backup_mpcac.sql"');
+            header('Content-Length: ' . filesize($sql_file));
+            readfile($sql_file);
+            exit;
+        }
+
+        echo "SUCCESS: Database exported to " . $sql_file . " (" . round(filesize($sql_file) / (1024 * 1024), 2) . " MB)";
+        exit;
+    }
+}
+
