@@ -222,43 +222,64 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                 
-                <!-- Left: Map Display Card with Blueprint Styling -->
-                <div class="lg:col-span-6 relative rounded-2xl overflow-hidden border border-gray-200 shadow-md bg-slate-100 min-h-[380px] flex flex-col justify-between">
+                <!-- Left: Interactive Real Google Maps Display Card -->
+                <div class="lg:col-span-6 relative rounded-2xl overflow-hidden border border-gray-300 shadow-lg bg-slate-100 flex flex-col justify-between">
                     
-                    <!-- Interactive Stylized Location Map Box -->
-                    <div class="relative w-full h-[380px] bg-gradient-to-br from-slate-100 via-[#EBF1F8] to-slate-200 flex items-center justify-center overflow-hidden border border-gray-200">
-                        <!-- Grid Matrix Pattern -->
-                        <div class="absolute inset-0 opacity-25 bg-[radial-gradient(#1C1340_1px,transparent_1px)] [background-size:18px_18px]"></div>
-
-                        <!-- Center Location Marker & CTA -->
-                        <div class="relative z-10 text-center p-6 space-y-4 max-w-sm">
-                            <div class="w-14 h-14 rounded-2xl bg-tpm-orange text-white flex items-center justify-center mx-auto shadow-xl">
-                                <span class="material-symbols-outlined text-3xl animate-bounce">location_on</span>
-                            </div>
-                            <div class="space-y-1">
-                                <h4 class="font-black text-tpm-navy text-base uppercase tracking-tight">Usine de Production Bekoko</h4>
-                                <p class="text-xs text-gray-600 font-medium leading-relaxed">
-                                    Carrefour Bekoko, Axe Douala - Limbé, Littoral, Cameroun
-                                </p>
-                            </div>
-                            <a href="https://maps.google.com/?q=Bekoko+Douala+Cameroun" 
-                               target="_blank" 
-                               rel="noopener noreferrer" 
-                               class="inline-flex items-center gap-2 bg-tpm-navy hover:bg-slate-900 text-white font-extrabold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition-colors shadow-lg">
-                                <span class="material-symbols-outlined text-[18px] text-tpm-orange">near_me</span>
-                                <span>Ouvrir l'Itinéraire GPS (Google Maps)</span>
-                            </a>
+                    <!-- Top Site Switcher Bar -->
+                    <div class="bg-tpm-navy text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2 border-b-2 border-tpm-orange shrink-0">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-tpm-orange text-[20px]">location_on</span>
+                            <span class="text-xs font-black uppercase tracking-wider text-white">Localisation GPS Certifiée</span>
                         </div>
-
-                        <!-- Top Floating Badge -->
-                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-md border border-gray-200 text-left">
-                            <div class="font-black text-tpm-navy text-xs uppercase tracking-tight">Zone Bekoko (1 500 m²)</div>
-                            <div class="text-[10px] text-emerald-700 font-bold flex items-center gap-1 mt-0.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                Accès Poids Lourds Garanti
-                            </div>
+                        <div class="flex items-center gap-1.5 text-[11px]">
+                            <button type="button" 
+                                    onclick="switchTpmMap('pk12')" 
+                                    id="map-btn-pk12"
+                                    class="px-2.5 py-1 rounded-md font-bold transition bg-tpm-orange text-white shadow-sm cursor-pointer">
+                                PK12 (Siège)
+                            </button>
+                            <button type="button" 
+                                    onclick="switchTpmMap('bekoko')" 
+                                    id="map-btn-bekoko"
+                                    class="px-2.5 py-1 rounded-md font-bold transition bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer">
+                                Bekoko (Usine)
+                            </button>
                         </div>
                     </div>
+
+                    <!-- Interactive Google Maps Iframe -->
+                    <div class="relative w-full h-[420px] bg-slate-200 overflow-hidden">
+                        <iframe id="tpm-google-map"
+                                src="https://maps.google.com/maps?q=4.05989,9.78403+(TPM+SA+-+Groupe+CAC+Douala+PK12)&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                                class="w-full h-full border-0"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Géolocalisation TPM SA Douala">
+                        </iframe>
+                    </div>
+
+                    <!-- Bottom Bar: Coordinates Info & Direct GPS Navigation Button -->
+                    <div class="bg-slate-50 border-t border-gray-200 p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+                        <div class="text-[11px] text-gray-600 text-center sm:text-left space-y-0.5">
+                            <div class="font-bold text-tpm-navy flex items-center gap-1 justify-center sm:justify-start" id="map-info-title">
+                                <span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+                                <span>TPM SA • Siège &amp; Comptoir PK12</span>
+                            </div>
+                            <div class="font-mono text-[10px] text-gray-500" id="map-info-coords">
+                                Coordonnées GPS : <strong>4.05989° N, 9.78403° E</strong> (Marché PK12)
+                            </div>
+                        </div>
+                        <a href="https://www.google.com/maps/dir/?api=1&amp;destination=4.05989,9.78403" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           id="map-directions-link"
+                           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-tpm-orange hover:bg-orange-700 text-white font-black px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-colors shadow-md shrink-0">
+                            <span class="material-symbols-outlined text-[17px]">near_me</span>
+                            <span>Itinéraire GPS</span>
+                        </a>
+                    </div>
+
                 </div>
 
                 <!-- Right: Sites Info & Requirements -->
@@ -483,5 +504,40 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
     </section>
 
 </main>
+
+<script>
+function switchTpmMap(site) {
+    const mapIframe = document.getElementById('tpm-google-map');
+    const btnPk12   = document.getElementById('map-btn-pk12');
+    const btnBekoko = document.getElementById('map-btn-bekoko');
+    const title     = document.getElementById('map-info-title');
+    const coords    = document.getElementById('map-info-coords');
+    const dirLink   = document.getElementById('map-directions-link');
+
+    if (site === 'pk12') {
+        if (mapIframe) mapIframe.src = 'https://maps.google.com/maps?q=4.05989,9.78403+(TPM+SA+-+Groupe+CAC+Douala+PK12)&t=&z=15&ie=UTF8&iwloc=B&output=embed';
+        if (btnPk12) {
+            btnPk12.className = 'px-2.5 py-1 rounded-md font-bold transition bg-tpm-orange text-white shadow-sm cursor-pointer';
+        }
+        if (btnBekoko) {
+            btnBekoko.className = 'px-2.5 py-1 rounded-md font-bold transition bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer';
+        }
+        if (title) title.innerHTML = '<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span><span>TPM SA • Siège &amp; Comptoir PK12</span>';
+        if (coords) coords.innerHTML = 'Coordonnées GPS : <strong>4.05989° N, 9.78403° E</strong> (Marché PK12)';
+        if (dirLink) dirLink.href = 'https://www.google.com/maps/dir/?api=1&destination=4.05989,9.78403';
+    } else if (site === 'bekoko') {
+        if (mapIframe) mapIframe.src = 'https://maps.google.com/maps?q=4.11500,9.57900+(Usine+TPM+SA+Bekoko)&t=&z=15&ie=UTF8&iwloc=B&output=embed';
+        if (btnBekoko) {
+            btnBekoko.className = 'px-2.5 py-1 rounded-md font-bold transition bg-tpm-orange text-white shadow-sm cursor-pointer';
+        }
+        if (btnPk12) {
+            btnPk12.className = 'px-2.5 py-1 rounded-md font-bold transition bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer';
+        }
+        if (title) title.innerHTML = '<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span><span>TPM SA • Usine Métallurgique Bekoko</span>';
+        if (coords) coords.innerHTML = 'Coordonnées GPS : <strong>4.11500° N, 9.57900° E</strong> (Axe Douala - Limbé)';
+        if (dirLink) dirLink.href = 'https://www.google.com/maps/dir/?api=1&destination=4.11500,9.57900';
+    }
+}
+</script>
 
 <?php get_footer(); ?>
