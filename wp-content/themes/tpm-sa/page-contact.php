@@ -222,13 +222,13 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                 
-                <!-- Left: Interactive Real Google Maps Display Card (Grand Format Allongé) -->
-                <div class="lg:col-span-6 relative rounded-2xl overflow-hidden border border-gray-300 shadow-xl bg-slate-100 flex flex-col justify-between" style="min-height: 640px !important;">
+                <!-- Left: Interactive Real Google Maps Display Card (Format Idéal) -->
+                <div class="lg:col-span-6 relative rounded-2xl overflow-hidden border border-gray-300 shadow-xl bg-slate-100 flex flex-col justify-between" style="min-height: 540px !important;">
                     
                     <!-- Top Site Switcher Bar -->
-                    <div class="bg-tpm-navy text-white px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-2 border-b-2 border-tpm-orange shrink-0">
+                    <div class="bg-tpm-navy text-white px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2 border-b-2 border-tpm-orange shrink-0">
                         <div class="flex items-center gap-2">
-                            <span class="material-symbols-outlined text-tpm-orange text-[22px]">location_on</span>
+                            <span class="material-symbols-outlined text-tpm-orange text-[20px]">location_on</span>
                             <span class="text-xs sm:text-sm font-black uppercase tracking-wider text-white">Localisation GPS Certifiée</span>
                         </div>
                         <div class="flex items-center gap-2 text-xs">
@@ -247,8 +247,8 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
                         </div>
                     </div>
 
-                    <!-- Interactive Google Maps Iframe (Grand Format 600px+) -->
-                    <div class="relative w-full bg-slate-200 overflow-hidden flex-grow" style="height: 560px !important; min-height: 560px !important;">
+                    <!-- Interactive Google Maps Iframe (Format Idéal 460px) -->
+                    <div class="relative w-full bg-slate-200 overflow-hidden flex-grow" style="height: 460px !important; min-height: 460px !important;">
                         <iframe id="tpm-google-map"
                                 src="https://maps.google.com/maps?q=4.05989,9.78403+(TPM+SA+-+Groupe+CAC+Douala+PK12)&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
                                 class="w-full h-full border-0"
@@ -261,13 +261,13 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
                     </div>
 
                     <!-- Bottom Bar: Centralized Direct GPS Navigation Button -->
-                    <div class="bg-slate-50 border-t border-gray-200 p-4 flex items-center justify-center shrink-0">
+                    <div class="bg-slate-50 border-t border-gray-200 p-3.5 flex items-center justify-center shrink-0">
                         <a href="https://www.google.com/maps/dir/?api=1&amp;destination=4.05989,9.78403" 
                            target="_blank" 
                            rel="noopener noreferrer" 
                            id="map-directions-link"
-                           class="inline-flex items-center justify-center gap-2.5 bg-tpm-orange hover:bg-orange-700 text-white font-black px-8 py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider transition-all transform hover:-translate-y-0.5 shadow-md hover:shadow-lg">
-                            <span class="material-symbols-outlined text-[20px]">near_me</span>
+                           class="inline-flex items-center justify-center gap-2 bg-tpm-orange hover:bg-orange-700 text-white font-black px-8 py-3 rounded-xl text-xs sm:text-sm uppercase tracking-wider transition-all transform hover:-translate-y-0.5 shadow-md hover:shadow-lg">
+                            <span class="material-symbols-outlined text-[18px]">near_me</span>
                             <span>Ouvrir l'Itinéraire GPS (Google Maps)</span>
                         </a>
                     </div>
