@@ -216,9 +216,9 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
 
                     <!-- Bouton Ajouter au Panier Pro-Forma Ultra-Visible -->
                     <div class="flex-1">
-                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full h-12 bg-gradient-to-r from-tpm-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer">
-                            <span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
-                            <span>Ajouter au Panier Pro-Forma</span>
+                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full h-12 bg-tpm-orange hover:bg-opacity-95 text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer" style="background-color: #D84B1F !important; color: #FFFFFF !important;">
+                            <span class="material-symbols-outlined text-[20px]" style="color: #FFFFFF !important; font-size: 20px !important;">add_shopping_cart</span>
+                            <span style="color: #FFFFFF !important; font-weight: 900 !important; display: inline-block !important;">Ajouter au Panier Pro-Forma</span>
                         </button>
                     </div>
 
