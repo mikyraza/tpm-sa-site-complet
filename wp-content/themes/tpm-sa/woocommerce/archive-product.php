@@ -294,31 +294,31 @@ $is_interior_group = in_array($current_slug, ['accessoires-interieurs', 'carrela
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════
-         3. ORANGE COMMERCIAL CTA BANNER : COMMANDE VOLUMINEUSE
+         3. COMMERCIAL CTA BANNER : COMMANDE VOLUMINEUSE
          ═══════════════════════════════════════════════════════════ -->
-    <section class="bg-tpm-orange text-white py-12 md:py-16">
+    <section class="bg-white border-t border-gray-200 py-12 md:py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
                 
                 <div class="space-y-3 text-center lg:text-left max-w-3xl">
-                    <span class="inline-block bg-white/20 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-wider">
+                    <span class="inline-block bg-orange-100 text-tpm-orange text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-wider">
                         SERVICE COMMERCIAL USINE &amp; BTP
                     </span>
-                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight">
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-tpm-navy leading-tight">
                         Besoin d'un devis sur-mesure ou d'une commande volumineuse ?
                     </h2>
-                    <p class="text-xs sm:text-sm text-white/90 leading-relaxed font-medium">
+                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-medium">
                         Profilage de tôles BAC à la longueur exacte de votre chantier, emballages PP personnalisés et tarification dégressive pour quincailleries &amp; entreprises BTP au Cameroun.
                     </p>
                 </div>
 
                 <div class="flex flex-wrap gap-3 shrink-0 justify-center">
                     <a href="<?php echo esc_url( home_url('/devis-sur-mesure/') ); ?>" 
-                       class="bg-tpm-navy hover:bg-slate-900 text-white font-black px-6 py-3.5 rounded-lg text-xs uppercase tracking-wider shadow-xl transition-all transform hover:-translate-y-0.5">
+                       class="bg-tpm-orange hover:bg-orange-700 text-white font-black px-6 py-3.5 rounded-lg text-xs uppercase tracking-wider shadow-md transition-all transform hover:-translate-y-0.5">
                         Demander un Devis Sur-Mesure
                     </a>
                     <a href="<?php echo esc_url( home_url('/contact/') ); ?>" 
-                       class="bg-white hover:bg-slate-100 text-tpm-navy font-black px-6 py-3.5 rounded-lg text-xs uppercase tracking-wider shadow-xl transition-all transform hover:-translate-y-0.5">
+                       class="bg-tpm-navy hover:bg-slate-800 text-white font-black px-6 py-3.5 rounded-lg text-xs uppercase tracking-wider shadow-md transition-all transform hover:-translate-y-0.5">
                         Contacter l'Usine (Bekoko / PK12)
                     </a>
                 </div>
