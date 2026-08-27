@@ -62,7 +62,7 @@ function tpm_get_product_fiche_technique( $product ) {
 
         if ( preg_match( '/tuile/iu', $title ) ) {
             $diagram_type    = 'tole_tuile';
-            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE TUILE NERVURALE D50';
+            $diagram_title   = 'CROQUIS COTÉ : TÔLE TUILE NERVURALE PRÉLAQUÉE D50';
             $category        = 'Tôles de Couverture Nervurées Style Tuile Architecturale';
             $material        = 'Aluminium Prélaqué Cuit au Four Haute Densité';
             $profil          = 'Profil Ondulé Tuile Nervurale D50 Renforcé';
@@ -102,7 +102,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/d50/iu', $title ) ) {
             $diagram_type    = 'tole_d50';
-            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE INDUSTRIELLE BAC D50';
+            $diagram_title   = 'CROQUIS COTÉ : TÔLE INDUSTRIELLE BAC D50 (NERVURES 50 MM)';
             $category        = 'Tôles Industrielles Haute Rigidité (Profil D50)';
             $material        = 'Aluminium Prélaqué 1er Choix';
             $profil          = 'Profil BAC D50 à ondes profondes trapézoïdales';
@@ -142,7 +142,7 @@ function tpm_get_product_fiche_technique( $product ) {
         } elseif ( preg_match( '/6\/10|0[,.]60/iu', $title ) ) {
             $is_prelaque     = preg_match( '/pr[eé]laqu/iu', $title );
             $diagram_type    = 'tole_610';
-            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE CALIBRE LOURD 6/10E (0,60 MM)';
+            $diagram_title   = 'CROQUIS COTÉ : TÔLE ALUMINIUM MASSIF 6/10E (0,60 MM CALIBRE LOURD)';
             $category        = 'Toitures Calibre Lourd Haute Résistance (Épaisseur 6/10e)';
             $material        = $is_prelaque ? 'Aluminium Prélaqué Cuit au Four' : 'Aluminium Naturel Massif 1er Choix';
             $profil          = 'Profil BACS Nervuré ou Ondulé Sinusoïdal';
@@ -182,7 +182,7 @@ function tpm_get_product_fiche_technique( $product ) {
         } elseif ( preg_match( '/5\/10|0[,.]50/iu', $title ) ) {
             $is_prelaque     = preg_match( '/pr[eé]laqu/iu', $title );
             $diagram_type    = 'tole_510';
-            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE STANDARD 5/10E (0,50 MM)';
+            $diagram_title   = 'CROQUIS COTÉ : TÔLE BAC & ONDULÉE RENFORCÉE 5/10E (0,50 MM)';
             $category        = 'Toitures Calibre Médium Renforcé (Épaisseur 5/10e)';
             $material        = $is_prelaque ? 'Aluminium Prélaqué Haute Durabilité' : 'Aluminium Brut Naturel Premier Choix';
             $profil          = 'Profil BACS 4N/5N ou Profil Ondulé';
@@ -220,7 +220,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/b30/iu', $title ) ) {
             $diagram_type    = 'tole_b30';
-            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE ÉCONOMIQUE B30';
+            $diagram_title   = 'CROQUIS COTÉ : TÔLE NERVURÉE GAMME B30';
             $category        = 'Tôles Bacs Prélaquées Économiques (Gamme B30 2ème Choix)';
             $material        = 'Acier Galvanisé Prélaqué Contrôlé';
             $profil          = 'Profil Nervuré B30 Économique';
@@ -252,7 +252,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/ondul/iu', $title ) ) {
             $diagram_type    = 'tole_ondulee';
-            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE ONDULÉE SINUSOÏDALE 76/18';
+            $diagram_title   = 'CROQUIS COTÉ : TÔLE ONDULÉE SINUSOÏDALE 76/18 (0,35 MM)';
             $category        = 'Tôles Ondulées Traditionnelles Aluminium Pur 0,35 mm';
             $material        = 'Alliage Aluminium Pur Inaltérable';
             $profil          = 'Profil Sinusoïdal Ondulé Standard 76/18';
@@ -285,7 +285,7 @@ function tpm_get_product_fiche_technique( $product ) {
         } else {
             // Tôle Bac Alu 4N ET 5N 0,35
             $diagram_type    = 'tole_bac';
-            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE BAC TRAPÉZOÏDALE 4N & 5N (0,35 MM)';
+            $diagram_title   = 'CROQUIS COTÉ : TÔLE BAC TRAPÉZOÏDALE 4N & 5N (0,35 MM)';
             $category        = 'Tôles Bacs Trapézoïdales Aluminium 0,35 mm (4N & 5N)';
             $material        = 'Alliage Aluminium 1ère Fusion 0,35 mm';
             $profil          = 'Profil BACS 4 Nervures (4N) ou 5 Nervures (5N)';
@@ -334,7 +334,7 @@ function tpm_get_product_fiche_technique( $product ) {
         if ( preg_match( '/fa[iî]ti[eè]re/iu', $title ) ) {
             $is_centrale = preg_match( '/centrale/iu', $title );
             $diagram_type = $is_centrale ? 'acc_faitiere_centrale' : 'acc_faitiere_double';
-            $diagram_title = $is_centrale ? "SCHÉMA TECHNIQUE COTÉ : FAÎTIÈRE CENTRALE BOMBÉE ($gauge)" : "SCHÉMA TECHNIQUE COTÉ : FAÎTIÈRE NON CRANTÉE DOUBLE PENTE ($gauge)";
+            $diagram_title = $is_centrale ? "DESSIN TECHNIQUE COTÉ : FAÎTIÈRE CENTRALE BOMBÉE ($gauge)" : "DESSIN TECHNIQUE COTÉ : FAÎTIÈRE NON CRANTÉE DOUBLE PENTE ($gauge)";
             $category = $is_centrale ? 'Faîtières Centrales Bombées Profilées' : 'Faîtières Non Crantées Double Pente';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Jonction de Faîtage Étanche";
@@ -362,7 +362,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/rive/iu', $title ) ) {
             $diagram_type = 'acc_rive';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : RIVE DE FAÎTAGE ET PIGNON ($gauge)";
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : RIVE DE FAÎTAGE ET PIGNON ($gauge)";
             $category = 'Rives de Faîtage & Bandes de Pignon Latérales';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Finition des Rives de Pignon";
@@ -388,7 +388,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/goutti[eè]re/iu', $title ) ) {
             $diagram_type = 'acc_gouttiere';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : GOUTTIÈRE ALU PROFILÉE ($gauge)";
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : GOUTTIÈRE ALU AVEC BOUDIN Ø16 MM ($gauge)";
             $category = 'Gouttières Aluminium pour Évacuation Pluviale';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Collecte & Évacuation des Eaux Pluviales";
@@ -414,7 +414,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/noue/iu', $title ) ) {
             $diagram_type = 'acc_noue';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : NOUE EN ALU EN V ($gauge)";
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : NOUE EN ALU EN V AVEC RELEVÉS 30 MM ($gauge)";
             $category = 'Noues en Aluminium pour Jonction Rentrant de Versants';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Chenaux d'Angle Rentrant";
@@ -441,7 +441,7 @@ function tpm_get_product_fiche_technique( $product ) {
         } else {
             // Bandes ourlées / bavettes
             $diagram_type = 'acc_bande_ourlee';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : BANDE OURLÉE & SOLIN D'ÉTANCHÉITÉ ($gauge)";
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : BANDE OURLÉE D'ENGRAVURE ($gauge)";
             $category = 'Bandes Ourlées & Solins de Raccord Mural';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Raccordement Toiture / Façade Maçonnée";
@@ -479,7 +479,7 @@ function tpm_get_product_fiche_technique( $product ) {
             $is_70 = preg_match( '/70/iu', $title );
             $dim_text = $is_70 ? '6X70' : '6X60';
             $diagram_type = $is_70 ? 'fix_vis_6x70' : 'fix_vis_6x60';
-            $diagram_title = "DESSIN TECHNIQUE COTÉ : VIS AUTO-FOREUSE $dim_text AVEC RONDELLE EPDM";
+            $diagram_title = "PLAN D'INGÉNIERIE COTÉ : VIS AUTO-FOREUSE $dim_text + RONDELLE EPDM";
             $category = 'Vis Auto-Foreuses Industrielles avec Rondelle EPDM';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Fixation Rapide sur Panne Métallique / Bois";
@@ -508,7 +508,7 @@ function tpm_get_product_fiche_technique( $product ) {
             $is_80 = preg_match( '/80/iu', $title );
             $dim_text = $is_80 ? '6X80' : '6X60';
             $diagram_type = $is_80 ? 'fix_tirefond_6x80' : 'fix_tirefond_6x60';
-            $diagram_title = "DESSIN TECHNIQUE COTÉ : TIREFOND À BOIS ZINGUÉ $dim_text (BOÎTE 72 PCS)";
+            $diagram_title = "PLAN D'INGÉNIERIE COTÉ : TIREFOND À BOIS ZINGUÉ $dim_text (BOÎTE 72 PCS)";
             $category = 'Tirefonds à Bois Zingués pour Charpente Traditionnelle';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Fixation Forte Charge sur Charpente Bois";
@@ -536,7 +536,7 @@ function tpm_get_product_fiche_technique( $product ) {
         } elseif ( preg_match( '/cavalier/iu', $title ) ) {
             $is_prelaque = preg_match( '/pr[eé]laqu/iu', $title );
             $diagram_type = $is_prelaque ? 'fix_cavalier_prelaque' : 'fix_cavalier_nature';
-            $diagram_title = "DESSIN TECHNIQUE COTÉ : CAVALIER D'ÉTANCHÉITÉ ALU " . ($is_prelaque ? 'PRÉLAQUÉ' : 'NATURE');
+            $diagram_title = "PLAN D'INGÉNIERIE COTÉ : CAVALIER D'ÉTANCHÉITÉ ALU " . ($is_prelaque ? 'PRÉLAQUÉ' : 'NATURE');
             $category = 'Cavaliers de Répartition & Étanchéité en Aluminium';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Serrage Réparti sur Sommet d'Onde";
@@ -562,7 +562,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/toiturole/iu', $title ) ) {
             $diagram_type = 'fix_toiturole';
-            $diagram_title = "SCHÉMA EN COUPE & STRUCTURE MULTICOUCHE : TOITUROLE ÉTANCHÉITÉ 900G";
+            $diagram_title = "SCHÉMA EN COUPE MULTICOUCHE : TOITUROLE ÉTANCHÉITÉ 900G";
             $category = 'Membranes Bitumineuses d\'Étanchéité Toiturole 900G';
             $header_title = "TOITUROLE ÉTANCHÉITÉ 900G (ROULEAU 10M)";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Étanchéité de Toitures-Terrasses & Noues";
@@ -614,7 +614,7 @@ function tpm_get_product_fiche_technique( $product ) {
             // Plaquettes et rondelles feutres
             $is_plaquette = preg_match( '/plaquette/iu', $title );
             $diagram_type = $is_plaquette ? 'fix_plaquette_feutre' : 'fix_rondelle_feutre';
-            $diagram_title = "DESSIN TECHNIQUE COTÉ : " . ($is_plaquette ? 'PLAQUETTES FEUTRES BITUMÉES (BOÎTE 100 PCS)' : 'RONDELLES FEUTRES BITUMÉES (BOÎTE 100 PCS)');
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : " . ($is_plaquette ? 'PLAQUETTES FEUTRES BITUMÉES 25X35 MM' : 'RONDELLES FEUTRES BITUMÉES Ø25 MM');
             $category = 'Rondelles & Plaquettes Feutres Bitumées d\'Étanchéité';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Joint Étanche Sous Cavalier";
@@ -647,7 +647,7 @@ function tpm_get_product_fiche_technique( $product ) {
 
         if ( preg_match( '/mur|25x40|25&#215;40/iu', $title ) ) {
             $diagram_type = 'carrelage_mur_25x40';
-            $diagram_title = "PLAN COTÉ DU CARREAU & CALEPINAGE MURAL : FAÏENCE 25X40 CM";
+            $diagram_title = "PLAN COTÉ & GÉOMÉTRIE DU CARREAU : FAÏENCE MURALE 25X40 CM";
             $category = 'Faïences Murales Émaillées Décoratives 25x40 cm';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Revêtement Mural Cuisines & Salles de Bain";
@@ -674,7 +674,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/15x80|15&#215;80/iu', $title ) ) {
             $diagram_type = 'carrelage_parquet_15x80';
-            $diagram_title = "PLAN COTÉ DU CARREAU & CALEPINAGE PARQUET : LAME BOIS 15X80 CM";
+            $diagram_title = "PLAN COTÉ DU CARREAU : LAME DE PARQUET BOIS 15X80 CM";
             $category = 'Grès Cérame Effet Parquet Bois Naturel 15x80 cm';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Sol Effet Bois Chaleureux & Inaltérable";
@@ -700,7 +700,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/60x120|60&#215;120/iu', $title ) ) {
             $diagram_type = 'carrelage_xxl_60x120';
-            $diagram_title = "PLAN COTÉ DU CARREAU & COUPE RECTIFIÉE : GRAND FORMAT XXL 60X120 CM";
+            $diagram_title = "PLAN COTÉ : DALLE XXL GRAND FORMAT 60X120 CM (BORDS RECTIFIÉS)";
             $category = 'Grès Cérame Grand Format XXL Rectifié 60x120 cm';
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Sols & Murs de Prestige Grand Format";
@@ -730,7 +730,7 @@ function tpm_get_product_fiche_technique( $product ) {
             $is_40 = preg_match( '/40x40|40&#215;40/iu', $title );
             $dim_str = $is_60 ? '60x60 cm' : ($is_40 ? '40x40 cm' : '30x30 cm');
             $diagram_type = $is_60 ? 'carrelage_sol_60x60' : ($is_40 ? 'carrelage_sol_40x40' : 'carrelage_sol_30x30');
-            $diagram_title = "PLAN COTÉ DU CARREAU & CALEPINAGE DE SOL : FORMAT $dim_str";
+            $diagram_title = "PLAN COTÉ : CARREAU DE SOL CÉRAME $dim_str";
             $category = "Grès Cérame Sol Intérieur & Extérieur $dim_str";
             $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Revêtement de Sol Haute Fréquentation";
@@ -764,7 +764,7 @@ function tpm_get_product_fiche_technique( $product ) {
 
         if ( preg_match( '/lorenzetti|blind/iu', $title ) ) {
             $diagram_type = 'douche_lorenzetti_advanced';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ & CHAMBRE BLINDÉE : LORENZETTI ADVANCED";
+            $diagram_title = "VUE ÉCORCHÉE COTÉE : DOUCHE LORENZETTI ADVANCED BLINDÉE";
             $category = 'Douche Thérapeutique Électronique Lorenzetti Advanced Blindée';
             $header_title = "DOUCHE THÉRAPEUTIQUE CENTRAL LORENZETTI ADVANCED BLINDÉ";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Douche Hydrothérapique Résistance Blindée";
@@ -793,7 +793,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/cardal/iu', $title ) ) {
             $diagram_type = 'douche_cardal_central';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ & RACCORDEMENT MULTI-POINTS : CARDAL CENTRAL";
+            $diagram_title = "VUE ÉCORCHÉE COTÉE : CHAUFFE-EAU CENTRALISÉ CARDAL MULTI-POINTS";
             $category = 'Chauffe-Eau Instantané Centralisé Multi-Points Cardal';
             $header_title = "DOUCHE THÉRAPEUTIQUE CENTRALISÉE CARDAL MULTI-POINTS";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Alimentation Simultanée Douche & Lavabo";
@@ -816,7 +816,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/duo.*shower/iu', $title ) ) {
             $diagram_type = 'douche_duo_shower';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : DUO SHOWER GRAND MODÈLE (DOUBLE JET PLUIE & DIRECTIONNEL)";
+            $diagram_title = "VUE ÉCORCHÉE COTÉE : DOUCHE 2-EN-1 DUO SHOWER GRAND MODÈLE";
             $category = 'Douche Thérapeutique 2-en-1 Duo Shower Grand Modèle';
             $header_title = "DOUCHE THÉRAPEUTIQUE INDIVIDUELLE DUO SHOWER GRAND MODÈLE";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale avec Double Diffuseur Pluie & Jet Massant";
@@ -839,7 +839,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/loren.*shower/iu', $title ) ) {
             $diagram_type = 'douche_loren_shower';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : LOREN SHOWER GRAND MODÈLE 20X20 CM";
+            $diagram_title = "VUE ÉCORCHÉE COTÉE : DOUCHE CARRÉE LOREN SHOWER 20X20 CM";
             $category = 'Douche Thérapeutique Loren Shower Grand Modèle';
             $header_title = "DOUCHE THÉRAPEUTIQUE INDIVIDUELLE LOREN SHOWER GRAND MODÈLE";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale Design Carré Épuré & Bras Intégré";
@@ -861,7 +861,7 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/zagonel/iu', $title ) ) {
             $diagram_type = 'douche_zagonel_moment';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : DOUCHE ÉLECTRONIQUE ZAGONEL MOMENT";
+            $diagram_title = "VUE ÉCORCHÉE COTÉE : DOUCHE ÉLECTRONIQUE ZAGONEL MOMENT";
             $category = 'Douche Thérapeutique Électronique Zagonel Moment';
             $header_title = "DOUCHE THÉRAPEUTIQUE ZAGONEL MOMENT ÉLECTRONIQUE";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale avec Témoin LED de Température";
@@ -884,7 +884,7 @@ function tpm_get_product_fiche_technique( $product ) {
         } else {
             // Maxi Ducha petit modèle
             $diagram_type = 'douche_maxi_ducha';
-            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : MAXI DUCHA COMPACT 3 TEMPÉRATURES";
+            $diagram_title = "VUE ÉCORCHÉE COTÉE : MAXI DUCHA COMPACT 3 TEMPÉRATURES (Ø 140 MM)";
             $category = 'Douche Thérapeutique Compacte Maxi Ducha 3 Températures';
             $header_title = "DOUCHE THÉRAPEUTIQUE INDIVIDUELLE PETIT MODÈLE MAXI DUCHA";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale Modèle Économique & Robuste";

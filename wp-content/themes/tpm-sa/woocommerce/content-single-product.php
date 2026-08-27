@@ -2,7 +2,7 @@
 /**
  * Custom Single Product Template - TPM SA (Groupe CAC)
  * Fiche Technique Certifiée Industrielle (2 Pages A4 Pro-Forma & Catalogue)
- * Avec croquis techniques cotés uniques pour chaque produit
+ * Avec croquis techniques cotés et fidèles pour chaque produit
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -365,12 +365,12 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                 <h2 class="text-lg sm:text-xl font-black m-0 text-white"><?php echo esc_html($fiche['diagram_title']); ?></h2>
             </div>
             <div class="bg-white/10 px-3 py-1.5 rounded-lg border border-white/20 text-right">
-                <span class="text-[9px] uppercase text-blue-200 block">ÉCHELLE INDICATIVE</span>
+                <span class="text-[9px] uppercase text-blue-200 block">DOCUMENTATION OFFICIELLE</span>
                 <span class="text-xs font-bold text-amber-300 font-mono">Conforme Norme NC / ISO</span>
             </div>
         </div>
 
-        <!-- 2. RENDU DU DESSIN VECTORIEL COTÉ SELON LE TYPE DE PRODUIT -->
+        <!-- 2. RENDU DU DESSIN VECTORIEL COTÉ SELON LE TYPE EXACT DE PRODUIT -->
         <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-6 space-y-6">
 
             <?php if ( strpos($fiche['diagram_type'], 'tole_') === 0 ): ?>
@@ -384,51 +384,51 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                     <?php if ( $fiche['diagram_type'] === 'tole_ondulee' ): ?>
                         <!-- Profil Ondulé 76/18 -->
                         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs overflow-x-auto">
-                            <svg viewBox="0 0 800 110" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round">
+                            <svg viewBox="0 0 800 130" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round">
                                 <path d="M 20,60 Q 40,25 65,60 T 110,60 Q 130,25 155,60 T 200,60 Q 220,25 245,60 T 290,60 Q 310,25 335,60 T 380,60 Q 400,25 425,60 T 470,60 Q 490,25 515,60 T 560,60 Q 580,25 605,60 T 650,60 Q 670,25 695,60 T 740,60 L 780,60" />
                                 <line x1="200" y1="75" x2="290" y2="75" stroke="#ef4444" stroke-width="1.5" />
                                 <text x="245" y="90" fill="#dc2626" font-size="11" font-weight="bold" text-anchor="middle">Pas standard = 76 mm</text>
                                 <line x1="605" y1="30" x2="605" y2="60" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="2,2" />
                                 <text x="635" y="45" fill="#475569" font-size="10" font-weight="bold">H = 18 mm</text>
-                                <line x1="20" y1="100" x2="780" y2="100" stroke="#64748b" stroke-width="1.5" />
-                                <text x="400" y="96" fill="#475569" font-size="10" font-weight="bold" text-anchor="middle">Largeur utile : ~836 mm | Largeur totale : ~900 mm</text>
+                                <line x1="20" y1="110" x2="780" y2="110" stroke="#64748b" stroke-width="1.5" />
+                                <text x="400" y="105" fill="#475569" font-size="10" font-weight="bold" text-anchor="middle">Largeur utile : ~836 mm | Largeur totale : ~900 mm | Format 3,00 m</text>
                             </svg>
                         </div>
                     <?php elseif ( $fiche['diagram_type'] === 'tole_d50' ): ?>
                         <!-- Profil Industriel D50 (Nervures 50 mm) -->
                         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs overflow-x-auto">
-                            <svg viewBox="0 0 800 130" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <svg viewBox="0 0 800 140" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M 20,95 L 60,95 L 90,15 L 180,15 L 210,95 L 300,95 L 330,15 L 420,15 L 450,95 L 540,95 L 570,15 L 660,15 L 690,95 L 780,95" />
                                 <line x1="180" y1="15" x2="180" y2="95" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,3" />
                                 <text x="195" y="60" fill="#dc2626" font-size="11" font-weight="bold">H = 50 mm</text>
                                 <line x1="90" y1="10" x2="180" y2="10" stroke="#3b82f6" stroke-width="1.5" />
                                 <text x="135" y="6" fill="#2563eb" font-size="10" font-weight="bold" text-anchor="middle">Sommet 90 mm</text>
-                                <line x1="20" y1="115" x2="780" y2="115" stroke="#64748b" stroke-width="1.5" />
-                                <text x="400" y="110" fill="#475569" font-size="11" font-weight="bold" text-anchor="middle">Largeur totale : ~920 mm (Utile : ~850 mm) | Portée pannes jusqu'à 1,50 m</text>
+                                <line x1="20" y1="120" x2="780" y2="120" stroke="#64748b" stroke-width="1.5" />
+                                <text x="400" y="115" fill="#475569" font-size="11" font-weight="bold" text-anchor="middle">Largeur totale : ~920 mm (Utile : ~850 mm) | Portée pannes jusqu'à 1,50 m</text>
                             </svg>
                         </div>
                     <?php elseif ( $fiche['diagram_type'] === 'tole_tuile' ): ?>
                         <!-- Profil Tuile Nervurale D50 -->
                         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs overflow-x-auto">
-                            <svg viewBox="0 0 800 130" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <svg viewBox="0 0 800 140" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M 20,85 C 40,40 70,40 90,85 L 120,85 L 140,30 L 200,30 L 220,85 L 250,85 C 270,40 300,40 320,85 L 350,85 L 370,30 L 430,30 L 450,85 L 480,85 C 500,40 530,40 550,85 L 580,85 L 600,30 L 660,30 L 680,85 L 780,85" />
                                 <line x1="140" y1="20" x2="200" y2="20" stroke="#ef4444" stroke-width="1.5" />
                                 <text x="170" y="12" fill="#dc2626" font-size="10" font-weight="bold" text-anchor="middle">Onde Tuile Romane</text>
-                                <line x1="20" y1="115" x2="780" y2="115" stroke="#64748b" stroke-width="1.5" />
-                                <text x="400" y="110" fill="#475569" font-size="11" font-weight="bold" text-anchor="middle">Largeur totale : 1050 mm | Largeur utile : 950 mm | Pas de marche : 350 mm</text>
+                                <line x1="20" y1="120" x2="780" y2="120" stroke="#64748b" stroke-width="1.5" />
+                                <text x="400" y="115" fill="#475569" font-size="11" font-weight="bold" text-anchor="middle">Largeur totale : 1050 mm | Largeur utile : 950 mm | Pas de marche : 350 mm</text>
                             </svg>
                         </div>
                     <?php else: ?>
                         <!-- Profil Bac Trapézoïdal 4N / 5N -->
                         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs overflow-x-auto">
-                            <svg viewBox="0 0 800 120" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <svg viewBox="0 0 800 130" class="w-full h-auto min-w-[600px] stroke-[#154c9e]" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M 20,80 L 70,80 L 95,20 L 155,20 L 180,80 L 250,80 L 275,20 L 335,20 L 360,80 L 430,80 L 455,20 L 515,20 L 540,80 L 610,80 L 635,20 L 695,20 L 720,80 L 780,80" />
                                 <line x1="165" y1="20" x2="165" y2="80" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,3" />
                                 <text x="175" y="55" fill="#dc2626" font-size="10" font-weight="bold">H = 28 mm</text>
                                 <line x1="95" y1="15" x2="155" y2="15" stroke="#3b82f6" stroke-width="1.5" />
                                 <text x="125" y="10" fill="#2563eb" font-size="10" font-weight="bold" text-anchor="middle">Sommet d'onde 60 mm</text>
-                                <line x1="20" y1="105" x2="780" y2="105" stroke="#64748b" stroke-width="1.5" />
-                                <text x="400" y="100" fill="#475569" font-size="11" font-weight="bold" text-anchor="middle">Largeur totale : ~1000 mm | Largeur utile : ~880-920 mm</text>
+                                <line x1="20" y1="110" x2="780" y2="110" stroke="#64748b" stroke-width="1.5" />
+                                <text x="400" y="105" fill="#475569" font-size="11" font-weight="bold" text-anchor="middle">Largeur totale : ~1000 mm | Largeur utile : ~880-920 mm</text>
                             </svg>
                         </div>
                     <?php endif; ?>
@@ -437,16 +437,16 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                     <div class="space-y-2 pt-2">
                         <span class="text-xs font-black uppercase text-[#154c9e]">B. Principe de Fixation Étanche sur Panne de Charpente</span>
                         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs overflow-x-auto">
-                            <svg viewBox="0 0 850 200" class="w-full h-auto min-w-[600px]">
-                                <rect x="50" y="110" width="750" height="45" fill="#fef3c7" stroke="#d97706" stroke-width="2" rx="4" />
-                                <text x="425" y="137" fill="#92400e" font-size="11" font-weight="900" text-anchor="middle">PANNE DE CHARPENTE (BOIS OU MÉTAL) — ENTRAXE 60 À 90 CM</text>
-                                <path d="M 30,110 L 80,110 L 105,50 L 165,50 L 190,110 L 260,110 L 285,50 L 345,50 L 370,110 L 440,110 L 465,50 L 525,50 L 550,110 L 620,110 L 645,50 L 705,50 L 730,110 L 790,110" fill="none" stroke="#154c9e" stroke-width="3.5" stroke-linecap="round" />
+                            <svg viewBox="0 0 850 180" class="w-full h-auto min-w-[600px]">
+                                <rect x="50" y="100" width="750" height="45" fill="#fef3c7" stroke="#d97706" stroke-width="2" rx="4" />
+                                <text x="425" y="127" fill="#92400e" font-size="11" font-weight="900" text-anchor="middle">PANNE DE CHARPENTE (BOIS OU MÉTAL) — ENTRAXE 60 À 90 CM</text>
+                                <path d="M 30,100 L 80,100 L 105,40 L 165,40 L 190,100 L 260,100 L 285,40 L 345,40 L 370,100 L 440,100 L 465,40 L 525,40 L 550,100 L 620,100 L 645,40 L 705,40 L 730,100 L 790,100" fill="none" stroke="#154c9e" stroke-width="3.5" stroke-linecap="round" />
                                 <?php foreach ([135, 315, 495, 675] as $cx): ?>
-                                    <path d="M <?php echo ($cx - 15); ?>,48 L <?php echo $cx; ?>,38 L <?php echo ($cx + 15); ?>,48 Z" fill="#1e3a8a" />
-                                    <rect x="<?php echo ($cx - 4); ?>" y="22" width="8" height="16" fill="#0f172a" rx="1" />
-                                    <line x1="<?php echo $cx; ?>" y1="50" x2="<?php echo $cx; ?>" y2="140" stroke="#0284c7" stroke-width="2.5" />
+                                    <path d="M <?php echo ($cx - 15); ?>,38 L <?php echo $cx; ?>,28 L <?php echo ($cx + 15); ?>,38 Z" fill="#1e3a8a" />
+                                    <rect x="<?php echo ($cx - 4); ?>" y="12" width="8" height="16" fill="#0f172a" rx="1" />
+                                    <line x1="<?php echo $cx; ?>" y1="40" x2="<?php echo $cx; ?>" y2="130" stroke="#0284c7" stroke-width="2.5" />
                                 <?php endforeach; ?>
-                                <text x="135" y="15" fill="#b91c1c" font-size="10" font-weight="bold" text-anchor="middle">Vis + Cavalier + Joint EPDM</text>
+                                <text x="135" y="10" fill="#b91c1c" font-size="10" font-weight="bold" text-anchor="middle">Vis + Cavalier + Joint EPDM</text>
                             </svg>
                         </div>
                     </div>
@@ -456,8 +456,8 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                 <!-- ==================== CROQUIS ACCESSOIRES DE TOITURE ==================== -->
                 <div class="space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <span class="text-xs font-black uppercase text-[#154c9e]">A. Vue en Coupe Transversale Cotée &amp; Rayons de Pliage</span>
-                        <span class="text-[11px] text-gray-500 font-mono">Longueur : Au mètre linéaire</span>
+                        <span class="text-xs font-black uppercase text-[#154c9e]">A. Vue Perspective &amp; Cotes de Pliage d'Usine</span>
+                        <span class="text-[11px] text-gray-500 font-mono">Développé : 330 à 400 mm</span>
                     </div>
 
                     <?php if ( $fiche['diagram_type'] === 'acc_faitiere_centrale' ): ?>
@@ -619,7 +619,7 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                 <!-- ==================== CROQUIS DOUCHES THÉRAPEUTIQUES ==================== -->
                 <div class="space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <span class="text-xs font-black uppercase text-[#154c9e]">A. Schéma d'Ingénierie Hydro-Électrique &amp; Raccordement</span>
+                        <span class="text-xs font-black uppercase text-[#154c9e]">A. Vue Écorchée Industrielle &amp; Schéma de Raccordement</span>
                         <span class="text-[11px] text-gray-500 font-mono">Tension 220V | Sécurité IP24</span>
                     </div>
 
@@ -685,7 +685,7 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                 <!-- ==================== CROQUIS CARRELAGE SOLS & MURS ==================== -->
                 <div class="space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <span class="text-xs font-black uppercase text-[#154c9e]">A. Plan Coté &amp; Calepinage Recommandé</span>
+                        <span class="text-xs font-black uppercase text-[#154c9e]">A. Plan Coté du Carreau &amp; Bords Rectifiés</span>
                         <span class="text-[11px] text-gray-500 font-mono">Grès Cérame 1er Choix (ISO 13006)</span>
                     </div>
 
