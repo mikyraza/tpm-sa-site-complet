@@ -3,6 +3,7 @@
  * wp-content/themes/tpm-sa/inc/fiche-technique.php
  * Générateur officiel des Fiches Techniques Certifiées TPM SA (Groupe CAC)
  * Conforme au standard certifié de Fiche Technique Industrielle (2 Pages)
+ * Avec croquis cotés et dimensions réelles uniques pour chaque produit
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -40,6 +41,10 @@ function tpm_get_product_fiche_technique( $product ) {
     $pose         = "Pose conforme aux règles de l'art BTP et aux spécifications techniques TPM SA.";
 
     $product_family = 'tole';
+    $diagram_type   = 'tole_bac';
+    $diagram_title  = 'CROQUIS COTÉ & GÉOMÉTRIE DU PROFIL';
+    $has_proper_diagram = true;
+
     $ral_swatches = [
         ['name' => 'Bleu Outremer', 'ral' => 'RAL 5002', 'hex' => '#1D4ED8'],
         ['name' => 'Rouge Tuile / Basque', 'ral' => 'RAL 3004/3011', 'hex' => '#881337'],
@@ -56,6 +61,8 @@ function tpm_get_product_fiche_technique( $product ) {
         $pole = 'Pôle 1 : Tôles de Couverture & Bacs Aluminium';
 
         if ( preg_match( '/tuile/iu', $title ) ) {
+            $diagram_type    = 'tole_tuile';
+            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE TUILE NERVURALE D50';
             $category        = 'Tôles de Couverture Nervurées Style Tuile Architecturale';
             $material        = 'Aluminium Prélaqué Cuit au Four Haute Densité';
             $profil          = 'Profil Ondulé Tuile Nervurale D50 Renforcé';
@@ -66,13 +73,7 @@ function tpm_get_product_fiche_technique( $product ) {
             $header_title    = "TÔLES TUILE NERVURALE PRÉLAQUÉE D50 ARCHITECTURALE (0,50 MM)";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Couverture Résidentielle de Standing";
             $commercial_desc = "La tôle Tuile nervurale prélaquée D50 allie l'élégance intemporelle des toitures traditionnelles en terre cuite à la légèreté et l'inaltérabilité de l'aluminium pur. Son profilage exclusif confère aux résidences et édifices de prestige un cachet architectural de grand standing tout en assurant une imperméabilité absolue et un écoulement parfait face aux tornades équatoriales.";
-            $pills = [
-                "FINITION PRÉLAQUÉE AU FOUR",
-                "PROFIL TUILE D50 NERVURÉ",
-                "ÉPAISSEUR 0,50 MM RÉEL",
-                "100% INOXYDABLE",
-                "ESTHÉTIQUE PRESTIGE"
-            ];
+            $pills = ["FINITION PRÉLAQUÉE AU FOUR", "PROFIL TUILE D50 NERVURÉ", "ÉPAISSEUR 0,50 MM RÉEL", "100% INOXYDABLE", "ESTHÉTIQUE PRESTIGE"];
             $points_forts = [
                 ['icon' => 'palette', 'title' => 'Esthétique Tuile & Teintes Nobles', 'desc' => 'Cachet architectural tuile romane sans les contraintes de poids ni de fragilité des matériaux maçonnés.'],
                 ['icon' => 'shield', 'title' => 'Zéro Rouille / Double Barrière', 'desc' => 'Aluminium premier choix allié à un laquage polyester thermodurci inaltérable sous fort ensoleillement.'],
@@ -100,6 +101,8 @@ function tpm_get_product_fiche_technique( $product ) {
                 ['label' => 'Accessoires assortis', 'text' => 'Faîtières crantées assorties profil D50, rives d\'extrémité et bandes d\'égout prélaquées coordonnées.']
             ];
         } elseif ( preg_match( '/d50/iu', $title ) ) {
+            $diagram_type    = 'tole_d50';
+            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE INDUSTRIELLE BAC D50';
             $category        = 'Tôles Industrielles Haute Rigidité (Profil D50)';
             $material        = 'Aluminium Prélaqué 1er Choix';
             $profil          = 'Profil BAC D50 à ondes profondes trapézoïdales';
@@ -110,13 +113,7 @@ function tpm_get_product_fiche_technique( $product ) {
             $header_title    = "TÔLES BACS INDUSTRIELLES HAUTE RIGIDITÉ PROFIL D50 (0,50 MM)";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Bâtiments Industriels & Grandes Portées";
             $commercial_desc = "Profilé avec des nervures profondes de 50 mm, le BAC D50 est spécialement conçu pour franchir de très grandes portées entre pannes de charpente sans aucun risque de fléchissement. Référence par excellence des hangars logistiques, usines et supermarchés, il assure un débit d'évacuation pluviale maximal sous les pluies tropicales les plus intenses.";
-            $pills = [
-                "NERVURES PROFONDES 50 MM",
-                "PORTÉES JUSQU'À 1,50 M",
-                "ÉPAISSEUR 0,50 MM RÉEL",
-                "DÉBIT HYDRAULIQUE MAX",
-                "ZÉRO ROUILLE"
-            ];
+            $pills = ["NERVURES PROFONDES 50 MM", "PORTÉES JUSQU'À 1,50 M", "ÉPAISSEUR 0,50 MM RÉEL", "DÉBIT HYDRAULIQUE MAX", "ZÉRO ROUILLE"];
             $points_forts = [
                 ['icon' => 'architecture', 'title' => 'Inertie & Grandes Portées', 'desc' => 'Nervures de 50 mm autorisant un espacement maximal des pannes de charpente, réduisant le coût global.'],
                 ['icon' => 'shield', 'title' => 'Résistance aux Surcharges', 'desc' => 'Rigidité structurelle exceptionnelle permettant la circulation sécurisée du personnel d\'entretien de toiture.'],
@@ -144,6 +141,8 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/6\/10|0[,.]60/iu', $title ) ) {
             $is_prelaque     = preg_match( '/pr[eé]laqu/iu', $title );
+            $diagram_type    = 'tole_610';
+            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE CALIBRE LOURD 6/10E (0,60 MM)';
             $category        = 'Toitures Calibre Lourd Haute Résistance (Épaisseur 6/10e)';
             $material        = $is_prelaque ? 'Aluminium Prélaqué Cuit au Four' : 'Aluminium Naturel Massif 1er Choix';
             $profil          = 'Profil BACS Nervuré ou Ondulé Sinusoïdal';
@@ -154,13 +153,7 @@ function tpm_get_product_fiche_technique( $product ) {
             $header_title    = "TÔLES BACS & ONDULÉES ALUMINIUM MASSIF 6/10E (0,60 MM)";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Toitures Calibre Lourd & Environnements Agressifs";
             $commercial_desc = "Avec son épaisseur massive de 0,60 mm réel garanti, cette tôle constitue le sommet absolu de la robustesse mécanique et de la durabilité. Insensible aux chutes de branches, aux déformations sous les dépressions cycloniques et aux embruns salins côtiers, elle offre une durée de vie prouvée de plus de 50 ans sans aucune trace d'oxydation.";
-            $pills = [
-                "ÉPAISSEUR MASSIVE 0,60 MM",
-                "INDÉFORMABLE AUX CHOCS",
-                "RÉSISTANCE CORROSION MARINE",
-                "ISOLATION ACOUSTIQUE SUPÉRIEURE",
-                "DURABILITÉ > 50 ANS"
-            ];
+            $pills = ["ÉPAISSEUR MASSIVE 0,60 MM", "INDÉFORMABLE AUX CHOCS", "RÉSISTANCE CORROSION MARINE", "ISOLATION ACOUSTIQUE SUPÉRIEURE", "DURABILITÉ > 50 ANS"];
             $points_forts = [
                 ['icon' => 'shield', 'title' => 'Épaisseur Massive 6/10e', 'desc' => 'Solidité incomparable face aux surcharges, grêle, chutes d\'objets et vents violents du littoral.'],
                 ['icon' => 'verified', 'title' => 'Garantie Zéro Corrosion Côtière', 'desc' => 'Spécialement recommandée pour Douala, Kribi, Limbé et les installations portuaires exposées aux embruns.'],
@@ -188,6 +181,8 @@ function tpm_get_product_fiche_technique( $product ) {
             ];
         } elseif ( preg_match( '/5\/10|0[,.]50/iu', $title ) ) {
             $is_prelaque     = preg_match( '/pr[eé]laqu/iu', $title );
+            $diagram_type    = 'tole_510';
+            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE STANDARD 5/10E (0,50 MM)';
             $category        = 'Toitures Calibre Médium Renforcé (Épaisseur 5/10e)';
             $material        = $is_prelaque ? 'Aluminium Prélaqué Haute Durabilité' : 'Aluminium Brut Naturel Premier Choix';
             $profil          = 'Profil BACS 4N/5N ou Profil Ondulé';
@@ -198,13 +193,7 @@ function tpm_get_product_fiche_technique( $product ) {
             $header_title    = "TÔLES BACS & ONDULÉES ALUMINIUM 5/10E (0,50 MM)";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Couverture Résidentielle & Chantiers BTP";
             $commercial_desc = "Standard d'excellence plébiscité par les constructeurs et architectes au Cameroun, la tôle 5/10e (0,50 mm) conjugue une tenue mécanique exemplaire face aux dépressions de vent et un rapport coût/durabilité optimal pour les toitures pérennes. Son épaisseur réelle contrôlée élimine tout risque de gondolement sous la chaleur équatoriale.";
-            $pills = [
-                "ÉPAISSEUR STANDARD 0,50 MM",
-                "PLANÉITÉ REMARQUABLE",
-                "100% INOXYDABLE",
-                "FINITION NATURE OU PRÉLAQUÉE",
-                "GARANTIE DE DURABILITÉ"
-            ];
+            $pills = ["ÉPAISSEUR STANDARD 0,50 MM", "PLANÉITÉ REMARQUABLE", "100% INOXYDABLE", "FINITION NATURE OU PRÉLAQUÉE", "GARANTIE DE DURABILITÉ"];
             $points_forts = [
                 ['icon' => 'architecture', 'title' => 'Planéité & Rigidité 0,50 mm', 'desc' => 'Épaisseur réelle 0,50 mm garantissant des versants parfaitement rectilignes sans affaissement.'],
                 ['icon' => 'shield', 'title' => 'Zéro Oxydation sous Pluies Acides', 'desc' => 'Aluminium de première fusion insensible aux pluies équatoriales acides et aux UV intenses.'],
@@ -230,6 +219,8 @@ function tpm_get_product_fiche_technique( $product ) {
                 ['label' => 'Accessoires', 'text' => 'Compléter avec les faîtières 5/10e et rives coordonnées de la gamme TPM SA.']
             ];
         } elseif ( preg_match( '/b30/iu', $title ) ) {
+            $diagram_type    = 'tole_b30';
+            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE ÉCONOMIQUE B30';
             $category        = 'Tôles Bacs Prélaquées Économiques (Gamme B30 2ème Choix)';
             $material        = 'Acier Galvanisé Prélaqué Contrôlé';
             $profil          = 'Profil Nervuré B30 Économique';
@@ -240,474 +231,721 @@ function tpm_get_product_fiche_technique( $product ) {
             $header_title    = "TÔLES BACS PRÉLAQUÉES ÉCONOMIQUES GAMME B30";
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Clôtures de Chantier & Hangars Agricoles";
             $commercial_desc = "Solution économique contrôlée par les ingénieurs de TPM SA, la tôle B30 2ème choix permet de réaliser des couvertures et clôtures étanches à coût maîtrisé pour les projets agricoles, hangars temporaires, clôtures de sécurité de chantier et annexes utilitaires.";
-            $pills = [
-                "PRIX DIRECT FABRICANT",
-                "ÉCONOMIQUE & RENTABLE",
-                "PROFIL NERVURÉ B30",
-                "POSE RAPIDE ET MANIABLE",
-                "STOCK DISPONIBLE"
-            ];
+            $pills = ["PRIX DIRECT FABRICANT", "ÉCONOMIQUE & RENTABLE", "PROFIL NERVURÉ B30", "POSE RAPIDE ET MANIABLE", "STOCK DISPONIBLE"];
             $points_forts = [
-                ['icon' => 'payments', 'title' => 'Tarif Ultra-Compétitif Direct Usine', 'desc' => 'Le meilleur coût au mètre carré pour sécuriser des chantiers ou couvrir des bâtiments secondaires.'],
-                ['icon' => 'speed', 'title' => 'Maniabilité & Pose Immédiate', 'desc' => 'Poids plume facilitant la manipulation par une équipe réduite sans engin de levage.'],
-                ['icon' => 'shield', 'title' => 'Étanchéité Immédiate Contrôlée', 'desc' => 'Contrôle qualité usine assurant l\'intégrité de la barrière protectrice anticorrosion.'],
-                ['icon' => 'fence', 'title' => 'Idéal pour Clôtures Sécurisées', 'desc' => 'Permet de délimiter rapidement les périmètres de construction avec une excellente tenue au vent.']
+                ['icon' => 'payments', 'title' => 'Tarif Ultra-Compétitif', 'desc' => 'Le meilleur ratio coût/surface couverte pour les projets à budget serré.'],
+                ['icon' => 'fence', 'title' => 'Idéal pour Clôtures de Sécurité', 'desc' => 'Permet de ceinturer rapidement des terrains et chantiers de construction.'],
+                ['icon' => 'speed', 'title' => 'Mise en Œuvre Rapide', 'desc' => 'Plaques légères manuportables pour une fixation express sur chevrons ou tubes acier.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Tôle Bac B30 Économique', 'Tolérance Usine'],
+                'headers' => ['Paramètre Technique', 'Spécification Gamme B30', 'Norme Usine'],
                 'rows' => [
-                    ['label' => 'Matériau de base', 'bac' => 'Acier galvanisé prélaqué', 'ondu' => 'Contrôle usine TPM SA'],
-                    ['label' => 'Épaisseur', 'bac' => '0,30 mm à 0,35 mm', 'ondu' => 'Gamme économique'],
-                    ['label' => 'Profilage', 'bac' => 'Nervuré trapézoïdal B30', 'ondu' => 'Profil standard'],
-                    ['label' => 'Largeur totale / utile', 'bac' => 'Totale : ~900 mm | Utile : ~800 mm', 'ondu' => 'Recouvrement 1 nervure'],
-                    ['label' => 'Usage conseillé', 'bac' => 'Clôtures, abris agricoles, annexes', 'ondu' => 'BTP & Agriculture']
+                    ['label' => 'Matériau', 'bac' => 'Acier galvanisé prélaqué', 'ondu' => 'Contrôle TPM SA'],
+                    ['label' => 'Épaisseur indicative', 'bac' => '0,30 mm - 0,35 mm', 'ondu' => 'Tolérance usine'],
+                    ['label' => 'Hauteur nervure', 'bac' => '25 mm', 'ondu' => 'Pas 200 mm'],
+                    ['label' => 'Largeur utile', 'bac' => '~800 mm', 'ondu' => 'Recouvrement 1 nervure']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Sens de pose', 'text' => 'Fixation verticale pour clôtures ou inclinée pour toitures secondaires.'],
-                ['label' => 'Recouvrement', 'text' => 'Recouvrement d\'une nervure complète avec vis auto-perceuses à rondelles néoprène.'],
-                ['label' => 'Support', 'text' => 'Pose sur lisses en bois ou tubes métalliques légers.'],
-                ['label' => 'Sécurité', 'text' => 'Port de gants recommandé lors de la manipulation des tôles découpées.']
+                ['label' => 'Usage conseillé', 'text' => 'Clôtures de chantier, hangars de séchage, abris provisoires et toitures secondaires.'],
+                ['label' => 'Fixation', 'text' => 'Fixer avec vis auto-foreuses ou pointes à tôle avec rondelles bitumées.']
             ];
-        } elseif ( preg_match( '/ondul[eé]e.*3m/iu', $title ) ) {
-            $category        = 'Tôles Ondulées Traditionnelles Calibrées';
-            $material        = 'Aluminium Naturel Haute Pureté';
-            $profil          = 'Profil Sinusoïdal Régulier (Ondes continues)';
-            $epaisseur       = '0,35 mm nominal';
+        } elseif ( preg_match( '/ondul/iu', $title ) ) {
+            $diagram_type    = 'tole_ondulee';
+            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE ONDULÉE SINUSOÏDALE 76/18';
+            $category        = 'Tôles Ondulées Traditionnelles Aluminium Pur 0,35 mm';
+            $material        = 'Alliage Aluminium Pur Inaltérable';
+            $profil          = 'Profil Sinusoïdal Ondulé Standard 76/18';
+            $epaisseur       = '0,35 mm réel garanti';
             $epaisseur_val   = '0,35 mm';
-            $finition        = 'Aluminium Brut Naturel Inaltérable';
-            $longueurs       = 'Format calibré pratique de 3,00 mètres';
-            $header_title    = "TÔLE ONDULÉE ALUMINIUM 0,35 MM FORMAT 3 MÈTRES";
-            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Couverture Traditionnelle Sinusoïdale Calibrée";
-            $commercial_desc = "Le modèle historique et incontournable pour l'habitat traditionnel et les habitations rurales au Cameroun. Son format calibré de 3 mètres facilite grandement le transport en véhicule utilitaire et assure une pose rapide sur charpente en bois simple, sans aucun engin de levage.";
-            $pills = [
-                "FORMAT 3,00 M ULTRA-PRATIQUE",
-                "ALUMINIUM PUR INOXYDABLE",
-                "ÉCOULEMENT SINUSOÏDAL PARFAIT",
-                "RAPPORT QUALITÉ/PRIX IMBATTABLE",
-                "DURABILITÉ > 30 ANS"
-            ];
+            $finition        = 'Aluminium Naturel Brillant Miroir';
+            $longueurs       = 'Format standard 3,00 m (ou coupe sur mesure)';
+            $header_title    = "TÔLES ONDULÉES ALUMINIUM 0,35 MM (FORMAT 3M & SUR-MESURE)";
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Couverture Traditionnelle & Rénovation";
+            $commercial_desc = "Classique intemporel de la construction au Cameroun, la tôle ondulée sinusoïdale TPM SA en aluminium 0,35 mm offre une évacuation naturelle fluide des eaux pluviales et une pose intuitive sans outillage lourd.";
+            $pills = ["PROFIL ONDULÉ 76/18", "ÉPAISSEUR 0,35 MM GARANTIE", "100% INOXYDABLE", "LÉGÈRETÉ & MANIABILITÉ", "FORMAT 3 MÈTRES"];
             $points_forts = [
-                ['icon' => 'local_shipping', 'title' => 'Transport Aisé Format 3m', 'desc' => 'Se charge facilement sur pick-up ou véhicule utilitaire sans dépasser du gabarit routier.'],
-                ['icon' => 'shield', 'title' => '100% Inoxydable Garanti', 'desc' => 'Aluminium pur résistant à l\'humidité tropicale et aux pluies sans jamais développer de rouille.'],
-                ['icon' => 'water_drop', 'title' => 'Évacuation Fluide & Continue', 'desc' => 'Ondes sinusoïdales classiques canalisant immédiatement l\'eau de pluie vers les gouttières.'],
-                ['icon' => 'build', 'title' => 'Pose Facile sur Charpente Bois', 'desc' => 'Se cloue ou se visse directement sur chevrons ou pannes bois ordinaires avec tirefonds et rondelles.']
+                ['icon' => 'waves', 'title' => 'Ondes Sinusoïdales 76/18', 'desc' => 'Profil classique facilitant l\'évacuation rapide des fortes pluies tropicales.'],
+                ['icon' => 'shield', 'title' => 'Aluminium Inaltérable', 'desc' => 'Ne rouille jamais, même sous forte humidité côtière.'],
+                ['icon' => 'construction', 'title' => 'Pose Traditionnelle Facile', 'desc' => 'Se fixe aisément sur charpente bois par tirefonds ou pointes torsadées.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Tôle Ondulée Alu 3,00 m', 'Tolérance Usine'],
+                'headers' => ['Paramètre Technique', 'Tôle Ondulée Alu 0,35 mm', 'Tolérance'],
                 'rows' => [
-                    ['label' => 'Matériau de base', 'bac' => 'Aluminium 1ère fusion pur', 'ondu' => 'Norme Camerounaise (NC)'],
-                    ['label' => 'Longueur calibrée', 'bac' => '3,00 mètres exacts', 'ondu' => 'Tolérance ± 5 mm'],
-                    ['label' => 'Épaisseur', 'bac' => '0,35 mm nominal', 'ondu' => 'Léger et maniable'],
-                    ['label' => 'Pas d\'onde', 'bac' => '76 mm (Hauteur 18 mm)', 'ondu' => 'Ondes sinusoïdales régulières'],
-                    ['label' => 'Largeur utile', 'bac' => '~800 mm à 850 mm', 'ondu' => 'Recouvrement 1,5 à 2 ondes']
+                    ['label' => 'Matériau', 'bac' => 'Aluminium Pur 1ère Fusion', 'ondu' => 'Certifié NC'],
+                    ['label' => 'Pas d\'onde / Hauteur', 'bac' => 'Pas = 76 mm | Hauteur = 18 mm', 'ondu' => 'Standard NF'],
+                    ['label' => 'Largeur utile / totale', 'bac' => 'Utile : ~836 mm | Totale : ~900 mm', 'ondu' => 'Recouvrement 1,5 onde'],
+                    ['label' => 'Longueur standard', 'bac' => '3,00 mètres en stock usine', 'ondu' => '± 2 mm']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Sens de pose', 'text' => 'Montage de bas en haut avec recouvrement transversal de 15 cm minimum.'],
-                ['label' => 'Recouvrement latéral', 'text' => '1,5 à 2 ondes selon la force des vents de la région.'],
-                ['label' => 'Fixation', 'text' => 'Fixer impérativement au sommet d\'onde avec des pointes de toiture à rondelle feutre ou tirefonds 6x60.'],
-                ['label' => 'Faîtage', 'text' => 'Associer des faîtières alu ondulées ou double pente 0.35 mm.']
+                ['label' => 'Sens de pose', 'text' => 'De bas en haut en commençant à l\'opposé des vents pluvieux dominants.'],
+                ['label' => 'Recouvrement latéral', 'text' => '1 onde et demie pour assurer une étanchéité parfaite face aux vents violents.']
             ];
         } else {
-            // Tôle Bac Alu 4N et 5N standard (0,35 mm)
-            $category        = 'Tôles Bacs & Ondulées Aluminium Standard (0,35 mm)';
-            $material        = 'Alliage Aluminium de Première Fusion';
-            $profil          = 'Profil BACS Trapézoïdal 4N / 5N ou Profil Ondulé';
-            $epaisseur       = '0,35 mm nominal garanti';
+            // Tôle Bac Alu 4N ET 5N 0,35
+            $diagram_type    = 'tole_bac';
+            $diagram_title   = 'PROFIL EN COUPE COTÉ : TÔLE BAC TRAPÉZOÏDALE 4N & 5N (0,35 MM)';
+            $category        = 'Tôles Bacs Trapézoïdales Aluminium 0,35 mm (4N & 5N)';
+            $material        = 'Alliage Aluminium 1ère Fusion 0,35 mm';
+            $profil          = 'Profil BACS 4 Nervures (4N) ou 5 Nervures (5N)';
+            $epaisseur       = '0,35 mm réel garanti';
             $epaisseur_val   = '0,35 mm';
-            $finition        = 'Aluminium Brut Naturel ou Prélaqué Four Polyester';
-            $longueurs       = 'Standards (2m, 3m, 4m, 5m, 6m) ou découpe sur-mesure';
-            $header_title    = "TÔLES BACS & ONDULÉES ALUMINIUM PRÉLAQUÉES 0,35 MM";
-            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Couverture et Bardage Esthétique";
-            $commercial_desc = "Les Tôles Bacs et Ondulées en Aluminium Prélaquées d'épaisseur 0,35 mm associent la durabilité absolue de l'aluminium pur à l'élégance contemporaine d'un laquage multicouche au four (Polyester / PVDF). Conçues pour valoriser l'architecture de vos toitures résidentielles, commerciales et industrielles, elles offrent une garantie anticorrosion totale (zéro rouille) et une haute tenue des teintes contre les rayons UV sous tous les climats (côtiers, tropicaux, équatoriaux).";
-            $pills = [
-                "FINITION PRÉLAQUÉE AU FOUR",
-                "PROFIL BAC OU ONDULÉ",
-                "ÉPAISSEUR 0,35 MM",
-                "100% INOXYDABLE",
-                "COULEURS RAL VARIÉES"
-            ];
+            $finition        = 'Aluminium Naturel ou Prélaqué';
+            $longueurs       = '2,00 m à 12,00 m (découpe sur mesure)';
+            $header_title    = "TÔLES BACS ALUMINIUM 4N & 5N (0,35 MM)";
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Couverture Résidentielle & Tertiaire";
+            $commercial_desc = "Modèle le plus vendu de notre pôle tôlerie, le bac alu 4N et 5N en calibre 0,35 mm allie légèreté extrême, tenue aux intempéries et coût direct fabricant imbattable pour tous types d'habitations et bâtiments commerciaux.";
+            $pills = ["PROFIL TRAPÉZOÏDAL 4N/5N", "ÉPAISSEUR 0,35 MM CERTIFIÉE", "DÉCOUPE SUR MESURE JUSQU'À 12M", "100% INOXYDABLE", "PRIX USINE DIRECT"];
             $points_forts = [
-                ['icon' => 'palette', 'title' => 'Esthétique Haut de Gamme & Teintes UV', 'desc' => 'Laquage polyester thermodurci (25 µm) assurant un rendu brillant ou mat uniforme, résistant à la décoloration sous fort ensoleillement.'],
-                ['icon' => 'shield', 'title' => 'Zéro Rouille / Double Protection', 'desc' => 'Barrière anticorrosion double : laque protectrice extérieure + couche naturelle d\'alumine. Aucune oxydation en milieu marin ou humide.'],
-                ['icon' => 'architecture', 'title' => 'Choix de Forme : Bac ou Ondulé', 'desc' => 'Bac : Lignes trapézoïdales modernes et rigidité renforcée. Ondulé : Ondes sinusoïdales traditionnelles et écoulement fluide.'],
-                ['icon' => 'feather', 'title' => 'Légèreté & Économie de Charpente', 'desc' => 'Poids plume facilitant la manutention et réduisant considérablement la charge sur les pannes bois ou métalliques.']
+                ['icon' => 'architecture', 'title' => 'Profil Trapézoïdal Rigide', 'desc' => 'Nervures trapézoïdales assurant une excellente inertie et un écoulement optimal.'],
+                ['icon' => 'shield', 'title' => 'Inoxydabilité Absolue', 'desc' => 'Résiste indéfiniment à l\'humidité tropicale et à l\'air salin du littoral camerounais.'],
+                ['icon' => 'straighten', 'title' => 'Longueur à la Demande', 'desc' => 'Découpe sur-mesure au centimètre près à l\'usine de Douala pour limiter les chutes sur chantier.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Tôle Bac Alu Prélaquée (4N / 5N)', 'Tôle Ondulée Alu Prélaquée'],
+                'headers' => ['Paramètre Technique', 'Spécification Bac 4N/5N 0,35', 'Norme Usine'],
                 'rows' => [
-                    ['label' => 'Matériau de base', 'bac' => 'Alliage Aluminium Première Fusion', 'ondu' => 'Alliage Aluminium Première Fusion'],
-                    ['label' => 'Revêtement de surface', 'bac' => 'Prélaquage Polyester / PVDF (20-25 µm face avant, 5-7 µm verso)', 'ondu' => 'Prélaquage Polyester / PVDF (20-25 µm face avant, 5-7 µm verso)'],
-                    ['label' => 'Épaisseur nominale', 'bac' => '0,35 mm', 'ondu' => '0,35 mm'],
-                    ['label' => 'Type de profilage', 'bac' => 'Nervures trapézoïdales (4N ou 5N) avec raidisseurs', 'ondu' => 'Ondes sinusoïdales classiques (Pas 76 mm / H 18 mm)'],
-                    ['label' => 'Largeur totale / utile', 'bac' => 'Totale : ~950 à 1050 mm | Utile : ~850 à 950 mm', 'ondu' => 'Totale : ~900 à 1000 mm | Utile : ~800 à 850 mm'],
-                    ['label' => 'Coloris disponibles', 'bac' => 'Bleu Outremer, Rouge Tuile, Vert Mousse, Gris Anthracite, Brun', 'ondu' => 'Bleu Outremer, Rouge Tuile, Vert Mousse, Gris Anthracite, Brun'],
-                    ['label' => 'Longueurs disponibles', 'bac' => 'Standards (2m, 3m, 4m, 5m, 6m) ou Découpe sur-mesure', 'ondu' => 'Standards (2m, 3m, 4m, 5m, 6m) ou Découpe sur-mesure'],
-                    ['label' => 'Pente minimale conseillée', 'bac' => '≥ 7% à 10%', 'ondu' => '≥ 10% (environ 6°)'],
-                    ['label' => 'Entraxe recommandé pannes', 'bac' => '70 cm à 90 cm maximum', 'ondu' => '60 cm à 80 cm maximum']
+                    ['label' => 'Alliage de base', 'bac' => 'Aluminium 1ère Fusion contrôlé', 'ondu' => 'Norme NC'],
+                    ['label' => 'Épaisseur', 'bac' => '0,35 mm réel certifié', 'ondu' => 'Micrométrique'],
+                    ['label' => 'Hauteur nervure', 'bac' => '25 à 28 mm avec raidisseurs', 'ondu' => 'Rigidité max'],
+                    ['label' => 'Largeur utile / totale', 'bac' => 'Utile : ~880 mm | Totale : ~1000 mm', 'ondu' => '1 nervure recouv.']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Sens de pose', 'text' => 'Montage du bas vers le haut (égout vers faîtage), à l\'opposé des vents pluvieux dominants.'],
-                ['label' => 'Recouvrement', 'text' => '1 nervure trapézoïdale complète (profil Bac) ou 1,5 à 2 ondes (profil Ondulé). Raccord longitudinal : 15 à 20 cm.'],
-                ['label' => 'Fixation étanche laquée', 'text' => 'Fixer impérativement au sommet de nervure / onde avec vis autoperceuses laquées à la teinte de la tôle, pontets/cavaliers prélaqués et joints d\'étanchéité EPDM.'],
-                ['label' => 'Accessoires assortis', 'text' => 'Faîtières laquées crantées, rives d\'extrémité, bandes d\'égout et vis laquées couleur RAL coordonnée.']
+                ['label' => 'Pose sur pannes', 'text' => 'Entraxe de pannes conseillé de 60 à 80 cm.'],
+                ['label' => 'Fixation', 'text' => 'Fixer sur sommet de nervure avec vis auto-foreuses et cavaliers étanches.']
             ];
         }
+    }
 
     // =========================================================================
-    // 2. ACCESSOIRES DE TOITURE (RIDGE CAPS, FLASHINGS, GUTTERS, VALLEYS)
+    // 2. ACCESSOIRES DE TOITURE (ROOFING ACCESSORIES)
     // =========================================================================
-    } elseif ( $cat_slug === 'accessoires-toiture' || preg_match( '/fa[iî]ti[eè]re|rive|goutti[eè]re|noue|bande/iu', $title ) ) {
+    elseif ( $cat_slug === 'accessoires-toiture' || preg_match( '/fa[iî]ti[eè]re|rive|goutti[eè]re|noue|bande/iu', $title ) ) {
         $product_family = 'accessoire';
-        $pole = 'Pôle 2 : Accessoires de Finition & Étanchéité de Toiture';
+        $pole = 'Pôle 1 : Accessoires de Finition & Étanchéité de Toiture';
 
         $is_prelaque = preg_match( '/pr[eé]laqu/iu', $title );
-        $epaisseur_val = '0,35 mm';
-        if ( preg_match( '/5\/10/iu', $title ) ) $epaisseur_val = '0,50 mm';
-        elseif ( preg_match( '/0[,.]40/iu', $title ) ) $epaisseur_val = '0,40 mm';
+        $finition    = $is_prelaque ? 'Aluminium Prélaqué Four Nuancier RAL' : 'Aluminium Brut Naturel Brillant';
+        $gauge       = '0,35 mm';
+        if ( preg_match( '/0[,.]40|0\.40/iu', $title ) ) $gauge = '0,40 mm';
+        elseif ( preg_match( '/5\/10/iu', $title ) ) $gauge = '0,50 mm (5/10e)';
 
         if ( preg_match( '/fa[iî]ti[eè]re/iu', $title ) ) {
-            $is_centrale     = preg_match( '/centrale/iu', $title );
-            $category        = $is_centrale ? 'Faîtières Centrales Profilées pour Arête de Faîtage' : 'Faîtières Non Crantées Double Pente Polyvalentes';
-            $header_title    = "FAÎTIÈRES ALUMINIUM " . ($is_centrale ? "CENTRALES" : "DOUBLE PENTE") . " ({$epaisseur_val})" . ($is_prelaque ? " PRÉLAQUÉES" : " NATURELLES");
-            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Jonctions de Crête et Étanchéité de Faîtage";
-            $commercial_desc = "Pièce de finition capitale pour la longévité de votre bâtiment, la faîtière en aluminium TPM SA coiffe la crête sommitale de la toiture à l'intersection des deux versants. Façonnée avec des ailes larges et un pliage haute précision, elle bloque hermétiquement toutes les pénétrations d'eaux pluviales poussées par le vent et préserve intégralement la charpente sous-jacente.";
-            $pills = [
-                "ALUMINIUM PUR 1ER CHOIX",
-                "DOUBLE PENTE ÉTANCHE",
-                "ÉPAISSEUR " . strtoupper($epaisseur_val),
-                "100% INOXYDABLE",
-                $is_prelaque ? "FINITION RAL ASSORTIE" : "FINITION NATURE BRILLANTE"
-            ];
+            $is_centrale = preg_match( '/centrale/iu', $title );
+            $diagram_type = $is_centrale ? 'acc_faitiere_centrale' : 'acc_faitiere_double';
+            $diagram_title = $is_centrale ? "SCHÉMA TECHNIQUE COTÉ : FAÎTIÈRE CENTRALE BOMBÉE ($gauge)" : "SCHÉMA TECHNIQUE COTÉ : FAÎTIÈRE NON CRANTÉE DOUBLE PENTE ($gauge)";
+            $category = $is_centrale ? 'Faîtières Centrales Bombées Profilées' : 'Faîtières Non Crantées Double Pente';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Jonction de Faîtage Étanche";
+            $commercial_desc = "Élément capital du couronnement de toiture, la faîtière TPM SA ($gauge) assure la jonction étanche entre les deux versants opposés du toit, empêchant toute infiltration d'eau de pluie battante et protégeant la charpente faîtière contre le pourrissement.";
+            $pills = ["DÉVELOPPÉ 330/350 MM", "ÉPAISSEUR " . strtoupper($gauge), "AILES AVEC OURLETS RIGIDES", "ZÉRO CORROSION", "LONGUEUR AU ML"];
             $points_forts = [
-                ['icon' => 'shield', 'title' => 'Étanchéité Sommitale Absolue', 'desc' => 'Relevés et largeur d\'ailes conçus pour faire barrière aux rafales pluvieuses les plus violentes.'],
-                ['icon' => 'verified', 'title' => 'Inaltérabilité Marine & Tropicale', 'desc' => 'Aluminium premier choix inattaquable par la rouille, éliminant tout besoin d\'entretien périodique.'],
-                ['icon' => 'architecture', 'title' => 'Adaptabilité d\'Angle Souple', 'desc' => 'Pliage industriel souple permettant d\'épouser naturellement les pentes de toiture de 5° à 45°.'],
-                ['icon' => 'palette', 'title' => 'Harmonie & Esthétique Toiture', 'desc' => 'Finitions coordonnées aux teintes de vos tôles BAC pour un rendu architectural net et valorisant.']
+                ['icon' => 'roofing', 'title' => 'Étanchéité Parfaite du Faîte', 'desc' => 'Recouvrement large des deux versants protégeant la panne faîtière.'],
+                ['icon' => 'shield', 'title' => 'Ourlets Anti-Goutte d\'Eau', 'desc' => 'Bords repliés évitant le retour d\'eau par capillarité sous le faîtage.'],
+                ['icon' => 'straighten', 'title' => 'Ajustement d\'Angle Universel', 'desc' => 'Pliage usine calibré adaptable aux pentes de 15° à 45°.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Spécification Faîtière Usine', 'Tolérance / Norme BTP'],
+                'headers' => ['Spécification', 'Valeur Faîtière TPM SA', 'Tolérance'],
                 'rows' => [
-                    ['label' => 'Matériau de base', 'bac' => 'Aluminium Premier Choix', 'ondu' => 'Norme Camerounaise (NC)'],
-                    ['label' => 'Épaisseur nominale', 'bac' => $epaisseur_val, 'ondu' => 'Contrôle micrométrique'],
-                    ['label' => 'Développé total', 'bac' => '330 mm à 350 mm (0.33 / 0.35 ml)', 'ondu' => 'Ailes couvrantes 160 mm'],
-                    ['label' => 'Longueur d\'élément', 'bac' => '2,00 m à 3,00 m standard (ou sur mesure)', 'ondu' => 'Emboîtement régulier'],
-                    ['label' => 'Finition de surface', 'bac' => $is_prelaque ? 'Prélaquage Polyester UV' : 'Aluminium Brut Naturel', 'ondu' => 'Couleur coordonnée RAL'],
-                    ['label' => 'Recouvrement conseillé', 'bac' => '15 à 20 cm dans le sens du vent', 'ondu' => 'Étanchéité parfaite']
+                    ['label' => 'Matériau', 'bac' => 'Aluminium 1er choix ' . ($is_prelaque ? 'Prélaqué' : 'Naturel'), 'ondu' => 'Qualité usine'],
+                    ['label' => 'Épaisseur réelle', 'bac' => $gauge, 'ondu' => 'Certifiée'],
+                    ['label' => 'Développé total', 'bac' => '330 mm à 400 mm (selon modèle)', 'ondu' => '± 2 mm'],
+                    ['label' => 'Ailes latérales', 'bac' => '150 mm à 180 mm chacune', 'ondu' => 'Recouvrement optimal'],
+                    ['label' => 'Conditionnement', 'bac' => 'Vente au mètre linéaire (ml)', 'ondu' => 'Sur mesure']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Sens de montage', 'text' => 'Commencer la pose à l\'extrémité opposée aux vents dominants avec recouvrement de 15 cm minimum.'],
-                ['label' => 'Alignement', 'text' => 'Tendre un cordeau de guidage sur toute la ligne faîtière pour garantir une arête parfaitement rectiligne.'],
-                ['label' => 'Fixation mécanique', 'text' => 'Visser à travers la faîtière dans les sommets d\'onde de la tôle à l\'aide de vis auto-foreuses avec rondelles EPDM.'],
-                ['label' => 'Accessoires complémentaires', 'text' => 'Possibilité d\'intercaler un closoir ventilé pour optimiser l\'aération sous toiture.']
+                ['label' => 'Sens de montage', 'text' => 'Poser de l\'opposé des vents de pluie vers la direction du vent dominant.'],
+                ['label' => 'Recouvrement', 'text' => 'Recouvrement minimum de 15 cm entre deux faîtières consécutives avec mastic d\'étanchéité.'],
+                ['label' => 'Fixation', 'text' => 'Fixer sur les sommets d\'ondes des tôles sous-jacentes avec vis à joint EPDM.']
             ];
         } elseif ( preg_match( '/rive/iu', $title ) ) {
-            $header_title    = "RIVES DE FAÎTAGE ET DE BARDAGE EN ALUMINIUM ({$epaisseur_val})" . ($is_prelaque ? " PRÉLAQUÉES" : "");
-            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Habillage de Pignon & Protection Latérale";
-            $commercial_desc = "La rive de faîtage en aluminium TPM SA habille et protège les extrémités latérales de la toiture (pignons). Elle forme une barrière impénétrable contre les pluies battantes de côté et empêche le vent de s'engouffrer sous la couverture, écartant ainsi tout risque de soulèvement ou d'arrachement de la toiture.";
-            $pills = ["ANTI-ARRACHEMENT AU VENT", "PLIAGE DOUBLE RIGIDITÉ", "ÉPAISSEUR " . strtoupper($epaisseur_val), "100% INOXYDABLE", "FINITION SOIGNÉE"];
+            $diagram_type = 'acc_rive';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : RIVE DE FAÎTAGE ET PIGNON ($gauge)";
+            $category = 'Rives de Faîtage & Bandes de Pignon Latérales';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Finition des Rives de Pignon";
+            $commercial_desc = "La rive de toiture TPM SA protège les chevrons de pignon et les planches de rive contre les infiltrations d'eau latérales et les rafales de vent équatoriales susceptibles de soulever la toiture en rive.";
+            $pills = ["PROTECTION DE PIGNON", "ÉPAISSEUR " . strtoupper($gauge), "RECOUVREMENT PARFAIT", "OURLET GOUTTE D'EAU", "DISPONIBLE AU ML"];
             $points_forts = [
-                ['icon' => 'air', 'title' => 'Barrière Anti-Soulèvement', 'desc' => 'Empêche l\'effet d\'aspiration du vent sous les berges de toiture lors des orages tropicaux.'],
-                ['icon' => 'shield', 'title' => 'Protection des Boiseries de Rive', 'desc' => 'Protège les planches de rive contre le pourrissement et les attaques d\'humidité continue.'],
-                ['icon' => 'architecture', 'title' => 'Finition Latérale Nette', 'desc' => 'Offre une ligne architecturale droite et élégante fermant le profil ouvert des tôles de couverture.'],
-                ['icon' => 'build', 'title' => 'Pose Facile & Rapide', 'desc' => 'Fixation latérale et supérieure combinée pour un maintien indéboulonnable sur la charpente.']
+                ['icon' => 'border_right', 'title' => 'Protection Totale de Rive', 'desc' => 'Couvre la planche de rive et la dernière onde de tôle latérale.'],
+                ['icon' => 'shield', 'title' => 'Tenue Anti-Arrachement', 'desc' => 'Fixation robuste bloquant les prises au vent en bordure de toit.'],
+                ['icon' => 'palette', 'title' => 'Finition Harmonisée', 'desc' => 'Nuance assortie aux tôles de toiture pour une esthétique soignée.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Rive de Faîtage TPM SA', 'Norme / Tolérance'],
+                'headers' => ['Paramètre', 'Spécification Rive TPM SA', 'Norme'],
                 'rows' => [
-                    ['label' => 'Matériau', 'bac' => 'Aluminium Premier Choix', 'ondu' => 'Alliage haute tenue'],
-                    ['label' => 'Épaisseur', 'bac' => $epaisseur_val, 'ondu' => 'Garantie d\'usine'],
-                    ['label' => 'Développé', 'bac' => '330 mm à 350 mm avec rejet d\'eau', 'ondu' => 'Pliage anti-goutte'],
-                    ['label' => 'Longueur', 'bac' => '2,00 m à 3,00 m', 'ondu' => 'Coupe d\'usine nette'],
-                    ['label' => 'Coloris', 'bac' => $is_prelaque ? 'Nuancier RAL coordonné' : 'Aluminium Naturel', 'ondu' => 'Teinte identique aux tôles']
+                    ['label' => 'Matière', 'bac' => 'Alu pur ' . ($is_prelaque ? 'Prélaqué RAL' : 'Naturel'), 'ondu' => 'NC certifié'],
+                    ['label' => 'Épaisseur', 'bac' => $gauge, 'ondu' => 'Calibrée'],
+                    ['label' => 'Retombée verticale', 'bac' => '100 mm à 120 mm', 'ondu' => 'Couvre-bois'],
+                    ['label' => 'Recouvrement toiture', 'bac' => '140 mm à 160 mm', 'ondu' => 'Anti-infiltration']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Sens de pose', 'text' => 'Poser de bas en haut du pignon avec recouvrement longitudinal de 10 à 15 cm.'],
-                ['label' => 'Fixation', 'text' => 'Visser sur la planche de rive en façade et sur la première onde de la tôle au sommet.'],
-                ['label' => 'Étanchéité', 'text' => 'Utiliser des vis auto-foreuses laquées avec joint EPDM pour éviter tout suintement.']
+                ['label' => 'Montage', 'text' => 'Poser de bas en haut le long du rampant de pignon avec recouvrement de 10 cm.'],
+                ['label' => 'Fixation', 'text' => 'Visser sur la face supérieure dans l\'onde de tôle et sur la face latérale dans le bois.']
             ];
         } elseif ( preg_match( '/goutti[eè]re/iu', $title ) ) {
-            $header_title    = "GOUTTIÈRES EN ALUMINIUM PROFILÉES GRAND DÉBIT ({$epaisseur_val})" . ($is_prelaque ? " PRÉLAQUÉES" : "");
+            $diagram_type = 'acc_gouttiere';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : GOUTTIÈRE ALU PROFILÉE ($gauge)";
+            $category = 'Gouttières Aluminium pour Évacuation Pluviale';
+            $header_title = strtoupper($title);
             $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Collecte & Évacuation des Eaux Pluviales";
-            $commercial_desc = "Formées en continu en aluminium pur inoxydable, les gouttières TPM SA sont conçues pour capter et évacuer d'importants volumes d'eau pluviale. Leur profil avec boudin de renfort garantit une rigidité maximale sans déformation sous le poids de l'eau, protégeant vos fondations et vos crépis de façade contre le ravinement.";
-            $pills = ["COLLECTE GRAND DÉBIT", "ALUMINIUM ÉPAIS INOXYDABLE", "BOUDIN RIGIDIFICATEUR", "ZÉRO FISSURE NI ROUILLE", "LONGUEURS CONTINUES"];
+            $commercial_desc = "Profilée en aluminium inaltérable aux usines TPM SA, la gouttière assure une collecte rapide et sans débordement des eaux de pluie de toiture pour préserver les façades, fondations et terrasses de votre bâtiment.";
+            $pills = ["DÉVELOPPÉ 330/350 MM", "BOUDIN TUBULAIRE RIGIDIFICATEUR", "ÉPAISSEUR " . strtoupper($gauge), "ZÉRO PERFORATION ROUILLE", "DÉBIT HYDRAULIQUE MAX"];
             $points_forts = [
-                ['icon' => 'water_drop', 'title' => 'Capacité d\'Évacuation Supérieure', 'desc' => 'Profil généreux évitant tout débordement lors des averses tropicales violentes.'],
-                ['icon' => 'shield', 'title' => 'Inaltérabilité Totale à la Rouille', 'desc' => 'Ne rouille jamais contrairement aux gouttières en acier galvanisé ordinaire.'],
-                ['icon' => 'architecture', 'title' => 'Ourlet de Renfort Extérieur', 'desc' => 'Boudin tubulaire conférant une résistance exceptionnelle sans flexion entre crochets.'],
-                ['icon' => 'foundation', 'title' => 'Préservation des Fondations', 'desc' => 'Évacue les eaux loin des murs porteurs, prévenant fissures et humidité ascensionnelle.']
+                ['icon' => 'water_drop', 'title' => 'Collecte Haut Débit', 'desc' => 'Profil profond canalisant les trombes d\'eau tropicales sans déborder.'],
+                ['icon' => 'architecture', 'title' => 'Boudin de Renfort Ø 16 mm', 'desc' => 'Ourlet tubulaire frontal conférant une rigidité longitudinale exceptionnelle.'],
+                ['icon' => 'shield', 'title' => 'Inoxydable à Vie', 'desc' => 'Ne subit aucune rouille même en cas de stagnation prolongée de feuilles humides.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Gouttière Aluminium TPM SA', 'Norme / Tolérance'],
+                'headers' => ['Spécification', 'Gouttière Alu TPM SA', 'Tolérance'],
                 'rows' => [
-                    ['label' => 'Matériau', 'bac' => 'Aluminium 1ère Fusion Haute Pureté', 'ondu' => 'Inaltérable'],
-                    ['label' => 'Épaisseur', 'bac' => $epaisseur_val, 'ondu' => 'Rigidité sous charge d\'eau'],
-                    ['label' => 'Développé', 'bac' => '330 mm / 350 mm semi-ouvert', 'ondu' => 'Profil grand débit'],
-                    ['label' => 'Pente minimale requise', 'bac' => '5 mm par mètre linéaire', 'ondu' => 'Écoulement par gravité'],
-                    ['label' => 'Espacement des crochets', 'bac' => '40 cm à 50 cm maximum', 'ondu' => 'Tenue mécanique sans affaissement']
+                    ['label' => 'Alliage', 'bac' => 'Aluminium 1ère fusion ' . ($is_prelaque ? 'Laqué' : 'Brut'), 'ondu' => 'Inaltérable'],
+                    ['label' => 'Épaisseur', 'bac' => $gauge, 'ondu' => 'Garantie'],
+                    ['label' => 'Développé', 'bac' => '330 mm / 350 mm', 'ondu' => 'Diamètre 125-140 mm'],
+                    ['label' => 'Pente conseillée', 'bac' => '5 mm par mètre linéaire', 'ondu' => 'Écoulement fluide']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Pente d\'écoulement', 'text' => 'Régler la hauteur des crochets pour respecter une pente descendante de 5 mm par mètre vers la descente.'],
-                ['label' => 'Fixation', 'text' => 'Fixer les crochets bandeaux tous les 50 cm maximum sur la planche d\'égout.'],
-                ['label' => 'Jonctions', 'text' => 'Emboîter les éléments sur 5 cm avec cordon de mastic polyuréthane d\'étanchéité et rivets pop alu.']
+                ['label' => 'Crochets de fixation', 'text' => 'Poser des crochets tous les 40 à 50 cm maximum avec une pente régulière vers la descente.'],
+                ['label' => 'Jonctions', 'text' => 'Emboîter les tronçons de gouttière avec un joint silicone polyuréthane étanche et rivets alu.']
+            ];
+        } elseif ( preg_match( '/noue/iu', $title ) ) {
+            $diagram_type = 'acc_noue';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : NOUE EN ALU EN V ($gauge)";
+            $category = 'Noues en Aluminium pour Jonction Rentrant de Versants';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Chenaux d'Angle Rentrant";
+            $commercial_desc = "La noue en aluminium TPM SA forme le chenal d'évacuation étanche à l'intersection de deux pans de toiture formant un angle rentrant. Son pliage en V avec relevés d'étanchéité évite tout refoulement latéral sous les tôles.";
+            $pills = ["CANAL D'ÉVACUATION EN V", "RELEVÉS D'ÉTANCHÉITÉ 30 MM", "ÉPAISSEUR " . strtoupper($gauge), "ANTI-REFOULEMENT", "ALUMINIUM PUR"];
+            $points_forts = [
+                ['icon' => 'waves', 'title' => 'Canalisation Centrale Large', 'desc' => 'Collecte le confluent des deux versants vers l\'égout sans turbulence.'],
+                ['icon' => 'shield', 'title' => 'Double Pince Latérale', 'desc' => 'Relevés latéraux bloquant les remontées d\'eau sous forte dépression de vent.'],
+                ['icon' => 'verified', 'title' => 'Durabilité Totale', 'desc' => 'Aluminium massif insensible aux résidus végétaux et à l\'acidité des pluies.']
+            ];
+            $specs_table = [
+                'headers' => ['Paramètre', 'Noue Alu TPM SA', 'Norme'],
+                'rows' => [
+                    ['label' => 'Matériau', 'bac' => 'Alu pur 1ère fusion ' . ($is_prelaque ? 'Prélaqué' : 'Naturel'), 'ondu' => 'Qualité usine'],
+                    ['label' => 'Épaisseur', 'bac' => $gauge, 'ondu' => 'Certifiée'],
+                    ['label' => 'Développé total', 'bac' => '330 mm à 400 mm', 'ondu' => 'Large chenal'],
+                    ['label' => 'Relevé latéral', 'bac' => '25 mm à 30 mm avec pince 10 mm', 'ondu' => 'Anti-refoulement']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Pose sur fonçure', 'text' => 'Poser impérativement sur une fonçure en planches de bois continue le long de la ligne de noue.'],
+                ['label' => 'Recouvrement', 'text' => 'Recouvrir de bas en haut avec 20 cm minimum de chevauchement entre les pièces.']
             ];
         } else {
-            // Noues ou Bandes ourlées
-            $header_title    = strtoupper($title) . " EN ALUMINIUM ({$epaisseur_val})";
-            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Solins & Étanchéités Spéciales";
-            $commercial_desc = "Conçues pour les jonctions étanches complexes (solins contre murs, cheminées, rencontres de versants en V), les noues et bandes ourlées en aluminium TPM SA garantissent une barrière mécanique absolue contre les remontées d'eau par capillarité et les fortes précipitations tropicales.";
-            $pills = ["ALUMINIUM PREMIER CHOIX", "BOUDIN ANTI-GOUTTE", "ÉPAISSEUR " . strtoupper($epaisseur_val), "100% INOXYDABLE", "ÉTANCHÉITÉ MURALE"];
+            // Bandes ourlées / bavettes
+            $diagram_type = 'acc_bande_ourlee';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : BANDE OURLÉE & SOLIN D'ÉTANCHÉITÉ ($gauge)";
+            $category = 'Bandes Ourlées & Solins de Raccord Mural';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Raccordement Toiture / Façade Maçonnée";
+            $commercial_desc = "La bande ourlée TPM SA assure la jonction étanche entre la couverture en tôles et un mur maçonné vertical (acrotère, mur pignon mitoyen). Son ourlet rigidifié canalise l'eau sans goutter le long des enduits.";
+            $pills = ["OURLET RIGIDE D'ÉGOUT", "RELEVÉ MURAL D'ENGRAVURE", "ÉPAISSEUR " . strtoupper($gauge), "ÉTANCHÉITÉ MURALE", "ALU INALTÉRABLE"];
             $points_forts = [
-                ['icon' => 'water_drop', 'title' => 'Barrière Étanche Capillaire', 'desc' => 'Empêche l\'eau de remonter sous les tôles le long des parois maçonnées.'],
-                ['icon' => 'shield', 'title' => 'Aluminium Massif Inoxydable', 'desc' => 'Dure toute la vie du bâtiment sans perçage par la corrosion.'],
-                ['icon' => 'architecture', 'title' => 'Pliage Calibré & Ourlet', 'desc' => 'Ourlet boudiné rigidifiant la pièce et facilitant la fixation régulière.'],
-                ['icon' => 'palette', 'title' => 'Raccord Visuel Parfait', 'desc' => 'S\'intègre harmonieusement avec la couverture pour une finition professionnelle.']
+                ['icon' => 'architecture', 'title' => 'Jonction Mur/Toit Imperméable', 'desc' => 'Élimine les infiltrations au droit des murs verticaux maçonnés.'],
+                ['icon' => 'shield', 'title' => 'Ourlet Boudiné Résistant', 'desc' => 'Confère une rigidité parfaite à la bavette inférieure qui plaque sur la tôle.'],
+                ['icon' => 'palette', 'title' => 'Teintes Coordonnées', 'desc' => 'Disponible en alu naturel ou prélaqué assorti à la toiture.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Spécification TPM SA', 'Norme'],
+                'headers' => ['Spécification', 'Bande Ourlée TPM SA', 'Norme'],
                 'rows' => [
-                    ['label' => 'Matériau', 'bac' => 'Aluminium Premier Choix', 'ondu' => 'Norme Camerounaise (NC)'],
-                    ['label' => 'Épaisseur', 'bac' => $epaisseur_val, 'ondu' => 'Contrôle usine'],
-                    ['label' => 'Développé', 'bac' => '330 mm à 350 mm', 'ondu' => 'Développé utile réglementaire'],
-                    ['label' => 'Longueur', 'bac' => '2,00 m à 3,00 m (ou au ml)', 'ondu' => 'Coupe nette'],
-                    ['label' => 'Finitions', 'bac' => $is_prelaque ? 'Prélaquage RAL' : 'Aluminium Brut Naturel', 'ondu' => 'Assorti aux tôles']
+                    ['label' => 'Matière', 'bac' => 'Aluminium 1er choix ' . ($is_prelaque ? 'Prélaqué' : 'Nature'), 'ondu' => 'NC'],
+                    ['label' => 'Épaisseur', 'bac' => $gauge, 'ondu' => 'Garantie'],
+                    ['label' => 'Relevé mural', 'bac' => '60 mm à 80 mm pour engravure', 'ondu' => 'Standard BTP'],
+                    ['label' => 'Bavette tombante', 'bac' => '120 mm à 150 mm avec ourlet Ø 12 mm', 'ondu' => 'Plaquage parfait']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Préparation', 'text' => 'Dépoussiérer la maçonnerie et vérifier l\'alignement de la ligne de solin.'],
-                ['label' => 'Fixation', 'text' => 'Cheviller contre le mur tous les 30 cm et garnir la gorge supérieure de mastic d\'étanchéité.'],
-                ['label' => 'Recouvrement', 'text' => 'Prévoir 10 cm de chevauchement minimum entre deux longueurs consécutives.']
+                ['label' => 'Engravure', 'text' => 'Engraver le relevé supérieur dans la maçonnerie et garnir d\'un mastic élastomère de calfeutrement.'],
+                ['label' => 'Fixation basse', 'text' => 'Visser l\'extrémité sur le sommet de nervure de tôle avec vis étanche.']
             ];
         }
+    }
 
     // =========================================================================
-    // 3. FIXATIONS ET ÉTANCHÉITÉ (FASTENERS & WATERPROOFING)
+    // 3. FIXATIONS ET ÉTANCHÉITÉ
     // =========================================================================
-    } elseif ( $cat_slug === 'fixations-et-etancheite' || preg_match( '/vis|tirefond|cavalier|toiturole|feutre|tige/iu', $title ) ) {
+    elseif ( $cat_slug === 'fixations-et-etancheite' || preg_match( '/vis|tirefond|cavalier|toiturole|rondelle|plaquette|tige/iu', $title ) ) {
         $product_family = 'fixation';
-        $pole = 'Pôle 3 : Fixations Zinguées & Étanchéité de Toiture';
+        $pole = 'Pôle 1 : Systèmes de Fixation Certifiés & Étanchéité';
 
-        if ( preg_match( '/vis\s+auto/iu', $title ) ) {
-            $header_title    = strtoupper($title) . " HAUTE PERFORMANCE AVEC JOINT EPDM";
-            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Fixation Rapide sur Pannes Métalliques & Bois";
-            $commercial_desc = "Les vis auto-foreuses traitées TPM SA permettent une fixation ultra-rapide en une seule passe : perçage de la tôle et de la panne métallique/bois, taraudage et compression étanche. Équipées d'une rondelle vulcanisée avec joint en élastomère EPDM inaltérable, elles garantissent un blocage hermétique empêchant toute infiltration pluviale.";
-            $pills = ["POINTE FOREUSE TREMPÉE", "ACIER ZINGUÉ ANTICORROSION", "JOINT ÉLASTOMÈRE EPDM", "PERÇAGE SANS AVANT-TROU", "TÊTE HEXAGONALE RENFORCÉE"];
+        if ( preg_match( '/vis.*auto/iu', $title ) ) {
+            $is_70 = preg_match( '/70/iu', $title );
+            $dim_text = $is_70 ? '6X70' : '6X60';
+            $diagram_type = $is_70 ? 'fix_vis_6x70' : 'fix_vis_6x60';
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : VIS AUTO-FOREUSE $dim_text AVEC RONDELLE EPDM";
+            $category = 'Vis Auto-Foreuses Industrielles avec Rondelle EPDM';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Fixation Rapide sur Panne Métallique / Bois";
+            $commercial_desc = "Conçue pour un vissage direct haute performance sans avant-trou, la vis auto-foreuse TPM SA $dim_text intègre une pointe forêt trempée et une rondelle vulcanisée Inox-EPDM assurant une étanchéité hydrofuge absolue sous les pires intempéries.";
+            $pills = ["POINTE FORÊT AUTO-PERCEUSE", "FILETAGE Ø 6,3 MM", "RONDELLE VULCANISÉE EPDM", "TRAITEMENT ANTICORROSION", "TÊTE HEXAGONALE 8 MM"];
             $points_forts = [
-                ['icon' => 'bolt', 'title' => 'Pose Directe sans Avant-Trou', 'desc' => 'Pointe forêt usinée avec précision traversant tôle aluminium et profilé acier sans pré-perçage.'],
-                ['icon' => 'water_drop', 'title' => 'Étanchéité EPDM Vulcanisé', 'desc' => 'Joint élastomère haute élasticité garantissant une étanchéité sans faille durant des décennies.'],
-                ['icon' => 'shield', 'title' => 'Revêtement Électro-Zingué Robuste', 'desc' => 'Traitement anticorrosion éliminant tout risque de grippage ou de rouille prématurée.'],
-                ['icon' => 'build', 'title' => 'Tête Hexagonale Anti-Rippage', 'desc' => 'Prise d\'entraînement optimale à la visseuse limitant l\'usure des embouts et accélérant la pose.']
+                ['icon' => 'bolt', 'title' => 'Pointe Forêt Perçage Direct', 'desc' => 'Perce en une seule opération la tôle aluminium et la panne acier jusqu\'à 6 mm d\'épaisseur.'],
+                ['icon' => 'water_drop', 'title' => 'Étanchéité Élastomère EPDM', 'desc' => 'Rondelle vulcanisée ne séchant pas et conservant son élasticité sous UV tropicaux.'],
+                ['icon' => 'shield', 'title' => 'Traitement Galvanique Renforcé', 'desc' => 'Zingage de classe supérieure résistant à la corrosion saline.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Vis Auto-Foreuse 6X60', 'Vis Auto-Foreuse 6X70'],
+                'headers' => ['Paramètre Technique', "Vis Auto-Foreuse $dim_text", 'Norme'],
                 'rows' => [
-                    ['label' => 'Matériau', 'bac' => 'Acier Carbone Cémenté Trempé', 'ondu' => 'Acier Carbone Cémenté Trempé'],
-                    ['label' => 'Diamètre de tige', 'bac' => 'Ø 6,3 mm au filetage', 'ondu' => 'Ø 6,3 mm au filetage'],
-                    ['label' => 'Longueur sous tête', 'bac' => '60 mm', 'ondu' => '70 mm (recommandé D50 / Tuile)'],
-                    ['label' => 'Capacité de perçage', 'bac' => 'Acier jusqu\'à 6 mm / Bois massif', 'ondu' => 'Acier jusqu\'à 6 mm / Bois massif'],
-                    ['label' => 'Joint d\'étanchéité', 'bac' => 'Rondelle vulcanisée EPDM Ø 16 mm', 'ondu' => 'Rondelle vulcanisée EPDM Ø 16 mm'],
-                    ['label' => 'Finition', 'bac' => 'Zingué brillant ou laqué teinte RAL', 'ondu' => 'Zingué brillant ou laqué teinte RAL'],
-                    ['label' => 'Couple de serrage conseillé', 'bac' => '8 à 10 Nm (sans écraser le joint)', 'ondu' => '8 à 10 Nm (sans écraser le joint)']
+                    ['label' => 'Diamètre nominal', 'bac' => 'Ø 6,3 mm (Filet trempé)', 'ondu' => 'DIN 7504-K'],
+                    ['label' => 'Longueur sous tête', 'bac' => ($is_70 ? '70 mm' : '60 mm'), 'ondu' => '± 0,5 mm'],
+                    ['label' => 'Empreinte tête', 'bac' => 'Hexagonale 8 mm à collerette Ø 14 mm', 'ondu' => 'ISO Standard'],
+                    ['label' => 'Pointe', 'bac' => 'Forêt #3 capacité de perçage 2 à 6 mm', 'ondu' => 'Acier cémenté'],
+                    ['label' => 'Rondelle d\'étanchéité', 'bac' => 'Alu/Inox avec joint EPDM Ø 16 mm x 3 mm', 'ondu' => 'Inaltérable']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Emplacement de vissage', 'text' => 'Fixer impérativement au sommet d\'onde ou de nervure pour garantir l\'évacuation naturelle des eaux.'],
-                ['label' => 'Outillage', 'text' => 'Utiliser une visseuse électrique débrayable munie d\'une douille hexagonale aimantée adaptée.'],
-                ['label' => 'Réglage du serrage', 'text' => 'Serrer jusqu\'à légère expansion visible du joint EPDM sous la rondelle, sans écraser la tôle.'],
-                ['label' => 'Densité recommandée', 'text' => 'Compter en moyenne 3 à 5 fixations par mètre carré selon la zone de vent et l\'exposition.']
+                ['label' => 'Outillage', 'text' => 'Utiliser une visseuse débrayable équipée d\'un embout magnétique 6 pans de 8 mm.'],
+                ['label' => 'Couple de serrage', 'text' => 'Serrer jusqu\'à écrasement d\'environ 1 mm du joint EPDM sans dépasser la collerette métallique.']
             ];
         } elseif ( preg_match( '/tirefond/iu', $title ) ) {
-            $header_title    = strtoupper($title) . " ZINGUÉ POUR CHARPENTE BOIS";
-            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Ancrage Lourd et Haute Résistance à l'Arrachement";
-            $commercial_desc = "Le tirefond à bois zingué TPM SA est la fixation maîtresse historique pour l'ancrage solide des toitures métalliques dans les charpentes massives en bois dur ou semi-dur (Iroko, Ayous, Bilinga). Son filetage hélicoïdal profond pénètre au cœur des fibres de bois pour offrir une résistance à l'arrachement exceptionnelle face aux tornades.";
-            $pills = ["ACIER FORGÉ HAUTE RÉSISTANCE", "FILETAGE PROFOND BOIS", "TRAITEMENT ZINGUÉ BRILLANT", "RÉSISTANCE CYCLONIQUE", "PAQUET CALIBRÉ 72 PCS"];
+            $is_80 = preg_match( '/80/iu', $title );
+            $dim_text = $is_80 ? '6X80' : '6X60';
+            $diagram_type = $is_80 ? 'fix_tirefond_6x80' : 'fix_tirefond_6x60';
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : TIREFOND À BOIS ZINGUÉ $dim_text (BOÎTE 72 PCS)";
+            $category = 'Tirefonds à Bois Zingués pour Charpente Traditionnelle';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Fixation Forte Charge sur Charpente Bois";
+            $commercial_desc = "Le tirefond zingué TPM SA $dim_text est l'organe d'ancrage de référence pour sceller fermement les tôles ondulées et bacs sur pannes en bois dur d'Afrique (Bilinga, Iroko, Tali). Son filetage à pas large offre une résistance à l'arrachement exceptionnelle lors des rafales de tornades.";
+            $pills = ["ACIER ÉLECTRO-ZINGUÉ CLASSE 4.8", "FILETAGE BOIS LARGE", "TÊTE HEXAGONALE 10 MM", "RÉSISTANCE ARRACHEMENT MAX", "PAQUET DE 72 PIÈCES"];
             $points_forts = [
-                ['icon' => 'anchor', 'title' => 'Ancrage Puissant dans le Bois', 'desc' => 'Filet agressif assurant une prise inaltérable au cœur de la panne de charpente en bois.'],
-                ['icon' => 'shield', 'title' => 'Protection Électro-Zinguée', 'desc' => 'Revêtement protecteur contre l\'humidité et la pourriture acide du bois humide.'],
-                ['icon' => 'hardware', 'title' => 'Tête Hexagonale Forgée', 'desc' => 'Permet un serrage ferme et puissant à la clé à pipe sans déformer l\'empreinte métallique.'],
-                ['icon' => 'inventory_2', 'title' => 'Conditionnement Pro de 72 pcs', 'desc' => 'Paquet scellé pratique calibré pour approvisionner facilement les équipes de couvreurs sur chantier.']
+                ['icon' => 'carpenter', 'title' => 'Ancrage Puissant dans le Bois', 'desc' => 'Filet agressif garantissant une prise indéboulonnable dans toutes les essences de bois.'],
+                ['icon' => 'shield', 'title' => 'Revêtement Zingué Anti-Rouille', 'desc' => 'Protection éprouvée contre la corrosion et les tanins corrosifs du bois d\'œuvre.'],
+                ['icon' => 'inventory_2', 'title' => 'Conditionnement Chantier 72 pcs', 'desc' => 'Boîtes étanches de 72 pièces pratiques pour la gestion des approvisionnements.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Tirefond 6X60 (x72)', 'Tirefond 6X80 (x72)'],
+                'headers' => ['Spécification', "Tirefond $dim_text TPM SA", 'Norme'],
                 'rows' => [
-                    ['label' => 'Matériau', 'bac' => 'Acier Forgé Zingué au Pas Métrique', 'ondu' => 'Acier Forgé Zingué au Pas Métrique'],
-                    ['label' => 'Diamètre nominal', 'bac' => 'Ø 6,0 mm', 'ondu' => 'Ø 6,0 mm'],
-                    ['label' => 'Longueur sous tête', 'bac' => '60 mm (toitures courantes)', 'ondu' => '80 mm (fortes nervures / pannes épaisses)'],
-                    ['label' => 'Tête', 'bac' => 'Hexagonale 10 mm', 'ondu' => 'Hexagonale 10 mm'],
-                    ['label' => 'Conditionnement', 'bac' => 'Boîte / Paquet scellé de 72 pièces', 'ondu' => 'Boîte / Paquet scellé de 72 pièces'],
-                    ['label' => 'Accessoire indispensable', 'bac' => 'Associer cavalier alu + rondelle feutre', 'ondu' => 'Associer cavalier alu + rondelle feutre']
+                    ['label' => 'Diamètre de tige', 'bac' => 'Ø 6,0 mm', 'ondu' => 'DIN 571'],
+                    ['label' => 'Longueur sous tête', 'bac' => ($is_80 ? '80 mm' : '60 mm'), 'ondu' => '± 1 mm'],
+                    ['label' => 'Longueur filetage bois', 'bac' => ($is_80 ? '55 mm' : '42 mm'), 'ondu' => 'Pas large'],
+                    ['label' => 'Tête', 'bac' => 'Hexagonale 10 mm (Clé de 10)', 'ondu' => 'Forgée'],
+                    ['label' => 'Matière', 'bac' => 'Acier au carbone électro-zingué', 'ondu' => 'Classe 4.8']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Pré-perçage bois', 'text' => 'Un avant-trou de 3,5 mm est conseillé dans les bois très durs pour éviter de fendre la panne.'],
-                ['label' => 'Association de pièces', 'text' => 'Enfiler d\'abord la rondelle ou le cavalier sur le tirefond avant l\'insertion dans l\'onde de tôle.'],
-                ['label' => 'Serrage manuel', 'text' => 'Serrer à la clé sans à-coup pour écraser fermement la rondelle d\'étanchéité bitumée.'],
-                ['label' => 'Vérification', 'text' => 'S\'assurer de la compression uniforme sans jeu sous la tête de fixation.']
+                ['label' => 'Pré-perçage', 'text' => 'Effectuer un avant-trou de Ø 4 mm dans les bois durs pour éviter l\'éclatement de la panne.'],
+                ['label' => 'Montage', 'text' => 'Associer impérativement un cavalier alu et une rondelle feutre bitumée avant vissage.']
+            ];
+        } elseif ( preg_match( '/cavalier/iu', $title ) ) {
+            $is_prelaque = preg_match( '/pr[eé]laqu/iu', $title );
+            $diagram_type = $is_prelaque ? 'fix_cavalier_prelaque' : 'fix_cavalier_nature';
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : CAVALIER D'ÉTANCHÉITÉ ALU " . ($is_prelaque ? 'PRÉLAQUÉ' : 'NATURE');
+            $category = 'Cavaliers de Répartition & Étanchéité en Aluminium';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Serrage Réparti sur Sommet d'Onde";
+            $commercial_desc = "Embouti dans un aluminium épais de premier choix aux usines TPM SA, le cavalier épouse rigoureusement le profil trapézoïdal ou ondulé de la tôle pour répartir la pression de serrage sans écraser la nervure et garantir une étanchéité pérenne.";
+            $pills = ["ALUMINIUM ÉPAIS HAUTE RÉSISTANCE", "FORME TRAPÉZOÏDALE PARFAITE", "TROU DE PASSAGE Ø 6,5 MM", "FINITION NATURE OU LAQUÉE", "RÉPARTITION DE PRESSION"];
+            $points_forts = [
+                ['icon' => 'dashboard_customize', 'title' => 'Profilage Épousant l\'Onde', 'desc' => 'Évite la déformation ou l\'enfoncement de la nervure haute de la tôle sous le serrage.'],
+                ['icon' => 'shield', 'title' => 'Inoxydable & Durable', 'desc' => 'Ne crée aucun couple galvanique avec la tôle aluminium de couverture.'],
+                ['icon' => 'palette', 'title' => 'Disponible en Teintes RAL', 'desc' => 'Finition laquée au four identique aux tôles pour une toiture harmonieuse.']
+            ];
+            $specs_table = [
+                'headers' => ['Paramètre', 'Cavalier Alu TPM SA', 'Norme'],
+                'rows' => [
+                    ['label' => 'Matériau', 'bac' => 'Aluminium 1ère fusion embouti ' . ($is_prelaque ? 'Prélaqué' : 'Naturel'), 'ondu' => 'Qualité usine'],
+                    ['label' => 'Épaisseur métal', 'bac' => '1,0 mm à 1,2 mm massif', 'ondu' => 'Indéformable'],
+                    ['label' => 'Perçage central', 'bac' => 'Ø 6,5 mm calibré pour vis/tirefond de 6 mm', 'ondu' => 'Centré'],
+                    ['label' => 'Largeur d\'appui', 'bac' => '35 mm à 42 mm selon modèle', 'ondu' => 'Assise stable']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Positionnement', 'text' => 'Placer le cavalier au sommet de chaque nervure fixée au-dessus de la rondelle bitumée.'],
+                ['label' => 'Serrage', 'text' => 'Serrer modérément sans déformer les ailes latérales du cavalier.']
             ];
         } elseif ( preg_match( '/toiturole/iu', $title ) ) {
-            $header_title    = "MEMBRANE BITUMINEUSE D'ÉTANCHÉITÉ TOITUROLE 900G (ROULEAU 10M)";
-            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Chéneaux, Solins & Toitures-Terrasses";
-            $commercial_desc = "La Toiturole 900G est une membrane d'étanchéité bitumineuse lourde prête à l'emploi conçue pour assurer l'imperméabilité absolue des toitures, sous-toitures, chéneaux en béton, noues et solins muraux. Armée d'une matrice composite indéchirable imprégnée de bitume élastomère pur, elle résiste aux fortes chaleurs sans craqueler.";
-            $pills = ["ÉTANCHÉITÉ BITUMINEUSE 900G", "ARMATURE INDÉCHIRABLE", "ROULEAU CONTINU 10 M", "RÉSISTANCE AUX UV SOLAIRES", "APPLICATION MULTI-SURFACES"];
+            $diagram_type = 'fix_toiturole';
+            $diagram_title = "SCHÉMA EN COUPE & STRUCTURE MULTICOUCHE : TOITUROLE ÉTANCHÉITÉ 900G";
+            $category = 'Membranes Bitumineuses d\'Étanchéité Toiturole 900G';
+            $header_title = "TOITUROLE ÉTANCHÉITÉ 900G (ROULEAU 10M)";
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Étanchéité de Toitures-Terrasses & Noues";
+            $commercial_desc = "Membrane élastomère SBS haute résistance renforcée d'une armature non-tissée de 900 g/m², Toiturole assure une barrière imperméable absolue pour l'étanchéité des toitures plates, terrasses maçonnées, sous-toitures et habillages de noues encaissées face aux pluies torrentielles.";
+            $pills = ["ARMATURE RENFORCÉE 900 G/M²", "BITUME ÉLASTOMÈRE SBS SOUPLE", "ROULEAU 10 MÈTRES X 1 MÈTRE", "IMPERMÉABILITÉ TOTALE", "APPLICATION CHAUD OU FROID"];
             $points_forts = [
-                ['icon' => 'water_drop', 'title' => 'Imperméabilité Totale sous Forte Colonne d\'Eau', 'desc' => 'Bloque hermétiquement les infiltrations dans les caniveaux et chéneaux pluviaux.'],
-                ['icon' => 'shield', 'title' => 'Résistance aux Déformations Thermiques', 'desc' => 'Bitume élastomère absorbant les dilatations du béton et du métal sans fissuration.'],
-                ['icon' => 'straighten', 'title' => 'Rouleau 10m x 1m Facile à Dérouler', 'desc' => 'Mise en œuvre rapide avec un minimum de joints pour couvrir de larges surfaces.'],
-                ['icon' => 'wb_sunny', 'title' => 'Tenue Supérieure à la Chaleur (> 90°C)', 'desc' => 'Ne coule pas sous le soleil tropical et conserve sa souplesse étanche durablement.']
+                ['icon' => 'layers', 'title' => 'Armature Non-Tissée 900 g/m²', 'desc' => 'Résistance exceptionnelle aux contraintes de dilatation thermique et de poinçonnement.'],
+                ['icon' => 'water_drop', 'title' => 'Imperméabilité Totale Certifiée', 'desc' => 'Bloque 100% des infiltrations d\'eau stagnante sur dalles et toitures terrasses.'],
+                ['icon' => 'wb_sunny', 'title' => 'Élasticité Haute Température', 'desc' => 'Formulation bitumineuse SBS ne devenant pas cassante sous le climat tropical.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Spécification Toiturole 900G', 'Norme BTP'],
+                'headers' => ['Caractéristique', 'Toiturole 900G TPM SA', 'Norme'],
                 'rows' => [
-                    ['label' => 'Matière active', 'bac' => 'Bitume élastomère pur avec charges minérales', 'ondu' => 'Hydrofuge certifié'],
-                    ['label' => 'Masse surfacique', 'bac' => '900 g/m² d\'armature lourde', 'ondu' => 'Haute étanchéité'],
-                    ['label' => 'Dimensions rouleau', 'bac' => 'Longueur : 10 m | Largeur : 1 m (Surface : 10 m²)', 'ondu' => 'Format standard'],
-                    ['label' => 'Mise en œuvre', 'bac' => 'À froid (colle bitumineuse) ou au chalumeau', 'ondu' => 'Polyvalent'],
-                    ['label' => 'Recouvrement des lés', 'bac' => '10 cm minimum sur les rives longitudinales', 'ondu' => 'Règle DTU']
+                    ['label' => 'Masse surfacique', 'bac' => '900 g/m² d\'armature haute densité', 'ondu' => 'Conforme BTP'],
+                    ['label' => 'Dimensions rouleau', 'bac' => '10,00 m de longueur x 1,00 m de largeur', 'ondu' => '10 m² utiles'],
+                    ['label' => 'Épaisseur', 'bac' => '2,5 mm à 3,0 mm', 'ondu' => 'Tolérance ± 0,2 mm'],
+                    ['label' => 'Liant bitumineux', 'bac' => 'Bitume SBS modifié aux polymères', 'ondu' => 'Élastomère']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Préparation support', 'text' => 'Nettoyer, brosser et sécher parfaitement le support avant la pose (appliquer un primaire si nécessaire).'],
-                ['label' => 'Déroulage & marouflage', 'text' => 'Dérouler la membrane en marouflant du centre vers les bords pour chasser les bulles d\'air.'],
-                ['label' => 'Jonctions étanches', 'text' => 'Assurer un recouvrement d\'au moins 10 cm entre bandes avec collage minutieux des lisières.']
+                ['label' => 'Préparation support', 'text' => 'Nettoyer et sécher le support maçonné ou bois. Appliquer un primaire d\'imprégnation à froid.'],
+                ['label' => 'Recouvrement', 'text' => 'Prévoir un recouvrement longitudinal de 8 à 10 cm entre lés consécutifs et souder les joints.']
+            ];
+        } elseif ( preg_match( '/tige.*filet/iu', $title ) ) {
+            $diagram_type = 'fix_tige_6x300';
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : TIGE FILETÉE ZINGUÉE M6X300 AVEC ÉCROUS";
+            $category = 'Tiges Filetées Métriques en Acier Zingué';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Traversée de Charpente & Tirants";
+            $commercial_desc = "Tige filetée en acier haute résistance zingué au pas métrique ISO M6 x 300 mm, idéale pour les traversées de charpentes épaisses, la fixation de suspentes et l'ancrage sécurisé des éléments de toiture.";
+            $pills = ["FILETAGE MÉTRIQUE M6", "LONGUEUR 300 MM", "ACIER ZINGUÉ ANTICORROSION", "MONTAGE TRAVERSANT", "RÉSISTANCE MÉCANIQUE"];
+            $points_forts = [
+                ['icon' => 'straighten', 'title' => 'Longueur 300 mm Confortable', 'desc' => 'Traverse les madriers de charpente et empilages de poutres sans limitation.'],
+                ['icon' => 'shield', 'title' => 'Zingage Anti-Corrosion', 'desc' => 'Protège le filetage contre l\'oxydation pour un démontage ou resserrage facile.'],
+                ['icon' => 'build', 'title' => 'Découpe Facile sur Chantier', 'desc' => 'Peut être recoupée à la longueur exacte requise à la scie à métaux.']
+            ];
+            $specs_table = [
+                'headers' => ['Spécification', 'Tige Filetée 6x300 TPM SA', 'Norme'],
+                'rows' => [
+                    ['label' => 'Filetage nominal', 'bac' => 'ISO Métrique M6 (Pas 1,0 mm)', 'ondu' => 'DIN 975'],
+                    ['label' => 'Longueur totale', 'bac' => '300 mm', 'ondu' => '± 1,5 mm'],
+                    ['label' => 'Nuance acier', 'bac' => 'Acier électro-zingué classe 4.8', 'ondu' => 'Haute ténacité']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Montage', 'text' => 'Percer le bois à Ø 6,5 mm, insérer la tige avec rondelles larges d\'appui sous les écrous de part et d\'autre.']
             ];
         } else {
-            // Cavaliers, rondelles feutres, tiges filetées
-            $header_title    = strtoupper($title) . " POUR ÉTANCHÉITÉ DE TOITURE";
-            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Accessoires de Fixation & Répartition de Pression";
-            $commercial_desc = "Éléments indispensables de la fixation professionnelle de toiture, ces accessoires certifiés TPM SA assurent la répartition idéale de la pression de serrage, amortissent les micro-vibrations dues au vent et créent une barrière étanche hermétique autour du trou de perçage.";
-            $pills = ["RÉPARTITION DE CHARGE", "ABSORPTION ACOUSTIQUE", "ÉTANCHÉITÉ SOUS TÊTE", "ALUMINIUM OU FEUTRE BITUMÉ", "CONDITIONNEMENT PRO"];
+            // Plaquettes et rondelles feutres
+            $is_plaquette = preg_match( '/plaquette/iu', $title );
+            $diagram_type = $is_plaquette ? 'fix_plaquette_feutre' : 'fix_rondelle_feutre';
+            $diagram_title = "DESSIN TECHNIQUE COTÉ : " . ($is_plaquette ? 'PLAQUETTES FEUTRES BITUMÉES (BOÎTE 100 PCS)' : 'RONDELLES FEUTRES BITUMÉES (BOÎTE 100 PCS)');
+            $category = 'Rondelles & Plaquettes Feutres Bitumées d\'Étanchéité';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Joint Étanche Sous Cavalier";
+            $commercial_desc = "Fabriquées à partir de feutre dense imprégné de bitume hydrofuge, ces rondelles et plaquettes s'intercalent sous les têtes de fixations ou cavaliers pour créer un joint souple et indéformable qui colmate immédiatement le trou de perçage.";
+            $pills = ["FEUTRE IMPRÉGNÉ BITUME", "COLMATAGE IMMÉDIAT DU PERÇAGE", "BOÎTE DE 100 PIÈCES", "INDÉFORMABLE AUX UV", "ÉTANCHÉITÉ ÉPROUVÉE"];
             $points_forts = [
-                ['icon' => 'verified', 'title' => 'Répartition Optimale du Serrage', 'desc' => 'Évite l\'écrasement ou la déformation des nervures de tôle lors du vissage énergique.'],
-                ['icon' => 'water_drop', 'title' => 'Étanchéité Auto-Obturante', 'desc' => 'Le matériau flue légèrement sous compression pour sceller le perçage à 100%.'],
-                ['icon' => 'shield', 'title' => 'Inoxydable & Compatible Aluminium', 'desc' => 'Élimine tout risque de corrosion galvanique entre la tôle et la vis.'],
-                ['icon' => 'air', 'title' => 'Renfort Anti-Arrachement', 'desc' => 'Augmente la surface d\'appui de la fixation face aux fortes dépressions cycloniques.']
+                ['icon' => 'water_drop', 'title' => 'Joint Bitumineux Auto-Colmatant', 'desc' => 'Le bitume flue légèrement sous la pression pour boucher hermétiquement l\'orifice.'],
+                ['icon' => 'shield', 'title' => 'Protection Anti-Choc Métal/Métal', 'desc' => 'Évite le contact direct agressif entre la rondelle métallique et la tôle alu.']
             ];
             $specs_table = [
-                'headers' => ['Paramètre Technique', 'Spécification Usine TPM SA', 'Tolérance'],
+                'headers' => ['Paramètre', 'Spécification TPM SA', 'Norme'],
                 'rows' => [
-                    ['label' => 'Matériau', 'bac' => $material, 'ondu' => 'Norme Camerounaise (NC)'],
-                    ['label' => 'Dimensions', 'bac' => $profil, 'ondu' => 'Ajustement précis à l\'onde'],
-                    ['label' => 'Épaisseur', 'bac' => $epaisseur, 'ondu' => 'Contrôle calibré'],
-                    ['label' => 'Conditionnement', 'bac' => $longueurs, 'ondu' => 'Boîtes étanches distributrices']
+                    ['label' => 'Matière', 'bac' => 'Feutre haute densité imprégné de bitume élastomère', 'ondu' => 'Hydrofuge'],
+                    ['label' => 'Dimensions', 'bac' => ($is_plaquette ? 'Plaquette rectangulaire 25 x 35 mm' : 'Rondelle circulaire Ø 25 mm'), 'ondu' => 'Trou Ø 6,5 mm'],
+                    ['label' => 'Conditionnement', 'bac' => 'Boîte scellée de 100 unités', 'ondu' => 'Prêt à poser']
                 ]
             ];
             $guide_pose = [
-                ['label' => 'Pose', 'text' => 'Positionner le cavalier au sommet de nervure avant d\'insérer la fixation traversante.'],
-                ['label' => 'Serrage', 'text' => 'Serrer jusqu\'à calage parfait sans forcer pour préserver l\'élasticité du joint.']
+                ['label' => 'Pose', 'text' => 'Placer systématiquement sous le cavalier alu avant d\'enfiler le tirefond ou la vis.']
             ];
         }
+    }
 
     // =========================================================================
-    // 4. ACCESSOIRES INTÉRIEURS : CARRELAGE & REVÊTEMENTS (TILES)
+    // 4. CARREAUX SOLS & MURS (TILES)
     // =========================================================================
-    } elseif ( preg_match( '/carreau|carrelage/iu', $title ) ) {
+    elseif ( $cat_slug === 'carreaux-et-sols' || preg_match( '/carreau|faience|sol|mur/iu', $title ) ) {
         $product_family = 'carrelage';
-        $pole = 'Pôle 4 : Carrelages, Sanitaires & Matériaux Intérieurs';
+        $pole = 'Pôle 3 : Carrelage Cérame Haute Densité & Faïences Décoratives';
 
-        $is_sol = preg_match( '/sol/iu', $title );
-        $is_murs = preg_match( '/mur/iu', $title );
-        $header_title    = strtoupper($title) . " HAUTE RÉSISTANCE";
-        $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Revêtement " . ($is_sol ? "de Sols Intérieurs & Extérieurs" : "Mural Décoratif & Pièces d'Eau");
-        $commercial_desc = "Sélectionné rigoureusement par TPM SA auprès des meilleures usines certifiées (Italie, Espagne, usines partenaires contrôlées), ce carrelage en grès cérame vitrifié de premier choix allie une esthétique raffinée à une résistance mécanique extrême. Sa très faible porosité (absorption d'eau < 0,1%) et son émail haute dureté le rendent insensible à l'humidité équatoriale, aux taches et au trafic intense.";
-        $pills = [
-            "GRÈS CÉRAME 1ER CHOIX",
-            $is_sol ? "TRAFIC INTENSE (PEI IV/V)" : "FAÏENCE MURALE HAUT DE GAMME",
-            "POROSITÉ QUASI-NULLE < 0,1%",
-            "RÉSISTANCE AUX RAYURES & TACHES",
-            "CONDITIONNEMENT AU CARTON SCELLÉ"
-        ];
-        $points_forts = [
-            ['icon' => 'grid_view', 'title' => 'Esthétique Minérale de Prestige', 'desc' => 'Finitions rectifiées, nuances élégantes et brillance durable valorisant salons, terrasses et salles de bains.'],
-            ['icon' => 'water_drop', 'title' => 'Absorption d\'Eau Négligeable (E < 0.1%)', 'desc' => 'Totalement imperméable : ne moisit jamais, n\'absorbe aucune graisse et ne s\'altère pas avec le temps.'],
-            ['icon' => 'shield', 'title' => 'Résistance Élevée au Poinçonnement', 'desc' => 'Supporte les passages intensifs, chutes d\'objets et frottements de meubles sans aucune fissure.'],
-            ['icon' => 'cleaning_services', 'title' => 'Entretien Simple & Hygiène Parfaite', 'desc' => 'Surface émaillée vitrifiée nettoyable en un passage, inerte aux détergents et désinfectants courants.']
-        ];
-        $specs_table = [
-            'headers' => ['Paramètre Technique', 'Spécification Carrelage TPM SA', 'Norme ISO 13006'],
-            'rows' => [
-                ['label' => 'Classification', 'bac' => 'Grès Cérame Émaillé Groupe BIa', 'ondu' => 'Conforme ISO 13006'],
-                ['label' => 'Absorption d\'eau', 'bac' => 'E ≤ 0,08% (porosité ultra-faible)', 'ondu' => 'Norme : E ≤ 0,5%'],
-                ['label' => 'Résistance à l\'abrasion', 'bac' => $is_sol ? 'Classe PEI IV à PEI V (trafic lourd)' : 'Classe PEI II/III mural', 'ondu' => 'Haute durabilité'],
-                ['label' => 'Résistance à la flexion', 'bac' => '≥ 35 N/mm² (charge de rupture > 1500 N)', 'ondu' => 'Très haute résistance'],
-                ['label' => 'Résistance aux taches', 'bac' => 'Classe 5 (facilement lavable à l\'eau)', 'ondu' => 'Inaltérable'],
-                ['label' => 'Conditionnement', 'bac' => 'Cartons scellés avec calage protecteur', 'ondu' => 'Vente au m² / carton']
-            ]
-        ];
-        $guide_pose = [
-            ['label' => 'Support', 'text' => 'La chape ou le mur doit être parfaitement sec, propre, plan et dépoussiéré avant l\'encollage.'],
-            ['label' => 'Mortier-colle', 'text' => 'Utiliser un mortier-colle de classe C2TE avec double encollage pour les carreaux de grand format (≥ 40x40 cm).'],
-            ['label' => 'Jointoiement', 'text' => 'Respecter un joint d\'au moins 2 mm entre carreaux avec un mortier de jointoiement hydrofuge de qualité.'],
-            ['label' => 'Nettoyage de fin de chantier', 'text' => 'Nettoyer les résidus de ciment immédiatement à l\'éponge humide avant prise définitive.']
-        ];
+        if ( preg_match( '/mur|25x40|25&#215;40/iu', $title ) ) {
+            $diagram_type = 'carrelage_mur_25x40';
+            $diagram_title = "PLAN COTÉ DU CARREAU & CALEPINAGE MURAL : FAÏENCE 25X40 CM";
+            $category = 'Faïences Murales Émaillées Décoratives 25x40 cm';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Revêtement Mural Cuisines & Salles de Bain";
+            $commercial_desc = "Faïence murale céramique 1er choix format 25x40 cm avec émail vitrifié brillant ou satiné haute brillance. Conçue pour sublimer les murs de salles de bain, douches et crédences de cuisine tout en offrant une facilité d'entretien absolue et une imperméabilité totale aux projections d'eau.";
+            $pills = ["FORMAT MURAL 25X40 CM", "ÉMAIL VITRIFIÉ BRILLANT", "PREMIER CHOIX SANS DÉFAUT", "FACILITÉ D'ENTRETIEN", "CARTOUCHE 1.5 M²"];
+            $points_forts = [
+                ['icon' => 'sparkles', 'title' => 'Émail Vitrifié Haute Brillance', 'desc' => 'Surface lisse antitaches empêchant l\'adhérence du calcaire et des graisses.'],
+                ['icon' => 'water_drop', 'title' => 'Imperméabilité Murale Totale', 'desc' => 'Protège efficacement les cloisons contre les infiltrations d\'eau de douche.'],
+                ['icon' => 'cleaning_services', 'title' => 'Nettoyage Instantané', 'desc' => 'Se nettoie d\'un simple coup d\'éponge sans altération des motifs décoratifs.']
+            ];
+            $specs_table = [
+                'headers' => ['Spécification', 'Faïence Murale 25x40 TPM SA', 'Norme ISO 13006'],
+                'rows' => [
+                    ['label' => 'Format nominal', 'bac' => '250 mm x 400 mm', 'ondu' => 'Tolérance ± 0,5%'],
+                    ['label' => 'Épaisseur', 'bac' => '7,0 mm', 'ondu' => 'Groupe BIII'],
+                    ['label' => 'Finition surface', 'bac' => 'Émaillée brillante avec décors haute définition', 'ondu' => 'Résistance rayures'],
+                    ['label' => 'Absorption d\'eau', 'bac' => 'E > 10% (Pâte blanche poreuse murale)', 'ondu' => 'Adhérence colle max'],
+                    ['label' => 'Conditionnement', 'bac' => 'Carton de 15 pièces (1,50 m²)', 'ondu' => 'Poids ~18 kg']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Colle', 'text' => 'Utiliser un mortier-colle blanc C1TE pour carrelage mural.'],
+                ['label' => 'Jointoiement', 'text' => 'Joints réguliers de 2 mm avec croisillons et mortier à joint hydrofuge.']
+            ];
+        } elseif ( preg_match( '/15x80|15&#215;80/iu', $title ) ) {
+            $diagram_type = 'carrelage_parquet_15x80';
+            $diagram_title = "PLAN COTÉ DU CARREAU & CALEPINAGE PARQUET : LAME BOIS 15X80 CM";
+            $category = 'Grès Cérame Effet Parquet Bois Naturel 15x80 cm';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Sol Effet Bois Chaleureux & Inaltérable";
+            $commercial_desc = "Grès cérame émaillé format lame de parquet 15x80 cm reproduisant fidèlement le veinage, la texture et la chaleur du bois naturel noble (Merisier, Chêne, Noyer) sans les contraintes d'usure, de rayure ni de sensibilité à l'eau du parquet traditionnel.";
+            $pills = ["FORMAT LAME 15X80 CM", "EFFET BOIS VEINÉ ULTRA-RÉALISTE", "GRÈS CÉRAME INDÉFORMABLE", "CLASSE R10 ANTIDÉRAPANT", "CARTOUCHE 1.2 M²"];
+            $points_forts = [
+                ['icon' => 'forest', 'title' => 'Chaleur du Bois / Force du Cérame', 'desc' => 'Esthétique parquet bois sans aucun risque de gonflement à l\'eau ni attaque de termites.'],
+                ['icon' => 'footprint', 'title' => 'Surface Antidérapante R10', 'desc' => 'Adhérence sécurisée idéale pour séjours, chambres, terrasses et salles d\'eau.'],
+                ['icon' => 'shield', 'title' => 'Résistance au Trafic Intense', 'desc' => 'Résiste aux talons aiguilles, griffes d\'animaux et déplacements de meubles lourds.']
+            ];
+            $specs_table = [
+                'headers' => ['Paramètre', 'Lame Parquet Cérame 15x80', 'Norme'],
+                'rows' => [
+                    ['label' => 'Format', 'bac' => '150 mm x 800 mm', 'ondu' => 'Rectifié'],
+                    ['label' => 'Épaisseur', 'bac' => '9,0 mm', 'ondu' => 'Groupe BIa'],
+                    ['label' => 'Absorption d\'eau', 'bac' => 'E ≤ 0,5% (Grès cérame vitrifié)', 'ondu' => 'Imperméable'],
+                    ['label' => 'Résistance à la flexion', 'bac' => '≥ 35 N/mm²', 'ondu' => 'Très haute charge']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Calepinage conseillé', 'text' => 'Pose décalée au tiers (1/3 maximum) ou en chevrons pour un rendu parquet authentique.'],
+                ['label' => 'Joint', 'text' => 'Joint fin de 2 mm de teinte coordonnée à la nuance de bois.']
+            ];
+        } elseif ( preg_match( '/60x120|60&#215;120/iu', $title ) ) {
+            $diagram_type = 'carrelage_xxl_60x120';
+            $diagram_title = "PLAN COTÉ DU CARREAU & COUPE RECTIFIÉE : GRAND FORMAT XXL 60X120 CM";
+            $category = 'Grès Cérame Grand Format XXL Rectifié 60x120 cm';
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Sols & Murs de Prestige Grand Format";
+            $commercial_desc = "Dalles géantes en grès cérame pleine masse 60x120 cm bords rectifiés effet Marbre Breccia et Calacatta. Réduit drastiquement le nombre de joints pour créer une impression d'espace spectaculaire et une continuité visuelle prestigieuse dans les halls et salons d'exception.";
+            $pills = ["GRAND FORMAT XXL 60X120 CM", "BORDS RECTIFIÉS 90°", "EFFET MARBRE CONTINU", "GRÈS PLEINE MASSE", "PRESTIGE ARCHITECTURAL"];
+            $points_forts = [
+                ['icon' => 'fullscreen', 'title' => 'Effet Grand Espace Sans Raccord', 'desc' => 'Dalles de 1,20 m réduisant de 50% les lignes de joints pour une pureté architecturale totale.'],
+                ['icon' => 'diamond', 'title' => 'Bords Rectifiés au Laser', 'desc' => 'Permet la réalisation de micro-joints fins de 1,5 à 2 mm quasi invisibles.'],
+                ['icon' => 'shield', 'title' => 'Résistance Extrême à l\'Abrasion', 'desc' => 'Conçu pour les halls d\'hôtels, concessions automobiles et villas de grand standing.']
+            ];
+            $specs_table = [
+                'headers' => ['Spécification', 'Grès Cérame XXL 60x120', 'Norme ISO 13006'],
+                'rows' => [
+                    ['label' => 'Dimensions réelles', 'bac' => '600 mm x 1200 mm rectifié laser', 'ondu' => 'Tolérance ± 0,1%'],
+                    ['label' => 'Épaisseur', 'bac' => '10,5 mm haute densité', 'ondu' => 'Indéformable'],
+                    ['label' => 'Absorption d\'eau', 'bac' => 'E ≤ 0,1% (Porcelanato vitrifié)', 'ondu' => 'Zéro tache'],
+                    ['label' => 'Conditionnement', 'bac' => 'Carton de 2 pièces (1,44 m²)', 'ondu' => 'Poids ~34 kg']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Double encollage', 'text' => 'Double encollage obligatoire (support + dos du carreau) avec mortier-colle déformable C2TE S1.'],
+                ['label' => 'Nivellement', 'text' => 'Utiliser impérativement des croisillons autonivelants à vis ou cales pour une planéité parfaite.']
+            ];
+        } else {
+            // Carreaux sols 60x60, 40x40, 30x30
+            $is_60 = preg_match( '/60x60|60&#215;60|32x60|30x60/iu', $title );
+            $is_40 = preg_match( '/40x40|40&#215;40/iu', $title );
+            $dim_str = $is_60 ? '60x60 cm' : ($is_40 ? '40x40 cm' : '30x30 cm');
+            $diagram_type = $is_60 ? 'carrelage_sol_60x60' : ($is_40 ? 'carrelage_sol_40x40' : 'carrelage_sol_30x30');
+            $diagram_title = "PLAN COTÉ DU CARREAU & CALEPINAGE DE SOL : FORMAT $dim_str";
+            $category = "Grès Cérame Sol Intérieur & Extérieur $dim_str";
+            $header_title = strtoupper($title);
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Revêtement de Sol Haute Fréquentation";
+            $commercial_desc = "Grès cérame émaillé premier choix format $dim_str offrant une résistance exemplaire au passage, aux chocs et aux taches pour tous les espaces de vie intérieurs, bureaux et terrasses couvertes.";
+            $pills = ["FORMAT UNIVERSEL $dim_str", "GRÈS CÉRAME PREMIER CHOIX", "RÉSISTANCE RAYURES & CHOCS", "FACILE À NETTOYER", "QUALITÉ CONTRÔLÉE"];
+            $points_forts = [
+                ['icon' => 'grid_view', 'title' => 'Polyvalence & Esthétique', 'desc' => 'S\'adapte harmonieusement à toutes les pièces de la maison et locaux commerciaux.'],
+                ['icon' => 'shield', 'title' => 'Résistance PEI IV / V', 'desc' => 'Émail robuste résistant à l\'abrasion continue sans ternir au fil des années.']
+            ];
+            $specs_table = [
+                'headers' => ['Paramètre', "Carreau Sol $dim_str TPM SA", 'Norme'],
+                'rows' => [
+                    ['label' => 'Format', 'bac' => $dim_str, 'ondu' => 'Tolérance ± 0,3%'],
+                    ['label' => 'Épaisseur', 'bac' => ($is_60 ? '9,5 mm' : ($is_40 ? '8,0 mm' : '7,5 mm')), 'ondu' => 'Groupe BIa'],
+                    ['label' => 'Absorption', 'bac' => 'E ≤ 0,5% (Résistance taches classe 5)', 'ondu' => 'Imperméable']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Pose', 'text' => 'Poser sur chape sèche et dépoussiérée avec mortier-colle C2.'],
+                ['label' => 'Joints', 'text' => 'Prévoir des joints de 2 à 3 mm avec croisillons calibrés.']
+            ];
+        }
+    }
 
     // =========================================================================
-    // 5. ACCESSOIRES INTÉRIEURS : DOUCHES THÉRAPEUTIQUES & ÉPONGES
+    // 5. DOUCHES THÉRAPEUTIQUES
     // =========================================================================
-    } elseif ( preg_match( '/douche/iu', $title ) ) {
+    elseif ( $cat_slug === 'douches-therapeutiques' || preg_match( '/douche/iu', $title ) ) {
         $product_family = 'douche';
-        $pole = 'Pôle 4 : Sanitaires & Confort Domestique';
+        $pole = 'Pôle 4 : Sanitaires & Douches Thérapeutiques Électroniques';
 
-        $header_title    = strtoupper($title) . " HAUT DE GAMME";
-        $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Sanitaires Électriques & Confort Hydrothérapique";
-        $commercial_desc = "Appareil sanitaire d'ingénierie brésilienne de renommée internationale, la douche thérapeutique TPM SA offre un débit d'eau chaude régulé et apaisant instantané. Dotée d'un sélecteur multi-températures sécurisé et d'un diffuseur d'eau grand format, elle allie confort balnéo et sécurité électrique absolue conforme aux normes CE.";
-        $pills = ["CHAUFFE INSTANTANÉE DIRECTE", "SÉLECTEUR MULTI-TEMPÉRATURES", "SÉCURITÉ ÉLECTRIQUE CONFORME CE", "DIFFUSEUR GRAND FORMAT", "ÉCONOMIE D'ÉNERGIE & D'EAU"];
-        $points_forts = [
-            ['icon' => 'shower', 'title' => 'Eau Chaude Immédiate sans Ballon', 'desc' => 'Chauffe l\'eau instantanément au passage sans gaspillage d\'énergie en veille.'],
-            ['icon' => 'thermostat', 'title' => 'Régulation Précise de la Chaleur', 'desc' => 'Bouton de sélection multizone pour ajuster la température au degré souhaité.'],
-            ['icon' => 'electric_bolt', 'title' => 'Système de Sécurité & Mise à la Terre', 'desc' => 'Résistance blindée et raccordement terre obligatoire prévenant tout risque électrique.'],
-            ['icon' => 'water', 'title' => 'Jets Thérapeutiques Relaxants', 'desc' => 'Buses anticalcaires diffusant une pluie bienfaisante favorisant la détente musculaire.']
-        ];
-        $specs_table = [
-            'headers' => ['Paramètre Technique', 'Spécification Sanitaire TPM SA', 'Norme'],
-            'rows' => [
-                ['label' => 'Tension nominale', 'bac' => '220 V / 240 V ~ 50/60 Hz', 'ondu' => 'Réseau Cameroun Eneo'],
-                ['label' => 'Puissance réglable', 'bac' => '4400 W à 7500 W selon modèle', 'ondu' => 'Chauffe rapide'],
-                ['label' => 'Pression d\'eau de service', 'bac' => '10 à 400 kPa (0,1 à 4 bar)', 'ondu' => 'Compatible gravité et surpresseur'],
-                ['label' => 'Raccordement hydraulique', 'bac' => 'Filetage standard 1/2" mâle', 'ondu' => 'Standard plomberie'],
-                ['label' => 'Disjoncteur recommandé', 'bac' => 'Disjoncteur différentiel 32 A / 40 A', 'ondu' => 'Câble 4 mm² à 6 mm²']
-            ]
-        ];
-        $guide_pose = [
-            ['label' => 'Alimentation électrique', 'text' => 'Tirer une ligne électrique dédiée directe depuis le tableau avec disjoncteur différentiel 30 mA et mise à la terre.'],
-            ['label' => 'Raccordement d\'eau', 'text' => 'Faire couler l\'eau à travers l\'appareil éteint pendant 1 minute avant de brancher le courant (mise en eau indispensable).'],
-            ['label' => 'Fixation', 'text' => 'Visser le bras de douche avec ruban téflon sur l\'arrivée d\'eau sans forcer sur le boîtier.']
-        ];
-    } elseif ( preg_match( '/[eé]ponge/iu', $title ) ) {
+        if ( preg_match( '/lorenzetti|blind/iu', $title ) ) {
+            $diagram_type = 'douche_lorenzetti_advanced';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ & CHAMBRE BLINDÉE : LORENZETTI ADVANCED";
+            $category = 'Douche Thérapeutique Électronique Lorenzetti Advanced Blindée';
+            $header_title = "DOUCHE THÉRAPEUTIQUE CENTRAL LORENZETTI ADVANCED BLINDÉ";
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Douche Hydrothérapique Résistance Blindée";
+            $commercial_desc = "Le sommet de la technologie brésilienne Lorenzetti : équipée d'une résistance blindée hermétique en acier inoxydable évitant tout contact direct avec l'eau, elle est spécialement recommandée pour les eaux dures ou forages au Cameroun. Son variateur électronique permet un réglage continu de la température au degré près.";
+            $pills = ["RÉSISTANCE BLINDÉE INOX", "VARIATEUR ÉLECTRONIQUE PROGRESSIF", "IDÉAL EAU DE FORAGE / CALCAIRE", "GRAND DIFFUSEUR 23 CM", "SÉCURITÉ IP24"];
+            $points_forts = [
+                ['icon' => 'shield', 'title' => 'Résistance Blindée Inaltérable', 'desc' => 'Élément chauffant blindé dans un tube inox hermétique résistant à l\'entartrage des eaux de forage.'],
+                ['icon' => 'tune', 'title' => 'Régulation Électronique au Degré Près', 'desc' => 'Tige de commande déportée permettant de faire varier la température de façon fluide et progressive.'],
+                ['icon' => 'shower', 'title' => 'Large Ciel de Pluie 23 cm', 'desc' => 'Jets d\'eau enveloppants massant le corps pour une relaxation musculaire thérapeutique totale.']
+            ];
+            $specs_table = [
+                'headers' => ['Caractéristique Technique', 'Lorenzetti Advanced Blindée', 'Norme Sécurité'],
+                'rows' => [
+                    ['label' => 'Tension / Puissance', 'bac' => '220V ~ 50/60 Hz | 6000W à 7500W', 'ondu' => 'Disjoncteur 32A/40A'],
+                    ['label' => 'Dimensions produit', 'bac' => 'Longueur 49,8 cm x Largeur 23,0 cm x H 11,0 cm', 'ondu' => 'Poids ~1,4 kg'],
+                    ['label' => 'Type d\'élément chauffant', 'bac' => 'Résistance blindée en tube Inox (Zéro contact eau)', 'ondu' => 'Durabilité x5'],
+                    ['label' => 'Pression d\'utilisation', 'bac' => '10 à 400 kPa (1 à 40 m.c.a. / 0,1 à 4 bar)', 'ondu' => 'Multi-pressions'],
+                    ['label' => 'Raccordement eau', 'bac' => 'Filetage 1/2" mâle avec canule intégrée', 'ondu' => 'Sans bras apparent'],
+                    ['label' => 'Indice de protection', 'bac' => 'IP24 (Protection projections d\'eau)', 'ondu' => 'Certifié ABNT / NC']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Raccordement électrique', 'text' => 'Câblage direct depuis le tableau électrique avec conducteurs cuivre 6 mm² et disjoncteur différentiel 30 mA dédié.'],
+                ['label' => 'Mise en eau impérative', 'text' => 'Faire couler l\'eau pendant 1 minute avant de brancher le courant électrique afin de purger l\'air de la chambre de chauffe.'],
+                ['label' => 'Mise à la terre', 'text' => 'Raccorder obligatoirement le conducteur de terre vert/jaune au piquet de terre du bâtiment.']
+            ];
+        } elseif ( preg_match( '/cardal/iu', $title ) ) {
+            $diagram_type = 'douche_cardal_central';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ & RACCORDEMENT MULTI-POINTS : CARDAL CENTRAL";
+            $category = 'Chauffe-Eau Instantané Centralisé Multi-Points Cardal';
+            $header_title = "DOUCHE THÉRAPEUTIQUE CENTRALISÉE CARDAL MULTI-POINTS";
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Alimentation Simultanée Douche & Lavabo";
+            $commercial_desc = "Système de chauffe-eau instantané centralisé compact Cardal conçu pour alimenter en eau chaude sous pression plusieurs points d'eau simultanés (douche, lavabo, bidet) sans ballon d'eau encombrant et avec déclenchement automatique au débit.";
+            $pills = ["ALIMENTATION MULTI-POINTS", "CHÂSSIS COMPACT CUBIQUE", "DÉCLENCHEMENT AUTOMATIQUE", "ÉNERGIE À LA DEMANDE", "PUISSANCE 6500W"];
+            $points_forts = [
+                ['icon' => 'hub', 'title' => 'Distribution Multi-Postes', 'desc' => 'Alimente simultanément le pommeau de douche et le mitigeur de lavabo de la salle de bain.'],
+                ['icon' => 'savings', 'title' => 'Économie d\'Énergie Zéro Perte', 'desc' => 'Chauffe l\'eau instantanément uniquement lors de l\'ouverture du robinet sans veille continue.']
+            ];
+            $specs_table = [
+                'headers' => ['Paramètre', 'Cardal Centralisé TPM SA', 'Norme'],
+                'rows' => [
+                    ['label' => 'Puissance nominale', 'bac' => '220V | 5500W - 6500W', 'ondu' => 'Disjoncteur 32A'],
+                    ['label' => 'Dimensions châssis', 'bac' => 'H 180 mm x L 150 mm x P 120 mm', 'ondu' => 'Ultra compact'],
+                    ['label' => 'Entrée / Sortie eau', 'bac' => 'Filetages 1/2" mâle avec clapets antiretour', 'ondu' => 'Standard plomberie']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Installation murale', 'text' => 'Fixer sous lavabo ou en applique murale avec flexibles blindés 1/2" haute température.']
+            ];
+        } elseif ( preg_match( '/duo.*shower/iu', $title ) ) {
+            $diagram_type = 'douche_duo_shower';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : DUO SHOWER GRAND MODÈLE (DOUBLE JET PLUIE & DIRECTIONNEL)";
+            $category = 'Douche Thérapeutique 2-en-1 Duo Shower Grand Modèle';
+            $header_title = "DOUCHE THÉRAPEUTIQUE INDIVIDUELLE DUO SHOWER GRAND MODÈLE";
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale avec Double Diffuseur Pluie & Jet Massant";
+            $commercial_desc = "Le système d'exception 2-en-1 Duo Shower réunit un ciel de pluie extra-large de 25 cm pour un arrosage doux et enveloppant, ainsi qu'un jet directionnel orientable haute pression pour le massage localisé du dos et de la nuque.";
+            $pills = ["DOUBLE JET 2-EN-1", "CIEL DE PLUIE Ø 25 CM", "JET DIRECTIONNEL ORIENTABLE", "RÉGULATEUR ÉLECTRONIQUE", "DESIGN PRESTIGE"];
+            $points_forts = [
+                ['icon' => 'shower', 'title' => 'Ciel de Pluie + Jet Focalisé', 'desc' => 'Bascule instantanée d\'un geste entre pluie relaxante et jet puissant de massage.'],
+                ['icon' => 'tune', 'title' => 'Commande Électronique Linéaire', 'desc' => 'Ajustement micrométrique de la température d\'eau tiède à très chaude.']
+            ];
+            $specs_table = [
+                'headers' => ['Spécification', 'Duo Shower Grand Modèle', 'Norme'],
+                'rows' => [
+                    ['label' => 'Puissance', 'bac' => '220V | 6800W à 7500W', 'ondu' => 'Disjoncteur 40A'],
+                    ['label' => 'Diffuseur pluie', 'bac' => 'Largeur 250 mm avec picots silicone anticalcaire', 'ondu' => 'Nettoyage aisé'],
+                    ['label' => 'Bras d\'extension', 'bac' => 'Longueur 450 mm renforcé', 'ondu' => 'Fixation murale 1/2"']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Montage mural', 'text' => 'Visser le raccord 1/2" sur l\'attente murale, purger l\'eau avant tout raccordement électrique.']
+            ];
+        } elseif ( preg_match( '/loren.*shower/iu', $title ) ) {
+            $diagram_type = 'douche_loren_shower';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : LOREN SHOWER GRAND MODÈLE 20X20 CM";
+            $category = 'Douche Thérapeutique Loren Shower Grand Modèle';
+            $header_title = "DOUCHE THÉRAPEUTIQUE INDIVIDUELLE LOREN SHOWER GRAND MODÈLE";
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale Design Carré Épuré & Bras Intégré";
+            $commercial_desc = "Design moderne carré 20x20 cm avec grand bras mural intégré et sélecteur de 4 températures confortables pour une douche revigorante au quotidien.";
+            $pills = ["DESIGN CARRÉ 20X20 CM", "4 TEMPÉRATURES DE SAISON", "BRAS MURAL INTÉGRÉ 35 CM", "DURABILITÉ ÉPROUVÉE", "INSTALLATION RAPIDE"];
+            $points_forts = [
+                ['icon' => 'crop_square', 'title' => 'Design Carré Contemporain', 'desc' => 'Lignes droites épurées rehaussant l\'élégance de la salle de bain.'],
+                ['icon' => 'thermostat', 'title' => '4 Niveaux de Température', 'desc' => 'Bascule simple Froid / Tiède / Chaud / Très Chaud.']
+            ];
+            $specs_table = [
+                'headers' => ['Caractéristique', 'Loren Shower Grand Modèle', 'Norme'],
+                'rows' => [
+                    ['label' => 'Puissance', 'bac' => '220V | 5500W - 6800W', 'ondu' => '32A'],
+                    ['label' => 'Tête de douche', 'bac' => '200 mm x 200 mm carrée', 'ondu' => 'Pluie large']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Raccordement', 'text' => 'Raccord direct 1/2" mural sans bras additionnel. Câblage 6 mm².']
+            ];
+        } elseif ( preg_match( '/zagonel/iu', $title ) ) {
+            $diagram_type = 'douche_zagonel_moment';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : DOUCHE ÉLECTRONIQUE ZAGONEL MOMENT";
+            $category = 'Douche Thérapeutique Électronique Zagonel Moment';
+            $header_title = "DOUCHE THÉRAPEUTIQUE ZAGONEL MOMENT ÉLECTRONIQUE";
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale avec Témoin LED de Température";
+            $commercial_desc = "Dotée d'un variateur progressif linéaire rotatif et d'un indicateur lumineux de température, la douche Zagonel Moment garantit un confort thermique absolu en toute sécurité.";
+            $pills = ["VARIATEUR ROTATIF LINÉAIRE", "INDICATEUR LUMINEUX LED", "SYSTÈME MICRO-PULVÉRISATION", "SÉCURITÉ ANTI-CHOC", "ÉLÉMENT CHAUFFANT RAPIDE"];
+            $points_forts = [
+                ['icon' => 'light_mode', 'title' => 'Indicateur LED Température', 'desc' => 'Visualisation immédiate du niveau de chauffe pour éviter les brûlures.'],
+                ['icon' => 'water', 'title' => 'Micro-Jets Thérapeutiques', 'desc' => 'Diffusion ultra-fine stimulant la circulation sanguine.']
+            ];
+            $specs_table = [
+                'headers' => ['Paramètre', 'Zagonel Moment Électronique', 'Norme'],
+                'rows' => [
+                    ['label' => 'Puissance', 'bac' => '220V | 5500W - 7500W progressif', 'ondu' => 'Disjoncteur 32A'],
+                    ['label' => 'Longueur totale', 'bac' => '380 mm x Largeur 160 mm', 'ondu' => 'Compacte']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Pose', 'text' => 'Visser sur manchon 1/2", remplir d\'eau, puis brancher sur alimentation protégée.']
+            ];
+        } else {
+            // Maxi Ducha petit modèle
+            $diagram_type = 'douche_maxi_ducha';
+            $diagram_title = "SCHÉMA TECHNIQUE COTÉ : MAXI DUCHA COMPACT 3 TEMPÉRATURES";
+            $category = 'Douche Thérapeutique Compacte Maxi Ducha 3 Températures';
+            $header_title = "DOUCHE THÉRAPEUTIQUE INDIVIDUELLE PETIT MODÈLE MAXI DUCHA";
+            $header_subtitle = "Fiche Descriptive Technique & Commerciale Modèle Économique & Robuste";
+            $commercial_desc = "Le chauffe-eau de douche le plus populaire et éprouvé : compact, économique et ultra-fiable avec sélecteur 3 températures pour une eau chaude instantanée au meilleur prix.";
+            $pills = ["MODÈLE COMPACT ÉCONOMIQUE", "3 TEMPÉRATURES (CHAUD/TIÈDE/FROID)", "RÉSISTANCE REMPLAÇABLE RAPIDE", "RACCORDEMENT 1/2\"", "FIABILITÉ ÉPROUVÉE"];
+            $points_forts = [
+                ['icon' => 'payments', 'title' => 'Prix Très Abordable', 'desc' => 'Le meilleur rapport qualité/prix pour équiper toutes les salles d\'eau.'],
+                ['icon' => 'build', 'title' => 'Maintenance Facile', 'desc' => 'Résistance facilement remplaçable disponible en pièces détachées chez TPM SA.']
+            ];
+            $specs_table = [
+                'headers' => ['Caractéristique', 'Maxi Ducha Petit Modèle', 'Norme'],
+                'rows' => [
+                    ['label' => 'Puissance', 'bac' => '220V | 4600W - 5500W', 'ondu' => 'Disjoncteur 25A/32A'],
+                    ['label' => 'Diamètre diffuseur', 'bac' => 'Ø 140 mm dôme compact', 'ondu' => '1/2" femelle']
+                ]
+            ];
+            $guide_pose = [
+                ['label' => 'Installation', 'text' => 'Visser sur bras de douche 1/2", purger l\'eau avant de mettre sous tension. Câbles 4 mm² mini.']
+            ];
+        }
+    }
+
+    // =========================================================================
+    // 6. ÉPONGES MÉTALLIQUES ET AUTRES
+    // =========================================================================
+    elseif ( preg_match( '/[eé]ponge/iu', $title ) ) {
         $product_family = 'eponge';
-        $pole = 'Pôle 4 : Entretien Industriel & Quincaillerie BTP';
+        $pole = 'Pôle 1 : Abrasifs Industriels & Éponges Métalliques Inox';
 
-        $header_title    = strtoupper($title) . " HAUTE EFFICACITÉ";
-        $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Récurage Industriel & Décapage Métallique";
-        $commercial_desc = "Fabriquées à partir de fil d'acier inoxydable de première qualité selon des procédés de tréfilage de haute précision, les éponges métalliques TPM SA offrent un pouvoir abrasif exceptionnel pour le décapage, le récurage de surfaces dures et le nettoyage de matériel de chantier sans se désagréger ni rouiller.";
-        $pills = ["ACIER INOX INALTÉRABLE", "SPIRALES DOUBLES OU SIMPLES", "POUVOIR DÉCAPANT SUPÉRIEUR", "NE ROUILLE JAMAIS", "SACHET REVENDEUR CONDENSÉ"];
+        $is_double = preg_match( '/doubl/iu', $title );
+        $diagram_type = $is_double ? 'eponge_doublee' : 'eponge_non_doublee';
+        $diagram_title = "DESSIN TECHNIQUE & MICROSTRUCTURE DU TISSAGE : " . ($is_double ? 'ÉPONGE MÉTALLIQUE DOUBLÉE (20 PCS)' : 'ÉPONGE MÉTALLIQUE INOX (25 PCS)');
+        $category = 'Éponges Métalliques Inox Industrielles & Ménagères';
+        $header_title = strtoupper($title);
+        $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Décapage Industriel & Entretien Lourd";
+        $commercial_desc = "Tressées en fil d'acier inoxydable pur AISI 430 tréfilé sans aspérité coupante, les éponges métalliques TPM SA garantissent un décapage puissant sans rayer les métaux et sans s'effilocher au contact des graisses cuites et dépôts tenaces.";
+        $pills = ["100% INOX AISI 430 PUR", "TISSAGE SPIRALÉ ANTI-EFFILOCHAGE", "ZÉRO ROUILLE DANS L'EAU", "POUVOIR DÉCAPANT SUPÉRIEUR", $is_double ? "SACHET DE 20 PCS" : "SACHET DE 25 PCS"];
         $points_forts = [
-            ['icon' => 'clean_hands', 'title' => 'Décapage sans Rayures Profondes', 'desc' => 'Forme de ruban spiralé éliminant les incrustations tenaces sans entamer le support métallique.'],
-            ['icon' => 'shield', 'title' => 'Inox Véritable Anti-Rouille', 'desc' => 'Peut rester immergé dans l\'eau savonneuse sans jamais développer d\'oxydation brune.'],
-            ['icon' => 'handyman', 'title' => 'Tenue Mécanique sans Émiettement', 'desc' => 'Ne perd pas de particules métalliques dangereuses, garantissant une hygiène parfaite.'],
-            ['icon' => 'storefront', 'title' => 'Conditionnement Prêt pour Quincaillerie', 'desc' => 'Sachets distributeurs étanches de 20 ou 25 pièces avec tarification de gros très attractive.']
+            ['icon' => 'cleaning_services', 'title' => 'Décapage Extrême Sans Effort', 'desc' => 'Élimine instantanément les résidus brûlés, rouille de surface et graisses carbonisées.'],
+            ['icon' => 'shield', 'title' => 'Inoxydable Même Immergée', 'desc' => 'Fil d\'acier inoxydable ne rouillant jamais et ne laissant pas de traces de rouille sur les éviers.'],
+            ['icon' => 'fitness_center', 'title' => 'Tressage Haute Densité', 'desc' => 'Conserve son volume compact sous forte pression manuelle sans se déliter.']
         ];
         $specs_table = [
-            'headers' => ['Paramètre Technique', 'Éponge Non Doublée (x25)', 'Éponge Doublée (x20)'],
+            'headers' => ['Spécification', 'Éponge Inox TPM SA', 'Norme'],
             'rows' => [
-                ['label' => 'Matière première', 'bac' => 'Fil d\'acier inoxydable pur tréfilé', 'ondu' => 'Fil inox + âme mousse renforcée'],
-                ['label' => 'Format & ergonomie', 'bac' => 'Pelote spiralée ronde compacte', 'ondu' => 'Coussin avec doublure prise en main'],
-                ['label' => 'Résistance à l\'oxydation', 'bac' => '100% inoxydable dans l\'eau', 'ondu' => '100% inoxydable dans l\'eau'],
-                ['label' => 'Conditionnement', 'bac' => 'Sachet scellé de 25 pièces', 'ondu' => 'Sachet scellé de 20 pièces']
+                ['label' => 'Matériau', 'bac' => 'Acier Inoxydable AISI 430 / 304 pur', 'ondu' => 'Alimentaire'],
+                ['label' => 'Structure fil', 'bac' => 'Ruban plat spiralé sans arête coupante pour les mains', 'ondu' => 'Anti-blessure'],
+                ['label' => 'Dimensions / Poids', 'bac' => ($is_double ? 'Coussin doublé 110 x 70 x 30 mm (45g)' : 'Sphère compacte Ø 85 mm (40g)'), 'ondu' => 'Gros modèle'],
+                ['label' => 'Conditionnement', 'bac' => ($is_double ? 'Sachet de 20 pièces' : 'Sachet de 25 pièces'), 'ondu' => 'Scellé']
             ]
         ];
         $guide_pose = [
-            ['label' => 'Utilisation', 'text' => 'Humidifier l\'éponge avec de l\'eau ou du détergent avant frottement pour maximiser l\'efficacité abrasive.'],
-            ['label' => 'Rinçage', 'text' => 'Rincer à l\'eau claire après utilisation et essorer pour une réutilisation longue durée.']
+            ['label' => 'Utilisation', 'text' => 'Humidifier avec de l\'eau et un peu de détergent avant frottement pour décupler l\'effet décapant.'],
+            ['label' => 'Rinçage', 'text' => 'Rincer abondamment à l\'eau claire après chaque usage et laisser égoutter.']
         ];
     } else {
         // Plasturgie / Sacs PP et autres
         $product_family = 'sac_pp';
         $pole = 'Pôle 2 : Plasturgie Industrielle & Emballages Polypropylène';
+        $diagram_type = 'sac_pp_tisse';
+        $diagram_title = "PLAN COTÉ & COUTURE DE FOND : SAC POLYPROPYLÈNE TISSÉ RENFORCÉ";
 
         $header_title    = strtoupper($title) . " RENFORCÉ";
         $header_subtitle = "Fiche Descriptive Technique & Commerciale pour Emballages Industriels & Agro-Alimentaires";
@@ -723,7 +961,7 @@ function tpm_get_product_fiche_technique( $product ) {
             'headers' => ['Paramètre Technique', 'Spécification Sac PP TPM SA', 'Norme'],
             'rows' => [
                 ['label' => 'Matière première', 'bac' => '100% Polypropylène (PP) Vierge de 1ère Fusion', 'ondu' => 'Qualité certifiée'],
-                ['label' => 'Armure de tissage', 'bac' => 'Tissage circulaire régulier sans couture latérale', 'ondu' => 'Haute densité'],
+                ['label' => 'Armure de tissage', 'bac' => 'Tissage circulaire régulier sans couture latérale', 'ondu' => 'Haute densité 10x10'],
                 ['label' => 'Ourlet de fond', 'bac' => 'Couture double point de chaînette renforcée', 'ondu' => 'Anti-fuite'],
                 ['label' => 'Ouverture haute', 'bac' => 'Coupe à chaud anti-effilochage (ourlet simple)', 'ondu' => 'Fermeture facile'],
                 ['label' => 'Usage conseillé', 'bac' => 'Cacao, café, céréales, ciment, sable, minerais', 'ondu' => 'Multi-usages']
@@ -734,13 +972,6 @@ function tpm_get_product_fiche_technique( $product ) {
             ['label' => 'Fermeture', 'text' => 'Coudre à la machine à coudre portative de sac avec fil de fermeture polyester TPM SA.'],
             ['label' => 'Stockage', 'text' => 'Empiler sur palettes en quinconce dans un entrepôt aéré et abrité de la pluie battante.']
         ];
-    }
-
-    // ONLY the actual standard roofing sheets (Tôles Bacs & Ondulées) have the authentic blueprint diagram
-    // For all other products, details are rendered purely in text form without repeated/generic diagrams
-    $has_proper_diagram = false;
-    if ( ( $cat_slug === 'toles-et-toiture' || preg_match( '/tôle|tole/iu', $title ) ) && ! preg_match( '/tuile/iu', $title ) ) {
-        $has_proper_diagram = true;
     }
 
     // Tailored storage, handling & warranty guidelines in text form
@@ -778,6 +1009,8 @@ function tpm_get_product_fiche_technique( $product ) {
 
     return [
         'has_proper_diagram' => $has_proper_diagram,
+        'diagram_type'       => $diagram_type,
+        'diagram_title'      => $diagram_title,
         'stockage_info'      => $stockage_info,
         'ref'              => $ref,
         'title'            => $title,
