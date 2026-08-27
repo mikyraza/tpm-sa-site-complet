@@ -214,11 +214,11 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
                         <input type="number" name="quantity" min="1" value="1" class="w-full h-12 text-center text-base font-black bg-slate-50 border-2 border-slate-200 hover:border-tpm-orange focus:border-tpm-orange rounded-xl px-3 text-tpm-navy outline-none shadow-2xs transition" />
                     </div>
 
-                    <!-- Bouton Ajouter au Panier Pro-Forma Ultra-Visible -->
+                    <!-- Bouton Ajouter à la Pro-Forma Ultra-Visible -->
                     <div class="flex-1">
                         <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product_id); ?>" class="w-full h-12 bg-tpm-orange hover:bg-opacity-95 text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer" style="background-color: #D84B1F !important; color: #FFFFFF !important;">
                             <span class="material-symbols-outlined text-[20px]" style="color: #FFFFFF !important; font-size: 20px !important;">add_shopping_cart</span>
-                            <span style="color: #FFFFFF !important; font-weight: 900 !important; display: inline-block !important;">Ajouter au Panier Pro-Forma</span>
+                            <span style="color: #FFFFFF !important; font-weight: 900 !important; display: inline-block !important;">Ajouter à la Pro-Forma</span>
                         </button>
                     </div>
 

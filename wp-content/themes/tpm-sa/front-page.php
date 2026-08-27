@@ -185,7 +185,7 @@ $flash_groups = function_exists('tpm_get_flash_proforma_groups') ? tpm_get_flash
                             <!-- Submit Button -->
                             <button type="submit" class="w-full bg-tpm-orange hover:bg-orange-700 text-white font-extrabold py-3 px-4 rounded-lg uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
                                 <span class="material-symbols-outlined text-[18px]">shopping_cart</span>
-                                <span>Ajouter au Panier Pro-Forma</span>
+                                <span>Ajouter à la Pro-Forma</span>
                             </button>
 
                             <div class="text-center">
