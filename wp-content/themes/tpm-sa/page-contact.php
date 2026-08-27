@@ -235,20 +235,20 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
                             <button type="button" 
                                     onclick="switchTpmMap('pk12')" 
                                     id="map-btn-pk12"
-                                    class="px-2.5 py-1 rounded-md font-bold transition bg-tpm-orange text-white shadow-sm cursor-pointer">
+                                    class="px-3 py-1.5 rounded-md font-bold transition bg-tpm-orange text-white shadow-sm cursor-pointer">
                                 PK12 (Siège)
                             </button>
                             <button type="button" 
                                     onclick="switchTpmMap('bekoko')" 
                                     id="map-btn-bekoko"
-                                    class="px-2.5 py-1 rounded-md font-bold transition bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer">
+                                    class="px-3 py-1.5 rounded-md font-bold transition bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer">
                                 Bekoko (Usine)
                             </button>
                         </div>
                     </div>
 
-                    <!-- Interactive Google Maps Iframe -->
-                    <div class="relative w-full h-[420px] bg-slate-200 overflow-hidden">
+                    <!-- Interactive Google Maps Iframe (Grand Format) -->
+                    <div class="relative w-full h-[480px] sm:h-[520px] bg-slate-200 overflow-hidden flex-grow">
                         <iframe id="tpm-google-map"
                                 src="https://maps.google.com/maps?q=4.05989,9.78403+(TPM+SA+-+Groupe+CAC+Douala+PK12)&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
                                 class="w-full h-full border-0"
@@ -259,24 +259,15 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tpm_contact_nonce']
                         </iframe>
                     </div>
 
-                    <!-- Bottom Bar: Coordinates Info & Direct GPS Navigation Button -->
-                    <div class="bg-slate-50 border-t border-gray-200 p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-                        <div class="text-[11px] text-gray-600 text-center sm:text-left space-y-0.5">
-                            <div class="font-bold text-tpm-navy flex items-center gap-1 justify-center sm:justify-start" id="map-info-title">
-                                <span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
-                                <span>TPM SA • Siège &amp; Comptoir PK12</span>
-                            </div>
-                            <div class="font-mono text-[10px] text-gray-500" id="map-info-coords">
-                                Coordonnées GPS : <strong>4.05989° N, 9.78403° E</strong> (Marché PK12)
-                            </div>
-                        </div>
+                    <!-- Bottom Bar: Centralized Direct GPS Navigation Button -->
+                    <div class="bg-slate-50 border-t border-gray-200 p-3.5 flex items-center justify-center shrink-0">
                         <a href="https://www.google.com/maps/dir/?api=1&amp;destination=4.05989,9.78403" 
                            target="_blank" 
                            rel="noopener noreferrer" 
                            id="map-directions-link"
-                           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-tpm-orange hover:bg-orange-700 text-white font-black px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-colors shadow-md shrink-0">
-                            <span class="material-symbols-outlined text-[17px]">near_me</span>
-                            <span>Itinéraire GPS</span>
+                           class="inline-flex items-center justify-center gap-2 bg-tpm-orange hover:bg-orange-700 text-white font-black px-8 py-3 rounded-lg text-xs uppercase tracking-wider transition-all transform hover:-translate-y-0.5 shadow-md hover:shadow-lg">
+                            <span class="material-symbols-outlined text-[18px]">near_me</span>
+                            <span>Ouvrir l'Itinéraire GPS (Google Maps)</span>
                         </a>
                     </div>
 
@@ -510,31 +501,25 @@ function switchTpmMap(site) {
     const mapIframe = document.getElementById('tpm-google-map');
     const btnPk12   = document.getElementById('map-btn-pk12');
     const btnBekoko = document.getElementById('map-btn-bekoko');
-    const title     = document.getElementById('map-info-title');
-    const coords    = document.getElementById('map-info-coords');
     const dirLink   = document.getElementById('map-directions-link');
 
     if (site === 'pk12') {
         if (mapIframe) mapIframe.src = 'https://maps.google.com/maps?q=4.05989,9.78403+(TPM+SA+-+Groupe+CAC+Douala+PK12)&t=&z=15&ie=UTF8&iwloc=B&output=embed';
         if (btnPk12) {
-            btnPk12.className = 'px-2.5 py-1 rounded-md font-bold transition bg-tpm-orange text-white shadow-sm cursor-pointer';
+            btnPk12.className = 'px-3 py-1.5 rounded-md font-bold transition bg-tpm-orange text-white shadow-sm cursor-pointer';
         }
         if (btnBekoko) {
-            btnBekoko.className = 'px-2.5 py-1 rounded-md font-bold transition bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer';
+            btnBekoko.className = 'px-3 py-1.5 rounded-md font-bold transition bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer';
         }
-        if (title) title.innerHTML = '<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span><span>TPM SA • Siège &amp; Comptoir PK12</span>';
-        if (coords) coords.innerHTML = 'Coordonnées GPS : <strong>4.05989° N, 9.78403° E</strong> (Marché PK12)';
         if (dirLink) dirLink.href = 'https://www.google.com/maps/dir/?api=1&destination=4.05989,9.78403';
     } else if (site === 'bekoko') {
         if (mapIframe) mapIframe.src = 'https://maps.google.com/maps?q=4.11500,9.57900+(Usine+TPM+SA+Bekoko)&t=&z=15&ie=UTF8&iwloc=B&output=embed';
         if (btnBekoko) {
-            btnBekoko.className = 'px-2.5 py-1 rounded-md font-bold transition bg-tpm-orange text-white shadow-sm cursor-pointer';
+            btnBekoko.className = 'px-3 py-1.5 rounded-md font-bold transition bg-tpm-orange text-white shadow-sm cursor-pointer';
         }
         if (btnPk12) {
-            btnPk12.className = 'px-2.5 py-1 rounded-md font-bold transition bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer';
+            btnPk12.className = 'px-3 py-1.5 rounded-md font-bold transition bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer';
         }
-        if (title) title.innerHTML = '<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span><span>TPM SA • Usine Métallurgique Bekoko</span>';
-        if (coords) coords.innerHTML = 'Coordonnées GPS : <strong>4.11500° N, 9.57900° E</strong> (Axe Douala - Limbé)';
         if (dirLink) dirLink.href = 'https://www.google.com/maps/dir/?api=1&destination=4.11500,9.57900';
     }
 }
