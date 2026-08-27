@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header( 'shop' ); ?>
 
-<main id="primary" class="site-main flex-grow bg-slate-100/60 py-6 sm:py-10">
+<main id="primary" class="site-main flex-grow bg-slate-100/60 py-4 sm:py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <?php while ( have_posts() ) : ?>
             <?php the_post(); ?>

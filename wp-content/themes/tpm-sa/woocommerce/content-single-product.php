@@ -278,15 +278,62 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
             </div>
         </div>
 
-        <!-- 2. DESCRIPTIF COMMERCIAL & TECHNIQUE -->
-        <div class="bg-slate-50 border-l-4 border-tpm-orange p-4 sm:p-5 rounded-r-2xl space-y-2">
-            <div class="text-xs font-black text-tpm-navy uppercase tracking-wider flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-[18px] text-tpm-orange">description</span>
-                <span>Présentation &amp; Descriptif Industriel du Produit</span>
+        <!-- 2. SECTION HAUT DE PAGE 1 : VISUEL DU PRODUIT CERTIFIÉ & PRÉSENTATION INDUSTRIELLE DÉTAILLÉE -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+            
+            <!-- BLOC VISUEL OFFICIEL CERTIFIÉ (4 COLONNES) -->
+            <div class="md:col-span-4 bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-2xs">
+                <div class="w-full flex justify-between items-center text-[10px] font-bold text-gray-500 pb-2 border-b border-slate-200">
+                    <span class="text-[#154c9e] font-black uppercase">Échantillon Certifié</span>
+                    <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-mono">100% Conforme</span>
+                </div>
+
+                <div class="w-full aspect-[4/3] bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-center overflow-hidden my-3 shadow-2xs">
+                    <img src="<?php echo esc_url($img_url); ?>" 
+                         alt="<?php echo esc_attr($title); ?>" 
+                         class="max-h-44 w-auto object-contain" />
+                </div>
+
+                <div class="w-full space-y-1 text-left text-[11px] bg-white p-2.5 rounded-xl border border-slate-200">
+                    <div class="flex items-center justify-between text-gray-600">
+                        <span>Pôle Industriel :</span>
+                        <strong class="text-tpm-navy font-bold"><?php echo esc_html($fiche['pole']); ?></strong>
+                    </div>
+                    <div class="flex items-center justify-between text-gray-600">
+                        <span>Épaisseur Réelle :</span>
+                        <strong class="text-emerald-700 font-bold"><?php echo esc_html($fiche['epaisseur_val'] ?? $fiche['epaisseur']); ?></strong>
+                    </div>
+                    <div class="flex items-center justify-between text-gray-600">
+                        <span>Disponibilité :</span>
+                        <strong class="text-tpm-orange font-bold">En Stock Immédiat</strong>
+                    </div>
+                </div>
             </div>
-            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed m-0 font-normal">
-                <?php echo esc_html($fiche['commercial_desc']); ?>
-            </p>
+
+            <!-- BLOC PRÉSENTATION & DESCRIPTIF COMMERCIAL / TECHNIQUE (8 COLONNES) -->
+            <div class="md:col-span-8 bg-slate-50 border-l-4 border-tpm-orange border-y border-r border-slate-200 p-5 rounded-r-2xl flex flex-col justify-between space-y-3">
+                <div class="space-y-2">
+                    <div class="text-xs font-black text-tpm-navy uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200/80 pb-2">
+                        <span class="material-symbols-outlined text-[18px] text-tpm-orange">description</span>
+                        <span>Présentation &amp; Descriptif Industriel du Produit</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-700 leading-relaxed m-0 font-normal">
+                        <?php echo esc_html($fiche['commercial_desc']); ?>
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-slate-200/80 text-xs">
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 space-y-0.5">
+                        <span class="font-bold text-[#154c9e] text-[10px] uppercase block">Domaines d'Application :</span>
+                        <p class="text-gray-600 text-[11px] m-0"><?php echo esc_html($fiche['applications']); ?></p>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 space-y-0.5">
+                        <span class="font-bold text-[#154c9e] text-[10px] uppercase block">Contrôle Qualité Usine :</span>
+                        <p class="text-gray-600 text-[11px] m-0">Tolérance micrométrique &amp; contrôle en laboratoire certifié ISO 9001:2015.</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- 3. POINTS FORTS & AVANTAGES CLÉS (GRILLE 2x2) -->
