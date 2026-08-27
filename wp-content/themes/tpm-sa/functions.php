@@ -700,14 +700,35 @@ function tpm_get_product_pdf_catalog_details( $product ) {
         'garantie'    => $garantie,
         'desc'        => $existing_desc ?: ($title . ' — Matériau industriel garanti certifié par TPM SA.'),
         'stock'       => 'Disponible en Stock Usine (Bekoko & Douala PK12) — Enlèvement Ex-Works immédiat ou livraison chantier',
-        'pdf_url'     => content_url('/uploads/catalogue-general-tpm-sa-2026.pdf'),
+        'pdf_url'     => home_url('/?download_tpm_catalog=1'),
         'unit'        => $unit,
     ];
 }
 
-
-
-
-
-
-
+/**
+ * Stream Catalogue PDF directly with clean attachment headers to avoid browser insecure download blocks
+ */
+add_action('init', 'tpm_handle_catalog_download');
+function tpm_handle_catalog_download() {
+    if ( isset($_GET['download_tpm_catalog']) && $_GET['download_tpm_catalog'] === '1' ) {
+        $pdf_path = WP_CONTENT_DIR . '/uploads/catalogue-general-tpm-sa-2026.pdf';
+        if ( ! file_exists($pdf_path) ) {
+            $pdf_path = get_template_directory() . '/assets/docs/catalogue-general-tpm-sa-2026.pdf';
+        }
+        if ( file_exists($pdf_path) ) {
+            while ( ob_get_level() ) {
+                ob_end_clean();
+            }
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="Catalogue_General_TPM_SA_2026.pdf"');
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($pdf_path));
+            readfile($pdf_path);
+            exit;
+        }
+    }
+}

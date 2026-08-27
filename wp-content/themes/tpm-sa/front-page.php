@@ -19,7 +19,7 @@ if (is_wp_error($cat_accessoires_url)) $cat_accessoires_url = $shop_url;
 if (is_wp_error($cat_fixations_url))   $cat_fixations_url = $shop_url;
 if (is_wp_error($cat_interieurs_url))  $cat_interieurs_url = $shop_url;
 
-$catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
+$catalog_pdf_url = home_url('/?download_tpm_catalog=1');
 
 // Structured grouped products for the Flash Pro-Forma Form
 $flash_groups = function_exists('tpm_get_flash_proforma_groups') ? tpm_get_flash_proforma_groups() : [];

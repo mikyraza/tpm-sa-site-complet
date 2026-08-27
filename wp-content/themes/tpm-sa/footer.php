@@ -158,7 +158,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <a href="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>" target="_blank" class="hidden sm:flex items-center gap-1.5 text-xs text-white px-3 py-1.5 rounded-lg transition font-bold" style="background-color: rgba(255,255,255,0.15) !important;">
+                <a href="/wp-content/uploads/catalogue-general-tpm-sa-2026.pdf" target="_blank" class="hidden sm:flex items-center gap-1.5 text-xs text-white px-3 py-1.5 rounded-lg transition font-bold" style="background-color: rgba(255,255,255,0.15) !important;">
                     <span class="material-symbols-outlined text-[16px]">open_in_new</span>
                     <span>Plein écran</span>
                 </a>
@@ -189,8 +189,7 @@
                 <button type="button" onclick="closeCataloguePreview()" class="w-1/2 sm:w-auto px-5 py-2 text-xs font-bold text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg transition text-center cursor-pointer">
                     Fermer
                 </button>
-                <a href="<?php echo esc_url( content_url('/uploads/catalogue-general-tpm-sa-2026.pdf') ); ?>" 
-                   download="Catalogue_General_TPM_SA_2026.pdf" 
+                <a href="<?php echo esc_url( home_url('/?download_tpm_catalog=1') ); ?>" 
                    class="w-1/2 sm:w-auto px-6 py-2.5 text-xs font-black text-white rounded-lg shadow-md hover:shadow-lg transition flex items-center justify-center gap-1.5 uppercase tracking-wider cursor-pointer"
                    style="background-color: #D84B1F !important; color: #FFFFFF !important;">
                     <span class="material-symbols-outlined text-[16px]" style="color: #FFFFFF !important;">download</span>

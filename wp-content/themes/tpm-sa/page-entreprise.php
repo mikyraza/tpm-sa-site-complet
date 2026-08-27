@@ -11,7 +11,7 @@ $theme_img_uri   = get_template_directory_uri() . '/assets/images/';
 $shop_url        = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/');
 $cart_url        = function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart/');
 $contact_url     = home_url('/contact/');
-$catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
+$catalog_pdf_url = home_url('/?download_tpm_catalog=1');
 ?>
 
 <main id="primary" class="site-main flex-grow bg-slate-50 font-sans">

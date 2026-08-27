@@ -10,7 +10,7 @@
 get_header();
 
 $theme_img_uri   = get_template_directory_uri() . '/assets/images/';
-$catalog_pdf_url = content_url('/uploads/catalogue-general-tpm-sa-2026.pdf');
+$catalog_pdf_url = home_url('/?download_tpm_catalog=1');
 $shop_url        = wc_get_page_permalink('shop');
 
 // Handle Form Submission
