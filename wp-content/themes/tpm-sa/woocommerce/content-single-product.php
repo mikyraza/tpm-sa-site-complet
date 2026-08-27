@@ -250,28 +250,28 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
     <div class="bg-white border border-slate-200 rounded-3xl shadow-md overflow-hidden text-gray-900 fiche-technique-page p-6 sm:p-8 space-y-6">
 
         <!-- 1. EN-TÊTE BLEU INDUSTRIEL AVEC LOGO & TITRE DE LA FICHE -->
-        <div class="bg-gradient-to-r from-[#154c9e] to-[#0f3775] text-white p-5 sm:p-6 rounded-2xl shadow-sm">
+        <div class="bg-tpm-navy text-white p-5 sm:p-6 rounded-2xl shadow-md" style="background: linear-gradient(135deg, #1C1340 0%, #154c9e 100%) !important; color: #FFFFFF !important;">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/20 pb-4 mb-4">
                 <div>
-                    <span class="text-xs font-black uppercase tracking-widest text-amber-300 block mb-0.5">
+                    <span class="text-xs font-black uppercase tracking-widest block mb-0.5" style="color: #FCD34D !important;">
                         TPM SA (GROUPE CAC) • USINES DE DOUALA (PK12 &amp; BEKOKO)
                     </span>
-                    <h1 class="text-xl sm:text-2xl font-black tracking-tight leading-tight m-0 text-white">
+                    <h1 class="text-xl sm:text-2xl font-black tracking-tight leading-tight m-0" style="color: #FFFFFF !important;">
                         <?php echo esc_html($fiche['header_title']); ?>
                     </h1>
-                    <p class="text-xs sm:text-sm text-blue-100 font-medium mt-1 m-0">
+                    <p class="text-xs sm:text-sm font-medium mt-1 m-0" style="color: #DBEAFE !important;">
                         <?php echo esc_html($fiche['header_subtitle']); ?>
                     </p>
                 </div>
-                <div class="text-right shrink-0 bg-white/10 px-3.5 py-2 rounded-xl border border-white/20">
-                    <span class="text-[10px] uppercase font-bold text-blue-200 block">RÉFÉRENCE USINE</span>
-                    <span class="text-sm font-black text-amber-300 font-mono"><?php echo esc_html($fiche['ref']); ?></span>
+                <div class="text-right shrink-0 px-3.5 py-2 rounded-xl border border-white/20 shadow-2xs" style="background-color: rgba(255, 255, 255, 0.15) !important;">
+                    <span class="text-[10px] uppercase font-bold block" style="color: #BFDBFE !important;">RÉFÉRENCE USINE</span>
+                    <span class="text-sm font-black font-mono" style="color: #FCD34D !important;"><?php echo esc_html($fiche['ref']); ?></span>
                 </div>
             </div>
             <!-- BADGES / PILLS TECHNIQUES -->
             <div class="flex flex-wrap gap-2 pt-1">
                 <?php foreach ($fiche['pills'] as $pill): ?>
-                    <span class="bg-white/15 border border-white/25 text-white text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg">
+                    <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg" style="background-color: rgba(255, 255, 255, 0.18) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; color: #FFFFFF !important;">
                         <?php echo esc_html($pill); ?>
                     </span>
                 <?php endforeach; ?>
@@ -412,14 +412,14 @@ $wa_url = "https://wa.me/237655705866?text=" . $wa_message;
     <div class="bg-white border border-slate-200 rounded-3xl shadow-md overflow-hidden text-gray-900 fiche-technique-page p-6 sm:p-8 space-y-6">
 
         <!-- 1. EN-TÊTE BLEU DE LA PAGE 2 -->
-        <div class="bg-[#154c9e] text-white p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div class="bg-tpm-navy text-white p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 shadow-md" style="background: linear-gradient(135deg, #1C1340 0%, #154c9e 100%) !important; color: #FFFFFF !important;">
             <div>
-                <span class="text-[10px] font-black uppercase tracking-widest text-amber-300 block">DESSINS INDUSTRIELS &amp; COTATIONS NORMALISÉES</span>
-                <h2 class="text-lg sm:text-xl font-black m-0 text-white"><?php echo esc_html($fiche['diagram_title']); ?></h2>
+                <span class="text-[10px] font-black uppercase tracking-widest block" style="color: #FCD34D !important;">DESSINS INDUSTRIELS &amp; COTATIONS NORMALISÉES</span>
+                <h2 class="text-lg sm:text-xl font-black m-0" style="color: #FFFFFF !important;"><?php echo esc_html($fiche['diagram_title']); ?></h2>
             </div>
-            <div class="bg-white/10 px-3 py-1.5 rounded-xl border border-white/20 text-right">
-                <span class="text-[9px] uppercase text-blue-200 block">DOCUMENTATION OFFICIELLE</span>
-                <span class="text-xs font-bold text-amber-300 font-mono">Conforme Norme NC / ISO</span>
+            <div class="px-3 py-1.5 rounded-xl border border-white/20 text-right shadow-2xs" style="background-color: rgba(255, 255, 255, 0.15) !important;">
+                <span class="text-[9px] uppercase block" style="color: #BFDBFE !important;">DOCUMENTATION OFFICIELLE</span>
+                <span class="text-xs font-bold font-mono" style="color: #FCD34D !important;">Conforme Norme NC / ISO</span>
             </div>
         </div>
 
