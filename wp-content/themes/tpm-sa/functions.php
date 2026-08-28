@@ -734,6 +734,32 @@ function tpm_handle_catalog_download() {
 }
 
 /**
+ * Direct Download for exact 4-page brochure PDF
+ */
+add_action('init', 'tpm_handle_exact_brochure_download');
+function tpm_handle_exact_brochure_download() {
+    if ( isset($_GET['download_brochure_replica']) && $_GET['download_brochure_replica'] === '1' ) {
+        $pdf_path = ABSPATH . 'Depliant_TPM_SA_Exact.pdf';
+        if ( file_exists($pdf_path) ) {
+            while ( ob_get_level() ) {
+                ob_end_clean();
+            }
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="Depliant_TPM_SA_Exact.pdf"');
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($pdf_path));
+            readfile($pdf_path);
+            exit;
+        }
+    }
+}
+
+
+/**
  * Export complete SQL database dump
  */
 add_action('init', 'tpm_handle_database_export');
